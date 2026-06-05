@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batalla de Cumpleaños | Agencia ELArbol</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root { --tk-pink: #fe2c55; --tk-cyan: #25f4ee; }
+        body { background-color: #050505; color: white; font-family: 'Inter', sans-serif; margin: 0; min-height: 100vh;}
+        
+        .video-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        .tiktok-bg { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; 
+            background: radial-gradient(circle at center, rgba(17,17,17,0.4) 0%, rgba(0,0,0,0.85) 100%); 
+            pointer-events: none;
+        }
+
+        .glass-panel {
+            background: rgba(15, 15, 15, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(254, 44, 85, 0.3); 
+            border-radius: 1.5rem;
+            box-shadow: 0 0 40px rgba(254, 44, 85, 0.15);
+            position: relative;
+        }
+
+        .btn-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 1.8rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+        .btn-close:hover {
+            color: var(--tk-pink);
+            transform: rotate(90deg);
+        }
+
+        ::-webkit-scrollbar { display: none; }
+
+        .content-text h3 { 
+            color: var(--tk-cyan); 
+            font-weight: 900; 
+            font-size: 1.2rem; 
+            margin-top: 2rem; 
+            margin-bottom: 1rem; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            border-bottom: 1px solid rgba(37, 244, 238, 0.2);
+            padding-bottom: 0.5rem;
+        }
+        .content-text ul { list-style: none; padding-left: 0; margin-bottom: 1.5rem; color: #ccc; font-size: 0.95rem; }
+        .content-text ul li { margin-bottom: 0.8rem; display: flex; align-items: flex-start; line-height: 1.6; }
+        .content-text ul li::before { content: "🎈"; margin-right: 10px; font-size: 1rem; }
+        .content-text p { color: #d1d5db; font-size: 1rem; margin-bottom: 1.2rem; line-height: 1.6; }
+        .content-text b { color: white; }
+    </style>
+</head>
+<body class="p-6 md:p-10">
+
+    <video class="video-bg" autoplay loop muted playsinline>
+        <source src="tu-video.mp4" type="video/mp4">
+    </video>
+
+    <div class="tiktok-bg"></div>
+
+    <div class="max-w-4xl mx-auto pb-20">
+        <header class="flex justify-between items-center mb-8">
+            <div>
+                <a href="batallas.html" class="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-pink-500 transition-all mb-2">
+                    <i class="fa-solid fa-arrow-left"></i> Volver a Batallas
+                </a>
+                <h1 class="text-3xl md:text-5xl font-black italic uppercase tracking-tighter text-white">Agencia ELArbol<span class="text-pink-500">. GUÍAS</span></h1>
+            </div>
+        </header>
+
+        <div class="glass-panel p-8 md:p-12 relative mt-4">
+            
+            <a href="batallas.html" class="btn-close">
+                <i class="fa-solid fa-xmark"></i>
+            </a>
+
+            <div class="text-center mb-10">
+                <i class="fa-solid fa-cake-candles text-6xl text-pink-500 mb-6 drop-shadow-[0_0_15px_rgba(254,44,85,0.6)]"></i>
+                <h2 class="text-3xl md:text-5xl font-black italic uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-cyan-400">Guía Maestra</h2>
+                <p class="text-lg md:text-xl text-gray-200 font-bold tracking-widest uppercase mt-3">¡Tu Batalla de Cumpleaños en TikTok LIVE! 🎂</p>
+            </div>
+
+            <div class="content-text">
+                <p class="text-white font-semibold text-lg text-center bg-white/5 p-4 rounded-xl border border-white/10 mb-8">
+                    ¡Felicidades! Si vas a celebrar tu cumple en Live, prepárate para recibir el mayor apoyo de tu historia. Pero ojo: un cumple exitoso no sucede por accidente, se planifica. Aquí tienes la hoja de ruta para que tu evento sea inolvidable y lleno de regalos.
+                </p>
+
+                <h3>1. La Preparación (7 días antes)</h3>
+                <ul>
+                    <li><span><b>Anuncia la fecha:</b> No aparezcas de sorpresa. Avisa en tus videos diarios: "¡Este viernes es mi cumple y tendremos Batalla Especial!".</span></li>
+                    <li><span><b>Crea un "Evento de Live":</b> Usa la herramienta de TikTok para programar el Live. Así tus seguidores pueden darle a "Recordar".</span></li>
+                    <li><span><b>Calienta motores:</b> Los días previos, agradece a los que te digan que estarán ahí. Hazlos sentir parte de la organización.</span></li>
+                </ul>
+
+                <h3>2. El Escenario (Tu Set de Grabación)</h3>
+                <p>Ese día, tu transmisión debe verse diferente a un día común:</p>
+                <ul>
+                    <li><span><b>Decoración:</b> Globos de helio, un letrero de "Happy Birthday", serpentinas o luces de colores. Que cualquier persona que entre sepa de inmediato que es una fiesta.</span></li>
+                    <li><span><b>Outfit Especial:</b> Vístete para la ocasión. Un outfit que destaque o incluso un accesorio divertido (corona, banda de cumpleañero).</span></li>
+                    <li><span><b>Pastel en mano:</b> Ten un pastel pequeño o una vela lista. ¡Celebrarás el "mordisco" o apagar la vela con tu audiencia!</span></li>
+                </ul>
+
+                <h3>3. La Estrategia de la Batalla (PK)</h3>
+                <p>No elijas a cualquier rival. Para tu cumple, busca a un "Rival Amigo" (otro creador con el que te lleves bien):</p>
+                <ul>
+                    <li><span><b>Acuerden el horario:</b> Asegúrate de que ambos estén listos y con sus comunidades activas.</span></li>
+                    <li><span><b>Castigos Temáticos:</b> Los castigos deben ser relacionados con el cumple (ejemplo: el que pierda se da un "pastelazo" en la cara o tiene que cantar las mañanitas en un idioma extraño).</span></li>
+                    <li><span><b>El "Snipe" de Cumpleaños:</b> Pide a tus moderadores que estén atentos. En los últimos segundos, es cuando los "leones" y los regalos grandes suelen aparecer.</span></li>
+                </ul>
+
+                <h3>4. Dinámicas con tu Audiencia</h3>
+                <p>Haz que se sientan especiales por estar contigo:</p>
+                <ul>
+                    <li><span><b>Muro de Donadores:</b> Escribe en una pizarra detrás de ti los nombres de las personas que envíen los regalos más grandes del día.</span></li>
+                    <li><span><b>Reacciones por Regalo:</b> Crea reacciones únicas. Si alguien manda un "Confeti", ¡tiras confeti real! Si mandan un "Pastel", soplas un silbato.</span></li>
+                    <li><span><b>Niveles de Meta:</b> Pon metas claras en la barra: "Si llegamos a 10k puntos, me pinto el pelo con spray" o "Si llegamos a 20k, hago un baile especial".</span></li>
+                </ul>
+
+                <h3>5. El "Post-Cumple" (Agradecimiento)</h3>
+                <ul>
+                    <li><span><b>No cortes el Live rápido:</b> Después de la batalla, quédate platicando, agradeciendo y conviviendo. Es tu momento de conectar.</span></li>
+                    <li><span><b>Video de agradecimiento:</b> Al terminar, sube un video corto agradeciendo a todos los que te apoyaron y mencionando a tus "Top Gifters".</span></li>
+                </ul>
+
+                <div class="bg-yellow-500/10 border border-yellow-500/40 rounded-xl p-6 mt-10">
+                    <h4 class="text-yellow-400 font-black uppercase tracking-widest text-lg mb-4 flex items-center">
+                        <i class="fa-solid fa-triangle-exclamation text-2xl mr-3"></i> 
+                        ⚠️ Reglas de Oro para el Creador:
+                    </h4>
+                    <ul class="mb-0" style="color:#e5e7eb;">
+                        <li style="list-style: none;"><i class="fa-solid fa-shield-halved text-yellow-500 mr-3 mt-1"></i> <span><b>Moderadores activos:</b> Asegúrate de que tus mods den la bienvenida a todos y mantengan el chat limpio de "haters". Un cumple debe ser pura buena vibra.</span></li>
+                        <li style="list-style: none;"><i class="fa-solid fa-face-laugh-beam text-yellow-500 mr-3 mt-1"></i> <span><b>No te enfoques SOLO en el dinero:</b> Diviértete. Si la gente te ve feliz y disfrutando, se sentirá más motivada a regalar.</span></li>
+                        <li style="list-style: none;"><i class="fa-solid fa-music text-yellow-500 mr-3 mt-1"></i> <span><b>¡Cuidado con la música!</b> Usa música de fiesta, pero mantén el volumen bajo para que se escuche bien tu voz.</span></li>
+                    </ul>
+                </div>
+                
+                <p class="text-center font-black text-cyan-400 text-xl mt-10 drop-shadow-[0_0_8px_rgba(37,244,238,0.5)]">
+                    ¡Es tu día, haz que toda la plataforma se entere de que es tu cumpleaños!
+                </p>
+            </div>
+        </div>
+
+        <footer class="mt-12 text-center">
+            <p class="text-[9px] font-black text-gray-600 uppercase tracking-[0.6em]">Agencia ELArbol • SF. Academy</p>
+        </footer>
+    </div>
+</body>
+</html>

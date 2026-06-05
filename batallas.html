@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batallas | Agencia ELArbol</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root { --tk-pink: #fe2c55; --tk-cyan: #25f4ee; }
+        body { background-color: #050505; color: white; font-family: 'Inter', sans-serif; margin: 0; min-height: 100vh;}
+        
+        /* --- VIDEO DE FONDO --- */
+        .video-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        /* --- CAPA OSCURA SOBRE EL VIDEO --- */
+        .tiktok-bg { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; 
+            background: radial-gradient(circle at center, rgba(17,17,17,0.4) 0%, rgba(0,0,0,0.85) 100%); 
+            pointer-events: none;
+        }
+
+        /* EFECTOS CRISTAL (GLASSMORPHISM) */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1.5rem;
+        }
+
+        /* INPUTS PERSONALIZADOS */
+        .form-input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: var(--tk-cyan);
+            box-shadow: 0 0 10px rgba(37, 244, 238, 0.2);
+        }
+        
+        /* SCROLLBAR OCULTO */
+        ::-webkit-scrollbar { display: none; }
+
+        /* TARJETAS DE BATALLA */
+        .battle-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .battle-card:hover {
+            border-color: var(--tk-pink);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px -5px rgba(254, 44, 85, 0.15);
+        }
+
+        /* BOTONES SUPERIORES */
+        .action-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1.2rem;
+            padding: 1rem;
+            backdrop-filter: blur(15px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .action-card:hover {
+            border-color: var(--tk-cyan);
+            background: rgba(37, 244, 238, 0.05);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px -5px rgba(37, 244, 238, 0.2);
+        }
+
+        /* IMÁGENES DE PERFIL EN BATALLA (ESTILO TALENTOS) */
+        .avatar-container {
+            position: relative;
+            display: inline-block;
+        }
+        .avatar-frame {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 76px;
+            height: 76px;
+            border-radius: 50%;
+            border: 4px solid var(--tk-cyan);
+            box-shadow: 0 0 10px var(--tk-cyan);
+            pointer-events: none;
+        }
+        .avatar-image {
+            width: 68px;
+            height: 68px;
+            border-radius: 50%;
+            object-fit: cover;
+            background-color: white;
+        }
+        .default-avatar {
+            width: 68px;
+            height: 68px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: gray;
+            font-size: 2rem;
+        }
+    </style>
+</head>
+<body class="p-6 md:p-10">
+
+    <video class="video-bg" autoplay loop muted playsinline>
+        <source src="tu-video.mp4" type="video/mp4">
+        Tu navegador no soporta videos HTML5.
+    </video>
+
+    <div class="tiktok-bg"></div>
+
+    <div class="max-w-6xl mx-auto">
+        <header class="flex justify-between items-center mb-8">
+            <div>
+                <a href="lobby.html" class="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-white transition-all mb-2">
+                    <i class="fa-solid fa-arrow-left"></i> Volver al Lobby
+                </a>
+                <h1 class="text-3xl md:text-5xl font-black italic uppercase tracking-tighter">Agencia ELArbol<span class="text-cyan-400">. BATALLAS</span></h1>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5 mb-10 w-full">
+            
+            <a href="batallanovato.html" class="action-card group">
+    <i class="fa-solid fa-seedling text-xl md:text-2xl text-green-400 mb-2 group-hover:scale-110 transition-transform drop-shadow-[0_0_8px_rgba(74,222,128,0.5)]"></i>
+    <span class="text-[9px] md:text-xs font-black uppercase tracking-widest text-gray-300 group-hover:text-white transition-colors">Batalla Novatos</span>
+</a>
+
+            <a href="batallacumpleanos.html" class="action-card group">
+    <i class="fa-solid fa-cake-candles text-xl md:text-2xl text-pink-400 mb-2 group-hover:scale-110 transition-transform drop-shadow-[0_0_8px_rgba(244,114,182,0.5)]"></i>
+    <span class="text-[9px] md:text-xs font-black uppercase tracking-widest text-gray-300 group-hover:text-white transition-colors">Batalla Cumpleaños</span>
+</a>
+
+            <a href="batallaoficial.html" class="action-card group">
+    <i class="fa-solid fa-fire text-xl md:text-2xl text-orange-500 mb-2 group-hover:scale-110 transition-transform drop-shadow-[0_0_8px_rgba(249,115,22,0.5)]"></i>
+    <span class="text-[9px] md:text-xs font-black uppercase tracking-widest text-gray-300 group-hover:text-white transition-colors">Batalla Oficial</span>
+</a>
+
+            <a href="todosobrebatallas.html" class="action-card group">
+    <i class="fa-solid fa-circle-info text-xl md:text-2xl text-cyan-400 mb-2 group-hover:scale-110 transition-transform drop-shadow-[0_0_8px_rgba(37,244,238,0.5)]"></i>
+    <span class="text-[9px] md:text-xs font-black uppercase tracking-widest text-gray-300 group-hover:text-white transition-colors">Todo sobre Batallas</span>
+</a>
+
+        </div>
+
+        <div id="admin-panel" class="glass-panel p-6 md:p-8 mb-10 shadow-2xl hidden">
+            <h2 class="text-sm font-black uppercase tracking-widest text-pink-500 mb-6"><i class="fa-solid fa-calendar-plus mr-2"></i> Agendar Nueva Batalla</h2>
+            
+            <form id="battleForm" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Usuario 1</label>
+                    <input type="text" id="user1" class="form-input" placeholder="@usuario1" required>
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Usuario 2</label>
+                    <input type="text" id="user2" class="form-input" placeholder="@usuario2" required>
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Fecha</label>
+                    <input type="date" id="fecha" class="form-input" required>
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Hora</label>
+                    <input type="time" id="hora" class="form-input" required>
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Rondas</label>
+                    <select id="rondas" class="form-input">
+                        <option value="1">1 Ronda</option>
+                        <option value="2">2 Rondas</option>
+                        <option value="3">3 Rondas</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Diamantes Target</label>
+                    <input type="number" id="diamantes" class="form-input" placeholder="Ej: 50000" required>
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Tipo de Batalla</label>
+                    <select id="tipoReto" class="form-input">
+                        <option value="Sin Reto">Amistosa (Sin Reto)</option>
+                        <option value="Con Reto">Reto Oficial 🔥</option>
+                    </select>
+                </div>
+                <div>
+                    <button type="submit" class="w-full bg-gradient-to-r from-pink-500 to-cyan-400 text-white font-black text-xs uppercase tracking-widest py-4 rounded-xl hover:scale-105 transition-transform shadow-lg">
+                        Agendar Batalla
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <h3 class="text-xs font-black uppercase tracking-widest text-gray-500 mb-6 ml-2"><i class="fa-solid fa-clock-rotate-left mr-2"></i> Próximos Enfrentamientos</h3>
+        
+        <div id="agendaGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-20">
+            <p id="loadingText" class="col-span-full text-center opacity-30 animate-pulse uppercase tracking-widest text-xs py-10">Cargando batallas...</p>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, getDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAclvp8IB1SS_7rnv5MVAE3kIfR6Rz6ahg",
+            authDomain: "paginaweb-cf486.firebaseapp.com",
+            projectId: "paginaweb-cf486",
+            storageBucket: "paginaweb-cf486.firebasestorage.app",
+            messagingSenderId: "136417590997",
+            appId: "1:136417590997:web:6ae1e65956018d8f77ec5c",
+            measurementId: "G-HRPFNSDQNY"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app); 
+        const batallasRef = collection(db, 'batallas');
+
+        const form = document.getElementById('battleForm');
+        const grid = document.getElementById('agendaGrid');
+        
+        let batallasLocales = [];
+        let talentMap = {}; 
+        let isCurrentUserAdmin = false;
+
+        async function loadTalents() {
+            const talentsQuery = query(collection(db, "usuarios"), where("aprobado", "==", true));
+            const querySnapshot = await getDocs(talentsQuery);
+            querySnapshot.forEach(docSnap => {
+                const userData = docSnap.data();
+                const userLimpio = userData.tiktok.replace('@', '').toLowerCase();
+                talentMap[userLimpio] = {
+                    tiktok: userData.tiktok,
+                    userLimpio: userLimpio
+                };
+            });
+        }
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault(); 
+            
+            const targetDateStr = document.getElementById('fecha').value + 'T' + document.getElementById('hora').value + ':00';
+
+            const nuevaBatalla = {
+                u1: document.getElementById('user1').value,
+                u2: document.getElementById('user2').value,
+                targetDateStr: targetDateStr,
+                rondas: document.getElementById('rondas').value,
+                diamantes: document.getElementById('diamantes').value,
+                reto: document.getElementById('tipoReto').value,
+                timestamp: new Date().getTime() 
+            };
+            
+            try {
+                await addDoc(batallasRef, nuevaBatalla);
+                form.reset();
+            } catch (error) {
+                alert("Error al guardar la batalla. Mensaje: " + error.message);
+            }
+        });
+
+        window.eliminarBatalla = async function(id) {
+            if(confirm("⚠️ ¿Estás seguro de cancelar y eliminar esta batalla?")) {
+                try {
+                    await deleteDoc(doc(db, "batallas", id));
+                } catch (error) {
+                    alert("Error al eliminar: " + error.message);
+                }
+            }
+        };
+
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) { 
+                window.location.href = "index.html";
+                return; 
+            }
+
+            const userDoc = await getDoc(doc(db, "usuarios", user.uid));
+            if (userDoc.exists() && userDoc.data().isAdmin) {
+                isCurrentUserAdmin = true;
+                document.getElementById('admin-panel').classList.remove('hidden');
+            } else {
+                isCurrentUserAdmin = false;
+            }
+
+            await loadTalents();
+            
+            onSnapshot(batallasRef, (snapshot) => {
+                batallasLocales = [];
+                grid.innerHTML = ''; 
+                
+                if (snapshot.empty) {
+                    grid.innerHTML = '<p class="col-span-full text-center opacity-30 uppercase tracking-widest text-xs py-10">No hay batallas programadas.</p>';
+                    return;
+                }
+
+                snapshot.forEach(docSnap => {
+                    const key = docSnap.id;
+                    const b = docSnap.data();
+                    const tDate = new Date(b.targetDateStr);
+                    batallasLocales.push({ id: key, targetDate: tDate });
+
+                    const user1Limpio = b.u1.replace('@', '').toLowerCase();
+                    const user2Limpio = b.u2.replace('@', '').toLowerCase();
+                    
+                    const talent1 = talentMap[user1Limpio];
+                    const talent2 = talentMap[user2Limpio];
+
+                    const img1Url = talent1 ? `https://unavatar.io/tiktok/${talent1.userLimpio}` : null;
+                    const img2Url = talent2 ? `https://unavatar.io/tiktok/${talent2.userLimpio}` : null;
+
+                    const card = document.createElement('div');
+                    card.className = 'battle-card group';
+                    
+                    const deleteBtnHTML = isCurrentUserAdmin ? `
+                        <button onclick="eliminarBatalla('${key}')" class="absolute top-4 right-4 text-gray-500 hover:text-pink-500 transition-colors z-10" title="Eliminar">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    ` : '';
+
+                    card.innerHTML = `
+                        ${deleteBtnHTML}
+                        
+                        <div class="flex justify-between items-center mb-6 pr-6">
+                            <span class="text-[10px] font-black uppercase tracking-widest ${b.reto === 'Con Reto' ? 'text-pink-500' : 'text-cyan-400'} bg-white/5 px-2 py-1 rounded">
+                                ${b.reto === 'Con Reto' ? '🔥 RETO OFICIAL' : 'AMISTOSA'}
+                            </span>
+                            <span class="text-xs font-bold text-yellow-400"><i class="fa-solid fa-gem mr-1"></i>${b.diamantes}</span>
+                        </div>
+
+                        <div class="flex items-center justify-around mb-6 px-4">
+                            <div class="flex flex-col items-center">
+                                <div class="avatar-container relative">
+                                    ${img1Url ? `<img src="${img1Url}" class="avatar-image" onerror="this.parentElement.innerHTML = '<div class=\'default-avatar\'><i class=\'fa-solid fa-user\'></i></div>'">` : '<div class="default-avatar"><i class="fa-solid fa-user"></i></div>'}
+                                    <div class="avatar-frame"></div>
+                                </div>
+                                <h3 class="text-sm font-black italic uppercase tracking-tighter truncate text-white mt-3 w-20 text-center">
+                                    ${b.u1}
+                                </h3>
+                            </div>
+
+                            <div class="w-12 h-12 flex flex-shrink-0 items-center justify-center font-black italic text-lg text-gray-700 bg-white/5 border border-white/5 rounded-full scale-125 z-10 mx-1">
+                                VS
+                            </div>
+
+                            <div class="flex flex-col items-center">
+                                <div class="avatar-container relative">
+                                    ${img2Url ? `<img src="${img2Url}" class="avatar-image" onerror="this.parentElement.innerHTML = '<div class=\'default-avatar\'><i class=\'fa-solid fa-user\'></i></div>'">` : '<div class="default-avatar"><i class="fa-solid fa-user"></i></div>'}
+                                    <div class="avatar-frame"></div>
+                                </div>
+                                <h3 class="text-sm font-black italic uppercase tracking-tighter truncate text-white mt-3 w-20 text-center">
+                                    ${b.u2}
+                                </h3>
+                            </div>
+                        </div>
+
+                        <div class="bg-black/50 border border-white/5 rounded-xl py-3 text-center mb-4">
+                            <div class="font-mono text-xl md:text-2xl font-bold text-cyan-400 drop-shadow-[0_0_8px_rgba(37,244,238,0.5)]" id="timer-${key}">
+                                Calculando...
+                            </div>
+                        </div>
+
+                        <div class="flex justify-between items-center text-[10px] text-gray-400 font-bold uppercase tracking-wider">
+                            <span><i class="fa-solid fa-calendar text-gray-500 mr-1"></i> ${tDate.toLocaleDateString()} &nbsp; <i class="fa-solid fa-clock text-gray-500 mr-1"></i> ${tDate.getHours().toString().padStart(2, '0')}:${tDate.getMinutes().toString().padStart(2, '0')}</span>
+                            <span><i class="fa-solid fa-layer-group text-gray-500 mr-1"></i> Rondas: ${b.rondas}</span>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            });
+        });
+
+        setInterval(() => {
+            batallasLocales.forEach(b => {
+                const timerElement = document.getElementById(`timer-${b.id}`);
+                if (!timerElement) return;
+                
+                const ahora = new Date().getTime();
+                const distancia = b.targetDate.getTime() - ahora;
+                
+                if (distancia < 0) {
+                    timerElement.innerHTML = "EN BATALLA ⚔️";
+                    timerElement.classList.replace('text-cyan-400', 'text-pink-500');
+                    timerElement.classList.replace('drop-shadow-[0_0_8px_rgba(37,244,238,0.5)]', 'drop-shadow-[0_0_8px_rgba(254,44,85,0.5)]');
+                } else {
+                    const dias = Math.floor(distancia / (1000 * 60 * 60 * 24));
+                    const horas = Math.floor((distancia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutos = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
+                    const segundos = Math.floor((distancia % (1000 * 60)) / 1000);
+
+                    let display = "";
+                    if (dias > 0) display += `${dias}d `;
+                    display += `${horas.toString().padStart(2,'0')}:${minutos.toString().padStart(2,'0')}:${segundos.toString().padStart(2,'0')}`;
+
+                    timerElement.innerHTML = display;
+                }
+            });
+        }, 1000);
+    </script>
+</body>
+</html>

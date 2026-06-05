@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para ti | SF. Guías Oficiales</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root { --tk-pink: #fe2c55; --tk-cyan: #25f4ee; }
+        body { background-color: #050505; color: white; font-family: 'Inter', sans-serif; line-height: 1.6; }
+        .tiktok-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; 
+            background: radial-gradient(circle at center, #111 0%, #000 100%); filter: blur(100px) brightness(0.2); }
+
+        .content-card { 
+            background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(30px); 
+            border: 1px solid rgba(255,255,255,0.08); border-radius: 2.5rem; 
+            padding: 2rem; margin-top: 2rem; margin-bottom: 5rem;
+        }
+
+        /* Secciones Principales */
+        .section-box { background: rgba(255,255,255,0.02); border-radius: 1.5rem; padding: 1.5rem; margin-bottom: 2rem; border: 1px solid rgba(255,255,255,0.05); }
+        h2 { color: var(--tk-cyan); font-weight: 900; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 2px; margin-bottom: 1rem; }
+        h3 { color: white; font-weight: bold; margin-top: 1rem; margin-bottom: 0.5rem; font-size: 1rem; }
+
+        /* Acordeones */
+        details { background: rgba(0,0,0,0.3); border-radius: 1rem; margin-bottom: 0.8rem; border: 1px solid rgba(255,255,255,0.05); overflow: hidden; }
+        summary { padding: 1.2rem; font-weight: 700; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: #fff; }
+        summary::after { content: '\f078'; font-family: 'Font Awesome 6 Free'; font-weight: 900; transition: 0.3s; font-size: 0.7rem; }
+        details[open] summary { border-bottom: 1px solid rgba(255,255,255,0.05); color: var(--tk-pink); }
+        details[open] summary::after { transform: rotate(180deg); }
+        
+        .inner-content { padding: 1.5rem; font-size: 0.9rem; color: #aaa; }
+        .step-list { list-style: none; padding-left: 0; margin-bottom: 1rem; }
+        .step-list li { margin-bottom: 0.8rem; font-size: 0.9rem; color: #ccc; }
+        .bullet-list { list-style: none; padding-left: 1.5rem; margin-bottom: 1rem; }
+        .bullet-list li::before { content: "༚ "; color: var(--tk-pink); font-weight: bold; margin-left: -1.5rem; }
+
+        /* Botón Especial de Reporte */
+        .report-link { color: var(--tk-pink); text-decoration: underline; cursor: pointer; font-weight: bold; }
+        
+        .highlight-box { border-left: 3px solid var(--tk-pink); background: rgba(254, 44, 85, 0.05); padding: 1rem; border-radius: 0 1rem 1rem 0; margin-top: 1rem; font-size: 0.8rem; color: #ccc; }
+        p { margin-bottom: 1rem; color: #ccc; font-size: 0.9rem; }
+    </style>
+</head>
+<body class="p-4 md:p-10 flex justify-center">
+    <div class="tiktok-bg"></div>
+
+    <div class="max-w-3xl w-full">
+        <a href="lobby.html" class="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-white transition-all mb-6">
+            <i class="fa-solid fa-arrow-left"></i> Volver al Menú
+        </a>
+
+        <div class="content-card shadow-2xl">
+            <h1 class="text-4xl md:text-6xl font-black italic tracking-tighter uppercase mb-10 leading-none">
+                Feed <span class="text-cyan-400">Para ti</span>
+            </h1>
+
+            <div class="section-box">
+                <h2>¿Qué es el feed Para ti en TikTok?</h2>
+                <p>
+                    Para ti es un feed de contenido personalizado según tus intereses e interacciones. El feed Para ti es el primer feed que verás cuando abras TikTok. Cuanto más uses TikTok, mejor se reflejarán tus intereses en el feed Para ti y más te mostrará a los creadores y el contenido que es más probable que te gusten.
+                </p>
+            </div>
+
+            <div class="section-box">
+                <h2>¿Por qué ves ciertas publicaciones en TikTok?</h2>
+                <p>
+                    El feed Para ti recomienda contenido en función de varios factores. Para saber por qué se te ha recomendado una publicación, compartimos información junto a cada publicación para ayudarte a entender por qué dicho contenido ha aparecido en tu feed Para ti.
+                </p>
+                <p>Para saber por qué se te ha recomendado una publicación:</p>
+                <ul class="step-list">
+                    <li>1. En la aplicación TikTok, pulsa el botón Compartir que aparece junto a la publicación en el feed Para ti.</li>
+                    <li>2. Pulsa ¿Por qué veo esta publicación?. Veamos algunas de las razones por las que una publicación puede aparecer en tu feed:</li>
+                </ul>
+                <ul class="bullet-list text-gray-300">
+                    <li>Comentaste, diste me gusta, compartiste o viste publicaciones similares.</li>
+                    <li>Esta publicación es popular en tu país.</li>
+                    <li>Esta publicación se ha creado hace poco.</li>
+                    <li>Este vídeo es más largo y parece que estos te gustan más.</li>
+                    <li>Sigues a este creador.</li>
+                </ul>
+                
+                <p>
+                    Puedes pulsar Ajusta tu feed Para ti para que el contenido que aparezca en el feed Para ti se adapte más a tus intereses. Ten en cuenta que, si has actualizado el feed Para ti recientemente, te mostraremos contenido popular para ayudarnos a cambiar las sugerencias de tu feed Para ti. Obtén más información sobre cómo recomendamos contenido en el feed Para ti.
+                </p>
+
+                <div class="highlight-box">
+                    Si eres creador, recuerda que tus publicaciones deben seguir las Normas de la comunidad. Si tu contenido no es apto para un gran número de espectadores, puede que no lo incluyamos en el feed Para ti y que hagamos que aparezca menos en las búsquedas.
+                </div>
+            </div>
+
+            <div class="section-box">
+                <h2 class="mb-6">Cómo gestionar tu feed Para ti</h2>
+                <p>Puedes usar diferentes funciones para moldear el contenido que ves en el feed Para ti o cambiar las sugerencias de contenido. Algunas de ellas son:</p>
+                
+                <details>
+                    <summary>• (No me interesa:) si no te interesa una publicación concreta, puedes indicar que no te interesa y te mostraremos menos publicaciones de ese tipo.</summary>
+                    <div class="inner-content">
+                        <h3>Cómo darle "me gusta" a una publicación en TikTok</h3>
+                        <p>Para darle "Me gusta" a un video:</p>
+                        <ul class="step-list">
+                            <li>1. En la aplicación TikTok, toca el botón "Me gusta" al lado de la publicación o toca dos veces la publicación.</li>
+                            <li>2. Toca el botón "Me gusta" nuevamente para eliminar tu "Me gusta".</li>
+                        </ul>
+
+                        <h3>Cómo indicar que no te gusta una publicación en TikTok</h3>
+                        <p>Si no te gusta una publicación:</p>
+                        <p>En la aplicación TikTok:</p>
+                        <ul class="step-list">
+                            <li>1. Mantén pulsada la publicación o pulsa el botón Compartir .</li>
+                            <li>2. Pulsa No me interesa y te mostraremos menos publicaciones similares.</li>
+                        </ul>
+                        <p>En un navegador web:</p>
+                        <ul class="step-list">
+                            <li>1. Pulsa el botón «Denunciar» en la parte superior de la publicación.</li>
+                            <li>2. Selecciona «Otro» y luego «No me interesa este contenido».</li>
+                            <li>3. Haz clic en «Enviar» para finalizar.</li>
+                        </ul>
+
+                        <h3>Cómo encontrar tus publicaciones que te gustan</h3>
+                        <p>Para encontrar tus videos favoritos:</p>
+                        <ul class="step-list">
+                            <li>1. En la aplicación TikTok, toca Perfil en la parte inferior.</li>
+                            <li>2. Toca la pestaña Videos favoritos .</li>
+                        </ul>
+
+                        <h3>Cómo gestionar quién puede ver tus publicaciones a las que les has dado "Me gusta"</h3>
+                        <p>Puedes elegir mostrar u ocultar los vídeos que te gustan en tu perfil. De forma predeterminada, al crear una cuenta, los vídeos que te gustan están ocultos en tu perfil.</p>
+                        <p>Para ocultar o mostrar los videos que te gustan en tu perfil:</p>
+                        <ul class="step-list">
+                            <li>1. En la aplicación TikTok, toca Perfil en la parte inferior.</li>
+                            <li>2. Toca el botón Menú ☰ en la parte superior.</li>
+                            <li>3. Toca Configuración y privacidad , luego selecciona Privacidad .</li>
+                            <li>4. Toca Videos que me gustan y selecciona Todos (solo cuentas públicas), Seguidores (solo cuentas privadas) o Solo tú .</li>
+                        </ul>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>• (Actualizar el feed:) puedes actualizar el feed para ayudarnos a cambiar las sugerencias que te mostramos.</summary>
+                    <div class="inner-content">
+                        <h3>Actualizar el feed «Para ti» en TikTok</h3>
+                        <p>Puedes actualizar el feed «Para ti» para renovar las sugerencias de contenido que aparecen en él. Cuando selecciones la opción de actualizar el feed, te mostraremos contenido popular. Tus interacciones con este contenido (me gusta, comentarios, etc.) nos ayudarán a escoger las sugerencias que te ofrecemos en el feed «Para ti» y nos harán saber el tipo de publicaciones que te interesan.</p>
+
+                        <h3>Cómo actualizar el feed «Para ti»</h3>
+                        <p>Desde el menú de Ajustes:</p>
+                        <ul class="step-list">
+                            <li>1. En la aplicación de TikTok, pulsa Perfil en la parte inferior de la pantalla.</li>
+                            <li>2. Pulsa el botón Menú (☰) en la parte superior.</li>
+                            <li>3. Pulsa Ajustes y privacidad y, después, pulsa Preferencias de contenido.</li>
+                            <li>4. Pulsa Actualizar el feed «Para ti» y sigue los pasos que aparecerán en pantalla. Una vez que actualices el feed, no podrás volver atrás.</li>
+                        </ul>
+                        <p>Desde el feed «Para ti» (en determinadas regiones):</p>
+                        <ul class="step-list">
+                            <li>1. En la aplicación TikTok, ve al feed y mantén pulsada la publicación o pulsa el botón Compartir.</li>
+                            <li>2. Pulsa Por qué este vídeo.</li>
+                            <li>3. Pulsa Ajustar el feed «Para ti».</li>
+                            <li>4. Pulsa Actualizar el feed «Para ti» y sigue los pasos que aparecerán en pantalla. Una vez que actualices el feed, no podrás volver atrás.</li>
+                        </ul>
+                        <p>Ten en cuenta que, si decides actualizar el feed «Para ti», esto solo afectará a dicho feed. Otras áreas de TikTok, como el feed «Siguiendo», el perfil, la bandeja de entrada y los anuncios, no se verán afectadas.</p>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>• (Filtrar palabras clave:) puedes usar filtros para eliminar contenido con ciertas palabras y sus variaciones y determinados hashtags de los feeds Para ti y Siguiendo.</summary>
+                    <div class="inner-content">
+                        <h3>Cómo administrar los filtros de palabras clave</h3>
+                        <p>Para añadir filtros de palabras clave, haz lo siguiente:</p>
+                        <ul class="step-list">
+                            <li>1. En la aplicación TikTok, pulsa Perfil en la parte inferior.</li>
+                            <li>2. Pulsa el botón Menú ☰ en la parte superior y, después, Ajustes y privacidad.</li>
+                            <li>3. Pulsa Preferencias de contenido y, después, Filtrar palabras clave.</li>
+                            <li>4. Pulsa Añadir palabra clave, introduce una palabra o un hashtag que quieras filtrar y selecciona los feeds en los que quieres filtrar la palabra clave. Puedes añadir hasta 100 palabras clave.</li>
+                            <li>5. Pulsa Guardar.</li>
+                        </ul>
+                        <p>Ten en cuenta que ciertas palabras clave no se pueden filtrar.</p>
+
+                        <p>Para editar o eliminar palabras clave, haz lo siguiente:</p>
+                        <ul class="step-list">
+                            <li>1. En la aplicación TikTok, pulsa Perfil en la parte inferior.</li>
+                            <li>2. Pulsa el botón Menú ☰ en la parte superior y, después, Ajustes y privacidad.</li>
+                            <li>3. Pulsa Preferencias de contenido y, después, Filtrar palabras clave.</li>
+                            <li>4. Para editar, pulsa la palabra clave y realiza los cambios. Después, pulsa Guardar. Para eliminar:
+                                <ul class="bullet-list mt-2">
+                                    <li>Pulsa el botón Eliminar que aparece junto a la palabra clave de la lista y, a continuación, vuelve a pulsar Eliminar para confirmar la acción.</li>
+                                    <li>Pulsa en la palabra clave y, después, pulsa Eliminar palabra clave. Vuelve a pulsar Eliminar para confirmar.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p class="italic text-gray-400">Nota: Si eres padre, madre o tutor/a legal, puedes administrar los filtros de palabras clave para tus hijos/as mediante la Sincronización familiar.</p>
+
+                        <p>Para filtrar hashtags directamente desde un video o anuncio del feed «Para ti», haz lo siguiente:</p>
+                        <ul class="step-list">
+                            <li>1. En la aplicación TikTok, mantén pulsado el video y, después, pulsa No me interesa. También puedes pulsar el botón Compartir que aparece en el lateral y, a continuación, pulsar No me interesa.</li>
+                            <li>2. Pulsa Detalles en la parte inferior.</li>
+                            <li>3. Selecciona la opción que prefieras bajo No me interesa.</li>
+                            <li>4. Vuelve a pulsar Detalles en la parte inferior para ver la lista de los hashtags encontrados en el video.</li>
+                            <li>5. Selecciona los hashtags que quieras filtrar y, después, pulsa Enviar.</li>
+                        </ul>
+                    </div>
+                </details>
+
+                <p class="mt-4 mb-6">• Gestionar los temas: puedes personalizar el contenido de tu feed Para ti si ajustas tus preferencias sobre diferentes temas.</p>
+
+                <p>Obtén más información sobre <span class="report-link" onclick="document.getElementById('soporte-tecnico').open = true; document.getElementById('soporte-tecnico').scrollIntoView({behavior: 'smooth'});">(cómo denunciar contenido en TikTok.)</span></p>
+            </div>
+
+            <details id="soporte-tecnico" class="border-pink-500/30 bg-pink-500/5">
+                <summary style="color: var(--tk-pink)">Informar de un problema</summary>
+                <div class="inner-content">
+                    <p>Puedes informar de cualquier problema que surja mientras usas TikTok.</p>
+                    <p>Para informar de un problema, haz lo siguiente:</p>
+                    <ul class="step-list">
+                        <li>1. En la aplicación TikTok, pulsa Perfil en la parte inferior.</li>
+                        <li>2. Pulsa el botón Menú ☰ en la parte superior y selecciona Ajustes y privacidad.</li>
+                        <li>3. Pulsa Informar de un problema. Desde aquí:
+                            <ul class="bullet-list mt-2">
+                                <li>Selecciona un tema. Es posible que se te pida que selecciones un subtema en cada tema. Sigue las instrucciones para resolver el problema. Si los pasos recomendados no te han ayudado a solucionar el problema, pulsa No en la pregunta «¿Hemos resuelto tu problema?» y, después, ¿Necesitas más ayuda? para contactarnos y enviarnos más detalles.</li>
+                                <li>Desplázate hacia abajo y pulsa Chatea con nosotros.</li>
+                            </ul>
+                        </li>
+                        <li>4. Chatea con el centro de ayuda para resolver el problema.</li>
+                    </ul>
+                </div>
+            </details>
+
+        </div>
+        
+        <footer class="mt-12 text-center">
+            <p class="text-[9px] font-black text-gray-700 uppercase tracking-[0.6em]">SF. Agency • Centro de Ayuda</p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asesorías 1:1 | Agencia ELArbol</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root { --tk-pink: #fe2c55; --tk-cyan: #25f4ee; }
+        body { background-color: #050505; color: white; font-family: 'Inter', sans-serif; margin: 0; min-height: 100vh;}
+        .video-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: -2; }
+        .tiktok-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: radial-gradient(circle at center, rgba(17,17,17,0.4) 0%, rgba(0,0,0,0.95) 100%); }
+        .glass-panel { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 1.5rem; }
+        .slot-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 1.2rem; transition: 0.3s; overflow: hidden; }
+        .available:hover { border-color: var(--tk-cyan); transform: translateY(-5px); box-shadow: 0 10px 20px rgba(37, 244, 238, 0.1); }
+        .occupied { background: rgba(254, 44, 85, 0.05); border-color: rgba(254, 44, 85, 0.2); }
+        .form-input { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); color: white; padding: 0.7rem; border-radius: 0.7rem; width: 100%; }
+        .avatar-small { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--tk-pink); object-fit: cover; background: #222; }
+        
+        /* CORRECCIÓN DE COLORES PARA VISIBILIDAD */
+        .text-visible-main { color: #ffffff !important; font-weight: 800; }
+        .text-visible-sub { color: var(--tk-cyan) !important; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+    </style>
+</head>
+<body class="p-6 md:p-10">
+
+    <video class="video-bg" autoplay loop muted playsinline>
+        <source src="tu-video.mp4" type="video/mp4">
+    </video>
+    <div class="tiktok-bg"></div>
+
+    <div class="max-w-5xl mx-auto pb-20">
+        <header class="flex justify-between items-center mb-10">
+            <div>
+                <a href="lobby.html" class="text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-white transition-all mb-2 inline-block">
+                    <i class="fa-solid fa-arrow-left"></i> Volver al Lobby
+                </a>
+                <h1 class="text-4xl font-black italic uppercase tracking-tighter text-white">AGENDA <span class="text-cyan-400">Agencia ELArbol Llamadas 1:1</span></h1>
+            </div>
+            <button id="adminBtn" onclick="document.getElementById('adminPanel').classList.toggle('hidden')" class="hidden bg-white/5 border border-white/10 p-4 rounded-full hover:bg-cyan-400 hover:text-black transition-all">
+                <i class="fa-solid fa-calendar-plus"></i>
+            </button>
+        </header>
+
+        <div id="adminPanel" class="glass-panel p-8 mb-10 hidden border-cyan-400/40">
+            <h3 class="text-cyan-400 font-black uppercase text-xs mb-6 italic">Abrir Nuevo Horario</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <input type="date" id="newDate" class="form-input">
+                <input type="time" id="newTime" class="form-input">
+                <button onclick="crearHorario()" class="w-full bg-cyan-400 text-black font-black uppercase text-xs py-3 rounded-xl hover:scale-105 transition-transform">Publicar y Avisar Discord</button>
+            </div>
+        </div>
+
+        <div id="slotsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <p class="col-span-full text-center opacity-30 animate-pulse text-xs py-10">CARGANDO DISPONIBILIDAD...</p>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAclvp8IB1SS_7rnv5MVAE3kIfR6Rz6ahg",
+            authDomain: "paginaweb-cf486.firebaseapp.com",
+            projectId: "paginaweb-cf486",
+            storageBucket: "paginaweb-cf486.firebasestorage.app",
+            messagingSenderId: "136417590997",
+            appId: "1:136417590997:web:6ae1e65956018d8f77ec5c",
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1487494229339930844/ngzldT3SCnZaZgU_XugvU5esMyuENAxGbm-VDo4bJ7FdcxrgLZhcjMOrkImDiEha6QAp";
+        const DISCORD_INVITE_LINK = "https://discord.gg/r8aHycxZDM"; 
+
+        let isAdminUser = false;
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                const userDoc = await getDoc(doc(db, "usuarios", user.uid));
+                if (userDoc.exists() && userDoc.data().isAdmin) {
+                    isAdminUser = true;
+                    document.getElementById('adminBtn').classList.remove('hidden');
+                }
+            }
+            escucharHorarios();
+        });
+
+        window.crearHorario = async () => {
+            const fecha = document.getElementById('newDate').value;
+            const hora = document.getElementById('newTime').value;
+            if(!fecha || !hora) return alert("Completa los datos");
+
+            try {
+                await addDoc(collection(db, "disponibilidad"), { fecha, hora, ocupado: false, reservadoPor: "" });
+                await fetch(DISCORD_WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        "content": "📢 **¡NUEVO HORARIO DISPONIBLE!** @everyone",
+                        "embeds": [{
+                            "title": "Asesoría 1:1 Abierta",
+                            "description": "Se ha habilitado un nuevo espacio para mentoría. ¡Corre a apartarlo en la web!",
+                            "color": 2421230,
+                            "fields": [
+                                { "name": "📅 Fecha", "value": fecha, "inline": true },
+                                { "name": "⏰ Hora", "value": hora, "inline": true }
+                            ],
+                            "footer": { "text": "Agencia ELArbol" }
+                        }]
+                    })
+                });
+                alert("✅ Horario publicado y avisado en Discord.");
+            } catch (e) { alert("Error: " + e.message); }
+        };
+
+        function escucharHorarios() {
+            onSnapshot(collection(db, "disponibilidad"), (snapshot) => {
+                const grid = document.getElementById('slotsGrid');
+                grid.innerHTML = '';
+                const hoy = new Date().toISOString().split('T')[0];
+
+                snapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    const id = docSnap.id;
+                    if (data.fecha < hoy) { deleteDoc(doc(db, "disponibilidad", id)); return; }
+
+                    if (!data.ocupado) {
+                        grid.innerHTML += `
+                            <div class="slot-card available p-6">
+                                <div class="flex justify-between items-start mb-4">
+                                    <span class="bg-cyan-400 text-black text-[9px] font-black px-2 py-1 rounded">DISPONIBLE</span>
+                                    ${isAdminUser ? `<button onclick="borrarCita('${id}')" class="text-white hover:text-pink-500 transition-colors"><i class="fa-solid fa-trash"></i></button>` : ''}
+                                </div>
+                                <p class="text-xs text-visible-sub uppercase">${data.fecha}</p>
+                                <p class="text-3xl font-black italic text-white mb-6">${data.hora}</p>
+                                <button onclick="reservar('${id}', '${data.fecha}', '${data.hora}')" class="w-full bg-cyan-400 text-black py-3 rounded-xl text-xs font-black transition-all uppercase">Apartar Espacio</button>
+                            </div>
+                        `;
+                    } else {
+                        const userL = data.reservadoPor.replace('@','').toLowerCase();
+                        grid.innerHTML += `
+                            <div class="slot-card occupied p-6 border-pink-500/30">
+                                <div class="flex justify-between items-start mb-4">
+                                    <span class="bg-pink-500 text-white text-[9px] font-black px-2 py-1 rounded">OCUPADO</span>
+                                    ${isAdminUser ? `<button onclick="borrarCita('${id}')" class="text-white hover:text-pink-500 transition-colors"><i class="fa-solid fa-trash-can"></i></button>` : ''}
+                                </div>
+                                <div class="flex items-center gap-3 my-4">
+                                    <img src="https://unavatar.io/tiktok/${userL}" class="avatar-small" onerror="this.src='https://i.pravatar.cc/150'">
+                                    <div>
+                                        <p class="text-[9px] text-visible-sub">RESERVADO POR:</p>
+                                        <p class="text-sm text-visible-main truncate w-32">${data.reservadoPor}</p>
+                                    </div>
+                                </div>
+                                <p class="text-lg font-black italic text-white/80">${data.hora} <span class="text-xs opacity-60">(${data.fecha})</span></p>
+                            </div>
+                        `;
+                    }
+                });
+            });
+        }
+
+        window.reservar = async (id, fecha, hora) => {
+            const nick = prompt("Escribe tu @usuario de TikTok:");
+            if(!nick) return;
+
+            await updateDoc(doc(db, "disponibilidad", id), { ocupado: true, reservadoPor: nick });
+
+            await fetch(DISCORD_WEBHOOK_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    "content": "🎉 **¡CITA AGENDADA!**",
+                    "embeds": [{
+                        "title": "Confirmación de Mentoría",
+                        "color": 16655445,
+                        "thumbnail": { "url": `https://unavatar.io/tiktok/${nick.replace('@','')}` },
+                        "fields": [
+                            { "name": "👤 Creador", "value": nick, "inline": true },
+                            { "name": "⏰ Horario", "value": fecha + " - " + hora, "inline": true }
+                        ]
+                    }]
+                })
+            });
+
+            alert("🚀 ¡Espacio reservado! Te estamos redirigiendo a Discord...");
+            window.open(DISCORD_INVITE_LINK, '_blank');
+        };
+
+        window.borrarCita = async (id) => { if(confirm("¿Eliminar?")) await deleteDoc(doc(db, "disponibilidad", id)); };
+    </script>
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual Maestro de Batallas | Agencia ELArbol</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root { --tk-pink: #fe2c55; --tk-cyan: #25f4ee; --tk-silver: #a0a0a0; }
+        body { background-color: #050505; color: white; font-family: 'Inter', sans-serif; margin: 0; min-height: 100vh;}
+        
+        .video-bg {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            object-fit: cover; z-index: -2;
+        }
+
+        .tiktok-bg { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; 
+            background: radial-gradient(circle at center, rgba(17,17,17,0.4) 0%, rgba(0,0,0,0.85) 100%); 
+            pointer-events: none;
+        }
+
+        .glass-panel {
+            background: rgba(15, 15, 15, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(37, 244, 238, 0.3); 
+            border-radius: 1.5rem;
+            box-shadow: 0 0 40px rgba(37, 244, 238, 0.1);
+            position: relative;
+        }
+
+        .btn-close {
+            position: absolute;
+            top: 1.5rem; right: 1.5rem;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 1.8rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            z-index: 100;
+            text-decoration: none;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .btn-close:hover { color: var(--tk-cyan); transform: rotate(90deg); }
+
+        ::-webkit-scrollbar { display: none; }
+
+        .content-text h3 { 
+            color: var(--tk-cyan); font-weight: 900; font-size: 1.2rem; 
+            margin-top: 2rem; margin-bottom: 1rem; text-transform: uppercase; 
+            letter-spacing: 1px; border-bottom: 1px solid rgba(37, 244, 238, 0.2);
+            padding-bottom: 0.5rem;
+        }
+        .content-text ul { list-style: none; padding-left: 0; margin-bottom: 1.5rem; }
+        .content-text ul li { margin-bottom: 0.8rem; display: flex; align-items: flex-start; line-height: 1.6; color: #ccc; }
+        .content-text ul li::before { content: "🛠️"; margin-right: 10px; font-size: 1rem; }
+        .content-text p { color: #d1d5db; font-size: 1rem; margin-bottom: 1.2rem; line-height: 1.6; }
+        .content-text b { color: white; }
+
+        .potenciador-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+        }
+        .potenciador-title {
+            font-weight: 900;
+            text-transform: uppercase;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body class="p-6 md:p-10">
+
+    <video class="video-bg" autoplay loop muted playsinline>
+        <source src="tu-video.mp4" type="video/mp4">
+    </video>
+
+    <div class="tiktok-bg"></div>
+
+    <div class="max-w-4xl mx-auto pb-20">
+        <header class="flex justify-between items-center mb-8">
+            <div>
+                <a href="batallas.html" class="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-cyan-400 transition-all mb-2">
+                    <i class="fa-solid fa-arrow-left"></i> Volver a Batallas
+                </a>
+                <h1 class="text-3xl md:text-5xl font-black italic uppercase tracking-tighter text-white">Agencia ELArbol<span class="text-cyan-400">. MANUAL</span></h1>
+            </div>
+        </header>
+
+        <div class="glass-panel p-8 md:p-12 relative mt-4">
+            
+            <a href="batallas.html" class="btn-close">
+                <i class="fa-solid fa-xmark"></i>
+            </a>
+
+            <div class="text-center mb-10">
+                <i class="fa-solid fa-book text-6xl text-cyan-400 mb-6 drop-shadow-[0_0_15px_rgba(37,244,238,0.6)]"></i>
+                <h2 class="text-3xl md:text-5xl font-black italic uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-white">Manual Maestro</h2>
+                <p class="text-lg md:text-xl text-gray-200 font-bold tracking-widest uppercase mt-3">Guía Definitiva para Creadores de Élite 🏆</p>
+            </div>
+
+            <div class="content-text">
+                <p class="text-white font-semibold text-lg text-center bg-cyan-500/10 p-4 rounded-xl border border-cyan-500/20 mb-8">
+                    La batalla no es solo "quién recibe más regalos". Es una guerra de estrategia, tiempos y psicología. Aquí tienes todo lo que necesitas saber para dominar el tablero.
+                </p>
+
+                <h3>1. ¿Cómo Funciona la Puntuación?</h3>
+                <p>La barra que ves arriba divide los puntos de ambos creadores.</p>
+                <ul>
+                    <li><span><b>Regalos:</b> 1 Moneda = 1 Punto. Los regalos de gran valor (León, TikTok Universe) inclinan la balanza rápido.</span></li>
+                    <li><span><b>Tap-Tap (Likes):</b> Los primeros 3 juegos de 100 likes de cada espectador suman puntos (pequeños, pero cuentan). El tap-tap constante ayuda a que TikTok recomiende tu Live a gente nueva ("Explorar").</span></li>
+                </ul>
+
+                <h3>2. El Ciclo de la Batalla (Los 5 Minutos)</h3>
+                <p>Una batalla estándar dura 5 minutos, pero se divide en fases críticas:</p>
+                <ul>
+                    <li><span><b>Fase de Calentamiento (Minutos 1-3):</b> Aquí se busca activar a la audiencia. No gastes los regalos grandes aún.</span></li>
+                    <li><span><b>Fase de Multiplicadores (Bonos):</b> Es el momento donde aparecen los retos de "X2" o "X3".</span></li>
+                    <li><span><b>El Tiempo Extra (Victory Lap):</b> Si la batalla está reñida, el sistema da unos segundos más.</span></li>
+                    <li><span><b>El Castigo (Punishment):</b> Los 2-3 minutos finales tras la batalla donde el perdedor cumple el reto.</span></li>
+                </ul>
+
+                <h3>3. Potenciadores y Herramientas Especiales (La Clave del Triunfo)</h3>
+                <p>Para ganar, tu comunidad debe saber usar estos objetos que aparecen en el cofre o al recibir ciertos regalos:</p>
+                
+                <div class="my-6">
+                    <div class="potenciador-item">
+                        <div class="potenciador-title"><i class="fa-solid fa-hand-fist text-cyan-400"></i> El Guante de Victoria (x5)</div>
+                        <p class="mb-1 text-sm"><b class="text-white">Qué hace:</b> Multiplica por 5 todos los puntos recibidos durante 30 segundos.</p>
+                        <p class="mb-0 text-sm"><b class="text-white">Estrategia:</b> ¡NO lo uses al principio! Se debe activar en los últimos 45 segundos de la batalla para un "Snipe" mortal.</p>
+                    </div>
+
+                    <div class="potenciador-item">
+                        <div class="potenciador-title"><i class="fa-solid fa-smog text-cyan-400"></i> La Neblina (Mist)</div>
+                        <p class="mb-1 text-sm"><b class="text-white">Qué hace:</b> Oculta tu puntuación al rival. Ellos no saben si vas ganando o perdiendo.</p>
+                        <p class="mb-0 text-sm"><b class="text-white">Estrategia:</b> Úsala junto con el Guante para que el rival no sepa cuánto necesita para alcanzarte.</p>
+                    </div>
+
+                    <div class="potenciador-item">
+                        <div class="potenciador-title"><i class="fa-solid fa-shield-virus text-cyan-400"></i> El Escudo</div>
+                        <p class="mb-0 text-sm"><b class="text-white">Qué hace:</b> Bloquea una parte de los puntos del rival o protege tus puntos de ser restados en ciertas dinámicas.</p>
+                    </div>
+
+                    <div class="potenciador-item">
+                        <div class="potenciador-title"><i class="fa-solid fa-bolt text-cyan-400"></i> Cartas de Martillo/Rayo</div>
+                        <p class="mb-0 text-sm"><b class="text-white">Qué hace:</b> Son efectos visuales y de sonido que "aturden" la pantalla del rival para distraer a su audiencia.</p>
+                    </div>
+                </div>
+
+                <h3>4. El "Snipe" (El Tiro de Gracia)</h3>
+                <p>El Snipe es enviar regalos masivos en los últimos 3 a 5 segundos de la batalla.</p>
+                <ul>
+                    <li><span><b>Por qué funciona:</b> Porque el rival no tiene tiempo físico de reaccionar ni de pedir más apoyo.</span></li>
+                    <li><span><b>Consejo:</b> Ten a uno o dos "francotiradores" (donadores fuertes) avisados por mensaje privado o señas en el Live.</span></li>
+                </ul>
+
+                <h3>5. Las "Rondas de Velocidad" (Speed Challenges)</h3>
+                <p>A mitad de batalla, TikTok lanza un reto: "Si llegan a X cantidad de puntos en 30 segundos, sus puntos se duplican (X2)".</p>
+                <p><b>Instrucción para el creador:</b> En cuanto veas el aviso de "Speed Challenge", grita y motiva a tu gente. Si ganas el multiplicador y el rival no, tienes la victoria casi asegurada.</p>
+
+                <h3>6. Psicología de la Batalla: Cómo "Pedir" sin Rogar</h3>
+                <p>El error del novato es decir "ayúdenme, voy perdiendo". El profesional dice:</p>
+                <ul>
+                    <li><span>"¡Equipo, activen el guante ahora!" (Da órdenes claras).</span></li>
+                    <li><span>"¿Quién tiene el último aliento para el Snipe?" (Genera misterio).</span></li>
+                    <li><span>"No dejen que nos ganen con ese castigo, ¡vamos familia!" (Genera competitividad).</span></li>
+                </ul>
+
+                <h3>7. Configuración Técnica Óptima</h3>
+                <ul>
+                    <li><span><b>Modo Batalla:</b> Asegúrate de tener activada la opción en "Ajustes de Live".</span></li>
+                    <li><span><b>Conexión:</b> Si tu pantalla se congela 2 segundos, puedes perder el "Snipe" de tu donador más grande. Usa datos móviles estables o fibra óptica.</span></li>
+                    <li><span><b>Audio:</b> Usa audífonos para que el eco del rival no se meta en tu micrófono.</span></li>
+                </ul>
+
+                <h3>8. El Post-Juego: El Castigo</h3>
+                <p>El castigo es lo que hace que la gente vuelva a tu próximo Live.</p>
+                <ul>
+                    <li><span><b>Si ganas:</b> Sé un ganador elegante. No humilles, pero asegúrate de que el rival cumpla.</span></li>
+                    <li><span><b>Si pierdes:</b> Sé un buen perdedor. Cumplir un castigo épico con una sonrisa te gana más seguidores que ganar la batalla siendo aburrido.</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <footer class="mt-12 text-center">
+            <p class="text-[9px] font-black text-gray-600 uppercase tracking-[0.6em]">Agencia ELArbol • SF. Academy</p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear una cuenta | Centro de Ayuda SF</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root { --tk-pink: #fe2c55; --tk-cyan: #25f4ee; }
+        body { background-color: #050505; color: white; font-family: 'Inter', sans-serif; margin: 0; line-height: 1.6; }
+        
+        .tiktok-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; 
+            background: radial-gradient(circle at center, #111 0%, #000 100%); filter: blur(100px) brightness(0.2); }
+
+        .content-card { 
+            background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); 
+            border: 1px solid rgba(255,255,255,0.08); border-radius: 2.5rem; 
+            padding: 3rem; margin-top: 2rem;
+        }
+
+        .step-num {
+            background: var(--tk-cyan); color: black; width: 28px; height: 28px; 
+            display: inline-flex; align-items: center; justify-content: center; 
+            border-radius: 50%; font-weight: 900; font-size: 0.8rem; margin-right: 12px;
+        }
+
+        .note-box {
+            background: rgba(254, 44, 85, 0.05); border-left: 4px solid var(--tk-pink);
+            padding: 1.5rem; border-radius: 0 1rem 1rem 0; margin: 2rem 0;
+        }
+
+        /* Estilo para los menús desplegables internos */
+        details { background: rgba(255,255,255,0.03); border-radius: 1rem; margin-bottom: 0.75rem; border: 1px solid rgba(255,255,255,0.05); }
+        summary { padding: 1rem; font-weight: 700; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; text-transform: uppercase; color: #aaa; }
+        summary::after { content: '\f067'; font-family: 'Font Awesome 6 Free'; font-weight: 900; transition: 0.3s; }
+        details[open] summary::after { transform: rotate(45deg); color: var(--tk-cyan); }
+        .inner-content { padding: 0 1rem 1.5rem 1rem; color: #777; font-size: 0.9rem; }
+    </style>
+</head>
+<body class="p-6 md:p-12 flex justify-center">
+    <div class="tiktok-bg"></div>
+
+    <div class="max-w-3xl w-full">
+        <a href="lobby.html" class="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-white transition-all">
+            <i class="fa-solid fa-arrow-left"></i> Volver al Lobby
+        </a>
+
+        <div class="content-card shadow-2xl">
+            <h1 class="text-4xl md:text-5xl font-black italic tracking-tighter uppercase mb-8">
+                Crear una <span class="text-cyan-400">cuenta</span>
+            </h1>
+
+            <p class="text-gray-400 mb-8 font-medium">Para crear una cuenta de TikTok, haz lo siguiente:</p>
+
+            <div class="space-y-6 mb-10">
+                <div class="flex items-start">
+                    <span class="step-num">1</span>
+                    <p class="text-gray-200">Descarga la aplicación <strong>TikTok</strong> en App Store o Google Play.</p>
+                </div>
+                <div class="flex items-start">
+                    <span class="step-num">2</span>
+                    <p class="text-gray-200">Abre la aplicación.</p>
+                </div>
+                <div class="flex items-start">
+                    <span class="step-num">3</span>
+                    <p class="text-gray-200">Elige un método para registrarte y sigue los pasos para crear la cuenta.</p>
+                </div>
+            </div>
+
+            <div class="note-box">
+                <p class="text-sm text-gray-300">
+                    <strong class="text-pink-500 uppercase tracking-widest text-[10px] block mb-2">Nota importante:</strong>
+                    Asegúrate de que el correo electrónico y el número de teléfono son válidos, ya que se necesitan para iniciar sesión y recuperar la contraseña.
+                </p>
+            </div>
+
+            <div class="mt-12">
+                <h3 class="text-[10px] font-black text-gray-500 tracking-[0.4em] uppercase mb-6">Artículos relacionados</h3>
+                
+                <details>
+                    <summary>Cómo crear una cuenta</summary>
+                    <div class="inner-content">
+                        Puedes usar tu teléfono, correo electrónico o redes sociales existentes para una configuración rápida.
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Problemas relacionados con la creación</summary>
+                    <div class="inner-content">
+                        Si no recibes el código o el nombre de usuario ya está en uso, revisa tu conexión o intenta con un correo diferente.
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Vincular aplicaciones de terceros</summary>
+                    <div class="inner-content">
+                        Puedes conectar tu cuenta con Google, Facebook o Apple ID para mayor seguridad.
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Cómo crear una cuenta a través de Instagram</summary>
+                    <div class="inner-content">
+                        TikTok permite importar tu perfil básico directamente desde Instagram para ahorrar tiempo.
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <footer class="mt-12 text-center">
+            <p class="text-[9px] font-bold text-gray-600 uppercase tracking-[0.5em]">© 2026 Streamers Federation Agency</p>
+        </footer>
+    </div>
+</body>
+</html>

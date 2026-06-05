@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurar Perfil | SF. Guías</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root { --tk-pink: #fe2c55; --tk-cyan: #25f4ee; }
+        body { background-color: #050505; color: white; font-family: 'Inter', sans-serif; margin: 0; line-height: 1.6; }
+        .tiktok-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; 
+            background: radial-gradient(circle at center, #111 0%, #000 100%); filter: blur(100px) brightness(0.2); }
+
+        .content-card { 
+            background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(25px); 
+            border: 1px solid rgba(255,255,255,0.08); border-radius: 2.5rem; 
+            padding: 2.5rem; margin-top: 2rem; margin-bottom: 5rem;
+        }
+
+        /* Estilo para los bloques principales */
+        .main-topic { background: rgba(255,255,255,0.03); border-radius: 1.5rem; margin-bottom: 1.5rem; border: 1px solid rgba(255,255,255,0.05); overflow: hidden; }
+        .main-topic > summary { padding: 1.5rem; font-weight: 900; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; text-transform: uppercase; font-size: 0.9rem; color: var(--tk-cyan); letter-spacing: 1px; }
+        .main-topic > summary::after { content: '\f078'; font-family: 'Font Awesome 6 Free'; font-weight: 900; transition: 0.3s; }
+        .main-topic[open] > summary::after { transform: rotate(180deg); color: var(--tk-pink); }
+        .topic-body { padding: 0 1.5rem 2rem 1.5rem; border-top: 1px solid rgba(255,255,255,0.05); }
+
+        /* Estilos de texto */
+        p { color: #ccc; font-size: 0.9rem; margin-bottom: 1rem; }
+        h4 { color: white; font-weight: bold; font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+        ul.bullet-list { list-style-type: none; margin-left: 0; margin-bottom: 1rem; color: #ccc; font-size: 0.9rem; }
+        ul.bullet-list li { margin-bottom: 0.5rem; display: flex; align-items: flex-start; }
+        ul.bullet-list li::before { content: "•"; color: var(--tk-pink); font-weight: bold; margin-right: 10px; }
+
+        /* Pasos numerados */
+        ol.steps { list-style: none; counter-reset: steps; margin: 1.5rem 0; }
+        ol.steps li { counter-increment: steps; margin-bottom: 0.8rem; display: flex; align-items: flex-start; font-size: 0.9rem; color: #ccc; }
+        ol.steps li::before { content: counter(steps); background: var(--tk-pink); color: white; width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: bold; margin-right: 12px; flex-shrink: 0; }
+
+        /* Notas */
+        .note-box { background: rgba(37, 244, 238, 0.05); border-left: 3px solid var(--tk-cyan); padding: 1rem; border-radius: 0 1rem 1rem 0; margin: 1.5rem 0; font-size: 0.85rem; color: #aaa; font-style: italic; }
+
+        /* Artículos relacionados (Desplegables internos) */
+        .related-box { margin-top: 2rem; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 1.5rem; }
+        .related-box details { background: rgba(0,0,0,0.2); border-radius: 0.8rem; margin-bottom: 0.5rem; border: 1px solid rgba(255,255,255,0.05); }
+        .related-box summary { padding: 0.8rem 1rem; font-size: 0.8rem; color: #aaa; font-weight: bold; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+        .related-box summary::after { content: '\f067'; font-family: 'Font Awesome 6 Free'; font-weight: 900; transition: 0.3s; font-size: 0.7rem; }
+        .related-box details[open] summary { color: var(--tk-cyan); }
+        .related-box details[open] summary::after { transform: rotate(45deg); color: var(--tk-pink); }
+        .related-content { padding: 0 1rem 1rem 1rem; font-size: 0.8rem; color: #777; }
+    </style>
+</head>
+<body class="p-6 md:p-12 flex justify-center">
+    <div class="tiktok-bg"></div>
+
+    <div class="max-w-3xl w-full">
+        <a href="lobby.html" class="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-white transition-all">
+            <i class="fa-solid fa-arrow-left"></i> Volver al Menú
+        </a>
+
+        <div class="content-card shadow-2xl">
+            <h1 class="text-3xl md:text-5xl font-black italic tracking-tighter uppercase mb-10 leading-none">
+                Configurar tu <span class="text-pink-500">perfil</span>
+            </h1>
+
+            <details class="main-topic">
+                <summary>Cómo añadir una foto de perfil</summary>
+                <div class="topic-body">
+                    <p>Para añadir o cambiar una foto de perfil de TikTok, haz lo siguiente:</p>
+                    <ol class="steps">
+                        <li>En la aplicación TikTok, pulsa Perfil en la parte inferior.</li>
+                        <li>Pulsa Editar perfil.</li>
+                        <li>Pulsa Cambiar foto.</li>
+                        <li>Selecciona Hacer una foto o Cargar foto para usar una del dispositivo.</li>
+                        <li>Recorta la foto o el video que hayas seleccionado y pulsa Guardar.</li>
+                    </ol>
+                    <div class="note-box">
+                        Nota: Las fotos de perfil dejarán de estar visibles después de configurar un video de perfil. Las fotos deben ser de al menos 20 × 20 píxeles para poder cargarlas.
+                    </div>
+                    
+                    <div class="related-box">
+                        <p class="text-[9px] font-black text-gray-600 uppercase mb-3 tracking-widest">Artículos relacionados</p>
+                        <details><summary>Vincular otra cuenta de redes sociales</summary><div class="related-content">Contenido disponible en su sección correspondiente.</div></details>
+                        <details><summary>No se puede cambiar el nombre de usuario</summary><div class="related-content">Contenido disponible en su sección correspondiente.</div></details>
+                        <details><summary>Actualización del nombre de la cuenta</summary><div class="related-content">Contenido disponible en su sección correspondiente.</div></details>
+                        <details><summary>Cambio de la foto de perfil</summary><div class="related-content">Contenido disponible en su sección correspondiente.</div></details>
+                    </div>
+                </div>
+            </details>
+
+            <details class="main-topic">
+                <summary>Cambio del apodo</summary>
+                <div class="topic-body">
+                    <p>En TikTok, el apodo es el nombre que aparece en tu cuenta, además del nombre de usuario. Tu apodo se muestra en varias partes de TikTok, incluido el feed «Para ti», la pestaña «Amigos», los comentarios y los mensajes directos. Todas las cuentas de TikTok deben tener un apodo.</p>
+                    <p>Para cambiar tu apodo, haz lo siguiente:</p>
+                    <ol class="steps">
+                        <li>En la aplicación TikTok, pulsa Perfil en la parte inferior.</li>
+                        <li>Pulsa Editar perfil.</li>
+                        <li>Pulsa Nombre.</li>
+                        <li>Escribe el apodo deseado. Puedes escribir un máximo de 30 caracteres. Ten en cuenta que los apodos deben cumplir nuestras Normas de la comunidad.</li>
+                        <li>Pulsa Guardar.</li>
+                    </ol>
+                    <div class="note-box">Nota: El apodo solo se puede cambiar una vez cada 7 días.</div>
+                    
+                    <div class="related-box">
+                        <p class="text-[9px] font-black text-gray-600 uppercase mb-3 tracking-widest">Artículos relacionados</p>
+                        <details><summary>Vincular otra cuenta de redes sociales</summary><div class="related-content">Contenido disponible en su sección correspondiente.</div></details>
+                        <details><summary>No se puede cambiar el nombre de usuario</summary><div class="related-content">Contenido disponible en su sección correspondiente.</div></details>
+                        <details><summary>Actualización del nombre de la cuenta</summary><div class="related-content">Contenido disponible en su sección correspondiente.</div></details>
+                        <details><summary>Cambio de la foto de perfil</summary><div class="related-content">Contenido disponible en su sección correspondiente.</div></details>
+                    </div>
+                </div>
+            </details>
+
+            <details class="main-topic">
+                <summary>Cambiar el nombre de usuario</summary>
+                <div class="topic-body">
+                    <p>El nombre de usuario en TikTok es el nombre que se muestra en tu perfil y en el enlace de tu perfil. También puede usarse para buscar o etiquetar una cuenta. Cada cuenta debe tener un nombre de usuario.</p>
+                    <p>Para cambiar tu nombre de usuario en TikTok, haz lo siguiente:</p>
+                    <ol class="steps">
+                        <li>En la aplicación TikTok, pulsa Perfil en la parte inferior.</li>
+                        <li>Pulsa Editar perfil.</li>
+                        <li>Escribe el nombre de usuario deseado.</li>
+                        <li>Pulsa Guardar.</li>
+                    </ol>
+                    <p>Ten en cuenta lo siguiente:</p>
+                    <ul class="bullet-list">
+                        <li>El nombre de usuario solo se puede cambiar una vez cada 30 días.</li>
+                        <li>Si cambias tu nombre de usuario, no podrás añadir ese nombre de usuario en una cuenta durante un breve período de tiempo.</li>
+                        <li>Cambiar el nombre de usuario también cambiará el enlace del perfil.</li>
+                        <li>El nombre de usuario solo puede contener letras, números, guiones bajos y puntos. No obstante, no puedes añadir un punto al final del nombre de usuario.</li>
+                    </ul>
+                    <div class="note-box">Nota: Puedes contactarnos a través de la función Informar de un problema si quieres cambiar el nombre de usuario de tu cuenta verificada.</div>
+                    
+                    <div class="related-box">
+                        <p class="text-[9px] font-black text-gray-600 uppercase mb-3 tracking-widest">Artículos relacionados</p>
+                        <details><summary>Vincular otra cuenta de redes sociales</summary><div class="related-content">Contenido disponible en su sección correspondiente.</div></details>
+                        <details><summary>No se puede cambiar el nombre de usuario</summary><div class="related-content">Contenido disponible en su sección correspondiente.</div></details>
+                        <details><summary>Actualización del nombre de la cuenta</summary><div class="related-content">Contenido disponible en su sección correspondiente.</div></details>
+                        <details><summary>Cambio de la foto de perfil</summary><div class="related-content">Contenido disponible en su sección correspondiente.</div></details>
+                    </div>
+                </div>
+            </details>
+
+            <details class="main-topic">
+                <summary>Vincular otra cuenta de redes sociales</summary>
+                <div class="topic-body">
+                    <h4>Cómo añadir un enlace a tu perfil de TikTok</h4>
+                    <p>Puedes añadir a tu perfil un enlace a cualquiera de tus otras cuentas de redes sociales. Así podrás compartir contenido y conectar con más gente fuera de TikTok.</p>
+                    
+                    <p>Para añadir una cuenta de redes sociales a tu perfil de TikTok:</p>
+                    <ol class="steps">
+                        <li>En la aplicación TikTok, pulsa Perfil en la parte inferior.</li>
+                        <li>Pulsa Editar perfil.</li>
+                        <li>Junto a los enlaces, pulsa Añadir.</li>
+                        <li>Elige una cuenta de redes sociales que añadir (Lemon8, Instagram o YouTube) y sigue los pasos de inicio de sesión para vincularla.</li>
+                    </ol>
+                    <div class="note-box">Nota: Esta función no está disponible actualmente en todo el mundo.</div>
+
+                    <p>Puedes añadir a tu perfil de TikTok un enlace a tu sitio web si tienes al menos 1000 seguidores o una cuenta de empresa registrada. Encontrarás más información sobre las cuentas de empresas registradas en el Centro de ayuda de TikTok para empresas.</p>
+                    <p>Para añadir un sitio web a tu perfil de TikTok:</p>
+                    <ol class="steps">
+                        <li>En la aplicación TikTok, pulsa Perfil en la parte inferior.</li>
+                        <li>Pulsa Editar perfil.</li>
+                        <li>Junto a los enlaces, pulsa Añadir.</li>
+                        <li>Sigue los pasos para vincular tu sitio web.</li>
+                    </ol>
+                </div>
+            </details>
+
+            <details class="main-topic">
+                <summary>Cambiar los ajustes de idioma</summary>
+                <div class="topic-body">
+                    <p>Puedes cambiar el idioma en el que se muestra la aplicación TikTok en cualquier momento.</p>
+                    <p>Para cambiar los ajustes de idioma, haz lo siguiente:</p>
+                    <ol class="steps">
+                        <li>En la aplicación TikTok, pulsa Perfil en la parte inferior.</li>
+                        <li>Pulsa el botón Menú ☰ en la parte superior y selecciona Ajustes y privacidad.</li>
+                        <li>Pulsa Idioma.</li>
+                        <li>Pulsa Idioma de la aplicación y, después, selecciona un idioma de la lista.</li>
+                        <li>Pulsa Listo.</li>
+                    </ol>
+                    
+                    <div class="related-box">
+                        <p class="text-[9px] font-black text-gray-600 uppercase mb-3 tracking-widest">Artículos relacionados</p>
+                        <details><summary>Modo oscuro</summary><div class="related-content">Contenido disponible en su sección correspondiente.</div></details>
+                        <details><summary>Accesibilidad para ver vídeos</summary><div class="related-content">Contenido disponible en su sección correspondiente.</div></details>
+                    </div>
+                </div>
+            </details>
+
+        </div>
+        <p class="mt-10 text-center text-[8px] font-bold text-gray-700 uppercase tracking-[0.5em]">SF. Agency • Guías Oficiales</p>
+    </div>
+</body>
+</html>

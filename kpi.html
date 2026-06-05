@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KPI | Agencia ELArbol</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root { --tk-pink: #fe2c55; --tk-cyan: #25f4ee; --tk-green: #34d399; }
+        body { background-color: #050505; color: white; font-family: 'Inter', sans-serif; margin: 0; min-height: 100vh; }
+
+        .tiktok-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background-image: url('fondo.png');
+            background-size: cover; background-position: center; background-repeat: no-repeat;
+            filter: brightness(0.25);
+        }
+
+        .glass-panel { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 2rem; backdrop-filter: blur(20px); }
+
+        .stat-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 1.3rem; padding: 1.3rem 1.5rem; backdrop-filter: blur(15px); position: relative; overflow: hidden; }
+        .stat-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: var(--accent, var(--tk-cyan)); }
+        .stat-value { font-size: 1.8rem; font-weight: 900; line-height: 1; letter-spacing: -0.03em; }
+        .stat-label { font-size: 9px; font-weight: 900; letter-spacing: 0.25em; text-transform: uppercase; color: #888; }
+
+        .dropzone { border: 2px dashed rgba(255,255,255,0.15); border-radius: 1.5rem; padding: 2.5rem 1.5rem; text-align: center; transition: 0.3s; cursor: pointer; background: rgba(255,255,255,0.02); }
+        .dropzone:hover, .dropzone.drag { border-color: var(--tk-green); background: rgba(52,211,153,0.05); }
+
+        .form-input { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); width: 100%; padding: 0.8rem 1rem; border-radius: 0.9rem; color: white; outline: none; transition: 0.3s; font-size: 0.85rem; }
+        .form-input:focus { border-color: var(--tk-cyan); }
+
+        table { width: 100%; border-collapse: collapse; }
+        thead th { position: sticky; top: 0; background: #0c0c0c; font-size: 9px; font-weight: 900; letter-spacing: 0.2em; text-transform: uppercase; color: #888; padding: 1rem; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); cursor: pointer; user-select: none; white-space: nowrap; }
+        thead th:hover { color: var(--tk-cyan); }
+        tbody td { padding: 0.9rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.85rem; }
+        tbody tr { transition: 0.2s; }
+        tbody tr:hover { background: rgba(255,255,255,0.03); }
+        .table-wrap { max-height: 60vh; overflow-y: auto; border-radius: 1.2rem; border: 1px solid rgba(255,255,255,0.08); }
+        .table-wrap::-webkit-scrollbar { width: 8px; }
+        .table-wrap::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 999px; }
+
+        .rank-badge { width: 26px; height: 26px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 900; background: rgba(255,255,255,0.06); color: #888; }
+        .rank-1 { background: #facc15; color: #000; } .rank-2 { background: #cbd5e1; color: #000; } .rank-3 { background: #fb923c; color: #000; }
+
+        .back-btn { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 0.7rem 1.3rem; border-radius: 1rem; backdrop-filter: blur(10px); transition: 0.3s; text-transform: uppercase; font-size: 10px; font-weight: 900; letter-spacing: 2px; color: rgba(255,255,255,0.6); display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
+        .back-btn:hover { border-color: var(--tk-cyan); color: white; }
+    </style>
+</head>
+<body class="p-6 md:p-12">
+    <div class="tiktok-bg"></div>
+
+    <div class="max-w-6xl mx-auto">
+
+        <header class="mb-10">
+            <a href="lobby.html" class="back-btn mb-4"><i class="fa-solid fa-arrow-left"></i> Lobby</a>
+            <h1 class="text-3xl md:text-5xl font-black italic uppercase tracking-tighter mt-4">Panel <span class="text-emerald-400">KPI</span></h1>
+            <p class="text-[10px] text-gray-500 font-black uppercase tracking-[0.3em] mt-2">Importa el reporte y visualiza a todos los creadores</p>
+        </header>
+
+        <!-- IMPORTAR (solo admin) -->
+        <div id="import-panel" class="glass-panel p-6 md:p-8 mb-8 hidden">
+            <h2 class="text-sm font-black uppercase tracking-widest text-gray-300 mb-5"><i class="fa-solid fa-file-import text-emerald-400 mr-2"></i>Importar reporte (.xlsx)</h2>
+            <div id="dropzone" class="dropzone">
+                <i class="fa-solid fa-cloud-arrow-up text-4xl text-emerald-400 mb-4"></i>
+                <p class="text-sm font-bold text-gray-300">Arrastra tu archivo Excel aquí o haz clic para seleccionarlo</p>
+                <p class="text-[10px] text-gray-500 uppercase tracking-widest mt-2">Formatos: .xlsx, .xls, .csv</p>
+                <input type="file" id="file-input" accept=".xlsx,.xls,.csv" class="hidden">
+            </div>
+            <p id="import-msg" class="mt-4 text-center text-[10px] font-bold uppercase tracking-widest"></p>
+        </div>
+
+        <!-- RESUMEN -->
+        <div id="resumen" class="grid grid-cols-3 gap-4 mb-8 hidden">
+            <div class="stat-card" style="--accent:#25f4ee">
+                <p class="stat-value text-cyan-400" id="total-users">0</p>
+                <p class="stat-label mt-2">Creadores</p>
+            </div>
+            <div class="stat-card" style="--accent:#fe2c55">
+                <p class="stat-value text-pink-500" id="total-diamantes">0</p>
+                <p class="stat-label mt-2">Diamantes Totales</p>
+            </div>
+            <div class="stat-card" style="--accent:#34d399">
+                <p class="stat-value text-emerald-400" id="total-horas">0</p>
+                <p class="stat-label mt-2">Horas Totales</p>
+            </div>
+        </div>
+
+        <!-- TABLA -->
+        <div id="tabla-panel" class="glass-panel p-6 md:p-8 hidden">
+            <div class="flex flex-wrap justify-between items-center gap-4 mb-5">
+                <h2 class="text-sm font-black uppercase tracking-widest text-gray-300"><i class="fa-solid fa-table-list text-cyan-400 mr-2"></i>Creadores</h2>
+                <input type="text" id="buscar" class="form-input" style="max-width:260px" placeholder="Buscar usuario...">
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width:50px">#</th>
+                            <th data-sort="usuario">Usuario</th>
+                            <th data-sort="diamantes">Diamantes <i class="fa-solid fa-sort text-[8px]"></i></th>
+                            <th data-sort="horas">Duración de LIVE <i class="fa-solid fa-sort text-[8px]"></i></th>
+                            <th data-sort="dias">Días Válidos <i class="fa-solid fa-sort text-[8px]"></i></th>
+                            <th data-sort="seguidores">Nuevos Seguidores <i class="fa-solid fa-sort text-[8px]"></i></th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-body"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ESTADO VACÍO -->
+        <div id="vacio" class="glass-panel p-12 text-center">
+            <i class="fa-solid fa-chart-simple text-5xl text-gray-700 mb-4"></i>
+            <p class="text-sm font-bold text-gray-500 uppercase tracking-widest">Aún no has importado ningún reporte</p>
+            <p class="text-[10px] text-gray-600 uppercase tracking-widest mt-2">Sube tu archivo .xlsx para ver a los creadores</p>
+        </div>
+
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAclvp8IB1SS_7rnv5MVAE3kIfR6Rz6ahg",
+            authDomain: "paginaweb-cf486.firebaseapp.com",
+            projectId: "paginaweb-cf486",
+            appId: "1:136417590997:web:6ae1e65956018d8f77ec5c"
+        };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let datos = [];
+        let sortKey = 'diamantes';
+        let sortDir = -1;
+        let esAdmin = false;
+
+        const fmt = (n) => Number(n || 0).toLocaleString('es-MX', { maximumFractionDigits: 1 });
+        const norm = (s) => (s || '').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+
+        let headersActuales = [];
+        let filasActuales = [];
+
+        // Nombres exactos del reporte TikTok en español (prioridad por longitud)
+        const CLAVES = {
+            usuario: ['nombre de usuario del creador', 'nombre de usuario', 'username', 'creator username', 'handle', 'nickname'],
+            diamantes: ['diamantes', 'diamonds', 'diamond', 'gema', 'gem'],
+            horas: ['duracion de live', 'duracion live', 'live duration', 'duration of live', 'duration'],
+            dias: ['dias validos de emisiones live', 'dias validos de emision', 'valid go live days', 'go live days', 'dias validos'],
+            seguidores: ['nuevos seguidores', 'new followers', 'seguidores nuevos', 'new follower']
+        };
+
+        // Elige la coincidencia mas especifica (cadena mas larga = mas precisa)
+        function buscarColumna(headers, claves) {
+            let mejor = null, mejorLen = 0;
+            for (const h of headers) {
+                const hn = norm(h);
+                for (const k of claves) {
+                    if (hn.includes(k) && k.length > mejorLen) {
+                        mejor = h;
+                        mejorLen = k.length;
+                    }
+                }
+            }
+            return mejor;
+        }
+
+        // Cuenta cuantos encabezados conocidos hay en una fila (para detectar la fila de titulos)
+        function puntuarFila(fila) {
+            let p = 0;
+            for (const celda of fila) {
+                const c = norm(celda);
+                if (!c) continue;
+                for (const claves of Object.values(CLAVES)) {
+                    if (claves.some(k => c.includes(k))) { p++; break; }
+                }
+            }
+            return p;
+        }
+
+        // Convierte duraciones a horas (Excel usa fraccion del dia: 12h = 0.5)
+        function aHoras(valor) {
+            if (valor == null || valor === '') return 0;
+            if (typeof valor === 'number') {
+                if (valor > 0 && valor < 1) return valor * 24;
+                if (valor >= 1000) return valor / 3600;
+                return valor;
+            }
+            const txt = valor.toString().trim();
+            if (txt.includes(':')) {
+                const partes = txt.split(':').map(Number);
+                if (partes.length === 3) return partes[0] + partes[1] / 60 + partes[2] / 3600;
+                if (partes.length === 2) return partes[0] + partes[1] / 60;
+            }
+            const hm = txt.match(/(\d+)\s*h(?:\s*(\d+)\s*m)?/i);
+            if (hm) return Number(hm[1]) + (hm[2] ? Number(hm[2]) / 60 : 0);
+            const num = parseFloat(txt.replace(/[^0-9.]/g, ''));
+            return isNaN(num) ? 0 : num;
+        }
+
+        function aNumero(valor) {
+            if (valor == null || valor === '') return 0;
+            if (typeof valor === 'number') return valor;
+            const num = parseFloat(valor.toString().replace(/[^0-9.-]/g, ''));
+            return isNaN(num) ? 0 : num;
+        }
+
+        function procesarLibro(workbook) {
+            const hoja = workbook.Sheets[workbook.SheetNames[0]];
+            const matriz = XLSX.utils.sheet_to_json(hoja, { header: 1, defval: '' });
+            if (!matriz.length) throw new Error('La hoja está vacía');
+
+            // Buscar la fila que parece ser el encabezado (la de mayor puntuacion en las primeras 15 filas)
+            let filaHeader = 0, mejor = -1;
+            for (let i = 0; i < Math.min(matriz.length, 15); i++) {
+                const p = puntuarFila(matriz[i]);
+                if (p > mejor) { mejor = p; filaHeader = i; }
+            }
+
+            // Construir encabezados (rellenando vacios) y filas como objetos
+            const crudos = matriz[filaHeader];
+            headersActuales = crudos.map((h, i) => (h && h.toString().trim()) ? h.toString().trim() : `Columna ${i + 1}`);
+
+            filasActuales = matriz.slice(filaHeader + 1)
+                .filter(r => r.some(c => c !== '' && c != null))
+                .map(r => {
+                    const obj = {};
+                    headersActuales.forEach((h, i) => { obj[h] = r[i] != null ? r[i] : ''; });
+                    return obj;
+                });
+
+            if (!filasActuales.length) throw new Error('No se encontraron filas de datos');
+
+            const colUsuario = buscarColumna(headersActuales, CLAVES.usuario);
+            const colDiamantes = buscarColumna(headersActuales, CLAVES.diamantes);
+            const colHoras = buscarColumna(headersActuales, CLAVES.horas);
+            const colDias = buscarColumna(headersActuales, CLAVES.dias);
+            const colSeguidores = buscarColumna(headersActuales, CLAVES.seguidores);
+
+            const msg = document.getElementById('import-msg');
+            if (!colUsuario) throw new Error('No se encontró la columna de usuario en el archivo');
+
+            datos = filasActuales.map(f => ({
+                usuario: (f[colUsuario] || '').toString().trim().replace(/^@/, ''),
+                diamantes: colDiamantes ? aNumero(f[colDiamantes]) : 0,
+                horas: colHoras ? aHoras(f[colHoras]) : 0,
+                dias: colDias ? aNumero(f[colDias]) : 0,
+                seguidores: colSeguidores ? aNumero(f[colSeguidores]) : 0
+            })).filter(d => d.usuario);
+
+            render();
+            guardarEnFirestore(msg);
+        }
+
+        async function guardarEnFirestore(msg) {
+            msg.innerText = `Guardando ${datos.length} creadores para todos...`;
+            msg.style.color = "#25f4ee";
+            try {
+                await setDoc(doc(db, "reportes", "kpi"), {
+                    datos: datos,
+                    actualizado: Date.now()
+                });
+                msg.innerText = `Importados ${datos.length} creadores correctamente (visibles para todos)`;
+                msg.style.color = "#34d399";
+            } catch (err) {
+                msg.innerText = "Error al guardar: " + err.code;
+                msg.style.color = "#fe2c55";
+            }
+        }
+
+        function leerArchivo(file) {
+            const msg = document.getElementById('import-msg');
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const workbook = XLSX.read(new Uint8Array(e.target.result), { type: 'array' });
+                    procesarLibro(workbook);
+                } catch (err) {
+                    msg.innerText = "Error: " + err.message;
+                    msg.style.color = "#fe2c55";
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function render() {
+            const vacio = document.getElementById('vacio');
+            const tablaPanel = document.getElementById('tabla-panel');
+            const resumen = document.getElementById('resumen');
+
+            if (!datos.length) {
+                vacio.classList.remove('hidden');
+                tablaPanel.classList.add('hidden');
+                resumen.classList.add('hidden');
+                return;
+            }
+
+            vacio.classList.add('hidden');
+            tablaPanel.classList.remove('hidden');
+            resumen.classList.remove('hidden');
+
+            document.getElementById('total-users').innerText = datos.length;
+            document.getElementById('total-diamantes').innerText = fmt(datos.reduce((a, d) => a + d.diamantes, 0));
+            document.getElementById('total-horas').innerText = fmt(datos.reduce((a, d) => a + d.horas, 0));
+
+            const filtro = norm(document.getElementById('buscar').value);
+            let lista = datos.filter(d => norm(d.usuario).includes(filtro));
+
+            lista.sort((a, b) => {
+                if (sortKey === 'usuario') return sortDir * a.usuario.localeCompare(b.usuario);
+                return sortDir * (a[sortKey] - b[sortKey]);
+            });
+
+            const body = document.getElementById('tabla-body');
+            body.innerHTML = lista.map((d, i) => {
+                const rankClass = i === 0 ? 'rank-1' : i === 1 ? 'rank-2' : i === 2 ? 'rank-3' : '';
+                return `
+                    <tr>
+                        <td><span class="rank-badge ${rankClass}">${i + 1}</span></td>
+                        <td class="font-bold text-white">${d.usuario}</td>
+                        <td class="font-black text-pink-500"><i class="fa-solid fa-gem text-[10px] mr-1 opacity-60"></i>${fmt(d.diamantes)}</td>
+                        <td class="font-bold text-emerald-400"><i class="fa-solid fa-clock text-[10px] mr-1 opacity-60"></i>${fmt(d.horas)} h</td>
+                        <td class="font-bold text-yellow-400"><i class="fa-solid fa-calendar-check text-[10px] mr-1 opacity-60"></i>${fmt(d.dias)}</td>
+                        <td class="font-bold text-cyan-400"><i class="fa-solid fa-user-plus text-[10px] mr-1 opacity-60"></i>${fmt(d.seguidores)}</td>
+                    </tr>`;
+            }).join('');
+        }
+
+        // Eventos de importacion
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('file-input');
+        dropzone.onclick = () => fileInput.click();
+        fileInput.onchange = (e) => { if (e.target.files[0]) leerArchivo(e.target.files[0]); };
+        dropzone.ondragover = (e) => { e.preventDefault(); dropzone.classList.add('drag'); };
+        dropzone.ondragleave = () => dropzone.classList.remove('drag');
+        dropzone.ondrop = (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('drag');
+            if (e.dataTransfer.files[0]) leerArchivo(e.dataTransfer.files[0]);
+        };
+
+        document.getElementById('buscar').oninput = render;
+
+        document.querySelectorAll('th[data-sort]').forEach(th => {
+            th.onclick = () => {
+                const key = th.dataset.sort;
+                if (sortKey === key) sortDir *= -1;
+                else { sortKey = key; sortDir = key === 'usuario' ? 1 : -1; }
+                render();
+            };
+        });
+
+        async function cargarReporte() {
+            try {
+                const snap = await getDoc(doc(db, "reportes", "kpi"));
+                if (snap.exists() && Array.isArray(snap.data().datos)) {
+                    datos = snap.data().datos;
+                }
+            } catch (e) {
+                console.error("No se pudo cargar el reporte:", e);
+            }
+            render();
+        }
+
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) { window.location.href = "index.html"; return; }
+
+            try {
+                const perfil = await getDoc(doc(db, "usuarios", user.uid));
+                esAdmin = perfil.exists() && perfil.data().isAdmin === true;
+            } catch (e) { esAdmin = false; }
+
+            if (esAdmin) {
+                document.getElementById('import-panel').classList.remove('hidden');
+            }
+
+            await cargarReporte();
+        });
+    </script>
+</body>
+</html>

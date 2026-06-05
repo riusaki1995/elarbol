@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorar Vídeos | SF. Master Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root { --tk-pink: #fe2c55; --tk-cyan: #25f4ee; }
+        body { background-color: #050505; color: white; font-family: 'Inter', sans-serif; line-height: 1.6; margin: 0; }
+        .tiktok-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; 
+            background: radial-gradient(circle at center, #111 0%, #000 100%); filter: blur(100px) brightness(0.2); }
+        .container { max-width: 900px; margin: 0 auto; padding: 2rem; padding-bottom: 10rem; }
+        
+        /* ESTILOS DE ACORDEONES */
+        details { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 1rem; margin-bottom: 1rem; overflow: hidden; }
+        summary { padding: 1.2rem 1.5rem; font-weight: 900; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; text-transform: uppercase; font-size: 0.95rem; color: var(--tk-cyan); letter-spacing: 1px; background: rgba(0,0,0,0.4); }
+        summary::after { content: '\f078'; font-family: 'Font Awesome 6 Free'; font-weight: 900; transition: 0.3s; }
+        details[open] > summary::after { transform: rotate(180deg); color: var(--tk-pink); }
+        details[open] > summary { border-bottom: 1px solid rgba(255,255,255,0.05); }
+        
+        /* ESTILOS DEL CONTENIDO INTERNO PARA QUE SEA LEGIBLE */
+        .content-box { padding: 1.5rem; }
+        .content-box p { margin-bottom: 1rem; color: #ccc; font-size: 0.9rem; }
+        .content-box h3 { color: white; font-weight: bold; margin-top: 1.5rem; margin-bottom: 0.5rem; font-size: 1.1rem; }
+        .content-box ul { list-style-type: none; margin-left: 0; margin-bottom: 1rem; color: #ccc; font-size: 0.9rem; }
+        .content-box ul li::before { content: "• "; color: var(--tk-pink); font-weight: bold; }
+        .content-box ol { list-style-type: decimal; margin-left: 1.5rem; margin-bottom: 1rem; color: #ccc; font-size: 0.9rem; }
+        .content-box li { margin-bottom: 0.5rem; }
+        .note { border-left: 3px solid var(--tk-cyan); padding-left: 15px; color: #aaa; font-style: italic; background: rgba(37, 244, 238, 0.05); padding: 1rem; border-radius: 0 0.5rem 0.5rem 0; margin: 1rem 0; }
+    </style>
+</head>
+<body>
+    <div class="tiktok-bg"></div>
+    <div class="container">
+        <a href="lobby.html" class="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-white transition-all mb-8">
+            <i class="fa-solid fa-arrow-left"></i> Volver al Lobby
+        </a>
+
+        <h1 class="text-4xl md:text-6xl font-black italic tracking-tighter uppercase mb-10 leading-none">
+            Explorar <span class="text-pink-500">Vídeos</span>
+        </h1>
+
+        <details>
+            <summary>1. Para ti</summary>
+            <div class="content-box">
+                <h3>¿Qué es el feed Para ti en TikTok?</h3>
+                <p>Para ti es un feed de contenido personalizado según tus intereses e interacciones. El feed Para ti es el primer feed que verás cuando abras TikTok. Cuanto más uses TikTok, mejor se reflejarán tus intereses en el feed Para ti y más te mostrará a los creadores y el contenido que es más probable que te gusten.</p>
+
+                <h3>¿Por qué ves ciertas publicaciones en TikTok?</h3>
+                <p>El feed Para ti recomienda contenido en función de varios factores. Para saber por qué se te ha recomendado una publicación, compartimos información junto a cada publicación para ayudarte a entender por qué dicho contenido ha aparecido en tu feed Para ti.</p>
+                <p>Para saber por qué se te ha recomendado una publicación:</p>
+                <ol>
+                    <li>En la aplicación TikTok, pulsa el botón Compartir que aparece junto a la publicación en el feed Para ti.</li>
+                    <li>Pulsa ¿Por qué veo esta publicación?. Veamos algunas de las razones por las que una publicación puede aparecer en tu feed:</li>
+                </ol>
+                <ul>
+                    <li>Comentaste, diste me gusta, compartiste o viste publicaciones similares.</li>
+                    <li>Esta publicación es popular en tu país.</li>
+                    <li>Esta publicación se ha creado hace poco.</li>
+                    <li>Este vídeo es más largo y parece que estos te gustan más.</li>
+                    <li>Sigues a este creador.</li>
+                </ul>
+                <p>Puedes pulsar Ajusta tu feed Para ti para que el contenido que aparezca en el feed Para ti se adapte más a tus intereses. Ten en cuenta que, si has actualizado el feed Para ti recientemente, te mostraremos contenido popular para ayudarnos a cambiar las sugerencias de tu feed Para ti. Obtén más información sobre cómo recomendamos contenido en el feed Para ti.</p>
+                <p>Si eres creador, recuerda que tus publicaciones deben seguir las Normas de la comunidad. Si tu contenido no es apto para un gran número de espectadores, puede que no lo incluyamos en el feed Para ti y que hagamos que aparezca menos en las búsquedas.</p>
+
+                <h3>Cómo gestionar tu feed Para ti</h3>
+                <p>Puedes usar diferentes funciones para moldear el contenido que ves en el feed Para ti o cambiar las sugerencias de contenido. Algunas de ellas son:</p>
+                <ul>
+                    <li>No me interesa: si no te interesa una publicación concreta, puedes indicar que no te interesa y te mostraremos menos publicaciones de ese tipo.</li>
+                    <li>Actualizar el feed: puedes actualizar el feed para ayudarnos a cambiar las sugerencias que te mostramos.</li>
+                    <li>Filtrar palabras clave: puedes usar filtros para eliminar contenido con ciertas palabras y sus variaciones y determinados hashtags de los feeds Para ti y Siguiendo.</li>
+                    <li>Gestionar los temas: puedes personalizar el contenido de tu feed Para ti si ajustas tus preferencias sobre diferentes temas.</li>
+                </ul>
+                <p>Obtén más información sobre cómo denunciar contenido en TikTok.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary>2. Pestaña «Amigos»</summary>
+            <div class="content-box">
+                <h3>¿Qué es la pestaña «Amigos» en TikTok?</h3>
+                <p>La pestaña «Amigos» es un feed en el que aparece el contenido de tus amigos (seguidores a los que sigues), de las cuentas a las que sigues y de personas que quizás conozcas en TikTok mediante las cuentas recomendadas (en algunas regiones).</p>
+                <div class="note">Nota: Algunas personas pueden ver Tendencias en lugar de la pestaña Amigos.</div>
+
+                <h3>Cómo encontrar más amigos en TikTok</h3>
+                <p>Puedes usar el feed «Para ti» para encontrar más amigos con intereses similares. También puedes invitar a tus amigos de otras plataformas a unirse a TikTok. Según la información que decidas compartir con TikTok, podríamos mostrarte una cuenta recomendada que pertenezca a alguno de los contactos de tu agenda o a tus amigos de Facebook.</p>
+                <p>Para conectar con más amigos:</p>
+                <ol>
+                    <li>En la aplicación TikTok, pulsa Perfil en la parte inferior de la pantalla.</li>
+                    <li>Pulsa el botón Menú ☰ en la parte superior y, después, selecciona Ajustes y privacidad.</li>
+                    <li>Pulsa Privacidad y, después, Sincronizar contactos y amigos de Facebook.</li>
+                    <li>Activa las opciones Sincronizar contactos o Sincronizar amigos de Facebook. Puedes desactivar esta opción o eliminar los contactos sincronizados previamente en cualquier momento.</li>
+                </ol>
+            </div>
+        </details>
+
+        <details>
+            <summary>3. Valoraciones «me gusta»</summary>
+            <div class="content-box">
+                <h3>Cómo dar me gusta a un video en TikTok</h3>
+                <p>Para dar me gusta a un video, haz lo siguiente:</p>
+                <ol>
+                    <li>En la aplicación TikTok, pulsa el botón Me gusta en el lateral del video o pulsa dos veces el video. El botón Me gusta cambiará el color de blanco a rojo.</li>
+                    <li>Pulsa el botón Me gusta de nuevo para eliminar tu me gusta.</li>
+                </ol>
+
+                <h3>Cómo dar no me gusta a un video en TikTok</h3>
+                <p>Si no te gusta un video, haz lo siguiente:</p>
+                <ol>
+                    <li>En la aplicación TikTok, mantén pulsado el video o pulsa el botón Compartir.</li>
+                    <li>Pulsa No me interesa y te mostraremos menos videos como este.</li>
+                </ol>
+                <p>O bien:</p>
+                <ol>
+                    <li>En un navegador de escritorio, pulsa el botón Denunciar en la parte superior del video.</li>
+                    <li>Selecciona Otro y luego No me interesa este contenido.</li>
+                    <li>Haz clic en Enviar para completar el proceso.</li>
+                </ol>
+
+                <h3>Cómo encontrar los videos que te han gustado</h3>
+                <p>Para encontrar los videos que te han gustado, haz lo siguiente:</p>
+                <ol>
+                    <li>En la aplicación TikTok, pulsa Perfil en la parte inferior.</li>
+                    <li>Pulsa la pestaña Videos que te han gustado.</li>
+                </ol>
+
+                <h3>Cómo administrar quién puede ver los videos que te han gustado</h3>
+                <p>Puedes elegir si quieres mostrar u ocultar los videos que te han gustado en tu perfil. Los videos que te han gustado están ocultos en tu perfil por defecto al crear una cuenta.</p>
+                <p>Para ocultar o mostrar los videos que te han gustado en tu perfil, haz lo siguiente:</p>
+                <ol>
+                    <li>En la aplicación TikTok, pulsa Perfil en la parte inferior.</li>
+                    <li>Pulsa el botón Menú en la parte superior.</li>
+                    <li>Pulsa Ajustes y privacidad, y luego Privacidad.</li>
+                    <li>Pulsa Videos que te han gustado y selecciona Todo el mundo (solo cuentas públicas), Seguidores (solo cuentas privadas) o Solo yo.</li>
+                </ol>
+            </div>
+        </details>
+
+        <details>
+            <summary>4. Accesibilidad para ver vídeos</summary>
+            <div class="content-box">
+                <h3>Miniaturas animadas</h3>
+                <p>En función de tus necesidades de accesibilidad o preferencias visuales, las miniaturas de los vídeos pueden ser animadas o estáticas.</p>
+                <p>Para activar o desactivar las miniaturas animadas, debes hacer lo siguiente:</p>
+                <ol>
+                    <li>En la aplicación TikTok, pulsa Perfil en la parte inferior de la pantalla.</li>
+                    <li>Pulsa el botón Menú ☰ en la parte superior y luego selecciona Ajustes y privacidad.</li>
+                    <li>Pulsa Accesibilidad.</li>
+                    <li>Activa o desactiva la opción Miniatura animada.</li>
+                </ol>
+
+                <h3>Texto en negrita</h3>
+                <p>Si la función de texto en negrita está activada en el dispositivo, el texto aparecerá automáticamente más oscuro en la aplicación TikTok para mejorar la legibilidad. Para gestionar el texto en negrita en la aplicación TikTok, puedes ir a los ajustes del dispositivo y activar o desactivar la función.</p>
+                <p>Para obtener más información sobre la función de texto en negrita de tu dispositivo, visita Soporte de Apple o Ayuda de Accesibilidad de Android.</p>
+
+                <h3>Contraste de color</h3>
+                <p>En función de tus necesidades visuales, puedes ajustar el contraste de colores en la aplicación TikTok.</p>
+                <p>Ten en cuenta que esta función es distinta de la función de contraste de color de tu dispositivo y solo se aplicará a la aplicación TikTok. Sin embargo, si la función de contraste de color de tu dispositivo está activada, el contraste de color aumentará en la aplicación TikTok de forma predeterminada.</p>
+                <p>Para gestionar el contraste de color, haz lo siguiente:</p>
+                <ol>
+                    <li>En la aplicación TikTok, pulsa Perfil en la parte inferior de la pantalla.</li>
+                    <li>Pulsa el botón Menú ☰ en la parte superior y luego selecciona Ajustes y privacidad.</li>
+                    <li>Pulsa Accesibilidad.</li>
+                    <li>Activa o desactiva la opción Aumentar el contraste de color.</li>
+                </ol>
+
+                <h3>Modo oscuro</h3>
+                <p>Puedes activar el modo oscuro para ver los comentarios con un fondo oscuro y el texto con un color claro. El modo oscuro no se aplica a los vídeos de TikTok.</p>
+                <p>Para gestionar el modo oscuro, haz lo siguiente:</p>
+                <ol>
+                    <li>En la aplicación TikTok, pulsa Perfil en la parte inferior de la pantalla.</li>
+                    <li>Pulsa el botón Menú ☰ en la parte superior y luego selecciona Ajustes y privacidad.</li>
+                    <li>Pulsa Pantalla.</li>
+                    <li>Selecciona Oscuro para activar el modo oscuro o Claro para desactivarlo. También puedes activar Usar ajustes del dispositivo para que la pantalla de TikTok siga automáticamente los ajustes del dispositivo.</li>
+                </ol>
+                <p>Obtén más información sobre el modo oscuro en TikTok.</p>
+
+                <h3>Botones de navegación del feed</h3>
+                <p>Los botones de navegación del feed son complementos para lectores de pantalla que añaden herramientas de navegación a tu feed. Puedes usar las funciones del lector de pantalla de tu dispositivo como VoiceOver (iOS) o TalkBack (Android) con estos botones de TikTok para hacer lo siguiente:</p>
+                <ul>
+                    <li>Pausar o reproducir vídeos</li>
+                    <li>Pasar a la siguiente publicación o a la anterior</li>
+                    <li>Actualizar los feeds Para ti, Siguiendo y otros</li>
+                </ul>
+                <p>Para usar los botones de navegación del feed, primero debes activar VoiceOver (iOS) o TalkBack (Android) en los ajustes del dispositivo. Cuando lo hayas activado, los botones aparecerán automáticamente en la aplicación TikTok. Si desactivas esta función en la aplicación TikTok con el lector de pantalla del dispositivo aún activado, los botones de navegación del feed no aparecerán y deberás volver a activar la función en los ajustes de la aplicación.</p>
+                <p>Para gestionar los botones de navegación del feed, haz lo siguiente:</p>
+                <ol>
+                    <li>En la aplicación TikTok, pulsa Perfil en la parte inferior de la pantalla.</li>
+                    <li>Pulsa el botón Menú ☰ en la parte superior y luego selecciona Ajustes y privacidad.</li>
+                    <li>Pulsa Accesibilidad.</li>
+                    <li>Activa o desactiva Botones de navegación del feed. Para que aparezca esta opción de configuración, TalkBack (Android) o VoiceOver (iOS) deben estar activados en los ajustes del dispositivo antes de ir a los ajustes de accesibilidad.</li>
+                </ol>
+                <p>Ten en cuenta que, si hay Stories visibles en la parte superior del feed, deberás pulsar dos veces el feed para activar el modo de pantalla completa y que aparezcan los botones de navegación.</p>
+
+                <h3>Fotosensibilidad</h3>
+                <p>La advertencia para personas con epilepsia fotosensible está pensada para proteger a las personas que puedan ser sensibles a algunos efectos creativos de TikTok. De esta forma, puedes descartar los vídeos que contengan efectos de TikTok que puedan causar problemas de sensibilidad visual.</p>
+                <p>Para que los vídeos que no son aptos para personas fotosensibles no aparezcan en los feeds Para ti o Siguiendo, puedes hacer lo siguiente:</p>
+                <ol>
+                    <li>Ir al vídeo con la advertencia de fotosensibilidad.</li>
+                    <li>Pulsar Omitir todos para no ver los vídeos no aptos para personas fotosensibles. También puedes pulsar Ver vídeo para seguir viendo vídeos con estos efectos.</li>
+                </ol>
+                <p>Para cambiar los ajustes de los vídeos no aptos para personas fotosensibles, haz lo siguiente:</p>
+                <ol>
+                    <li>En la aplicación TikTok, pulsa Perfil en la parte inferior de la pantalla.</li>
+                    <li>Pulsa el botón Menú ☰ en la parte superior y luego selecciona Ajustes y privacidad.</li>
+                    <li>Pulsa Accesibilidad.</li>
+                    <li>Activa o desactiva la opción Eliminar vídeos no aptos para personas fotosensibles.</li>
+                </ol>
+
+                <h3>Tamaño del texto</h3>
+                <p>En función de tus necesidades visuales, puedes aumentar o disminuir el tamaño del texto en la aplicación TikTok.</p>
+                <p>En iOS<br>Si tienes un dispositivo iOS, la aplicación TikTok adoptará automáticamente los ajustes del tamaño del texto del dispositivo. Así, si cambias el tamaño del texto en los ajustes del dispositivo, también se aumentará en la aplicación TikTok.<br>Para obtener más información sobre cómo cambiar el tamaño del texto en un dispositivo iOS, visita Soporte de Apple.</p>
+                <p>En Android<br>Si tienes un dispositivo Android, puedes ajustar el tamaño del texto en los ajustes de TikTok.</p>
+                <p>Para ajustar el tamaño del texto en TikTok, haz lo siguiente:</p>
+                <ol>
+                    <li>En la aplicación TikTok, pulsa Perfil en la parte inferior de la pantalla.</li>
+                    <li>Pulsa el botón Menú ☰ en la parte superior y luego selecciona Ajustes y privacidad.</li>
+                    <li>Pulsa Accesibilidad.</li>
+                    <li>Pulsa Tamaño de texto y después usa el control deslizante en la parte inferior para obtener una vista previa de los tamaños de texto.</li>
+                    <li>Pulsa Ajustar para actualizar el tamaño de texto.</li>
+                </ol>
+                <p>Una vez ajustado, la aplicación se reiniciará automáticamente y el nuevo tamaño del texto aparecerá en Tiktok.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary>6. Reservas a través de TikTok</summary>
+            <div class="content-box">
+                <h3>Reserva servicios a través de TikTok</h3>
+                <p>Puedes hacer reservas de hoteles y restaurantes, canjear cupones y mucho más con diversos negocios a través de TikTok. Encontrarás estos servicios en publicaciones etiquetadas con los negocios participantes y, según tu región y el tipo de servicio, podrás adquirirlos directamente en la aplicación o a través de un socio externo.</p>
+                <div class="note">Nota: Es posible que algunos servicios no estén disponibles en todas partes.</div>
+
+                <h3>Adquiera servicios de terceros</h3>
+                <p>Puedes tocar un negocio participante que esté etiquetado en una publicación para obtener más detalles, como reseñas y fotos, y realizar una compra. Una vez que hayas completado tu compra, te enviaremos información sobre cómo ver y rastrear tu pedido.</p>
+                <p>Algunos puntos importantes:</p>
+                <ul>
+                    <li>Para poder ofrecer estos servicios, nuestros socios externos compartirán con nosotros los detalles de tu compra. También podrán compartir ciertos datos, como tu historial de navegación en sus sitios web y aplicaciones, para mejorar las recomendaciones de productos y servicios relevantes en TikTok.</li>
+                    <li>No compartimos tu información personal sin tu permiso, salvo cuando sea necesario para completar ciertas transacciones, como reembolsos.</li>
+                    <li>Los socios externos son los únicos responsables de los bienes o servicios que compres a través de TikTok y de la asistencia al cliente posterior.</li>
+                    <li>Debes cumplir con nuestros Términos de Servicio , políticas y directrices, así como con los términos establecidos por nuestros socios externos.</li>
+                </ul>
+
+                <h3>Compra y canjea cupones</h3>
+                <p>Puedes tocar el negocio participante etiquetado en una publicación para obtener más detalles del cupón, como el precio, lo que incluye y las instrucciones para canjearlo, y realizar la compra. Una vez realizada la compra, recibirás un código QR para canjear tu cupón en el establecimiento.</p>
+                <div class="note">Nota: Si te encuentras en Indonesia, serás redirigido a la página web de un socio externo o a Tokopedia para completar tu compra. Tu cupón seguirá siendo canjeable en la aplicación.</div>
+            </div>
+        </details>
+
+        <details>
+            <summary>7. Tus películas y programas de televisión favoritos</summary>
+            <div class="content-box">
+                <h3>Acerca de los enlaces de películas y programas de televisión en TikTok</h3>
+                <p>Los creadores pueden añadir enlaces a películas y programas de televisión en sus videos de TikTok. Puedes usar estos enlaces para obtener más información sobre la película o programa de televisión, ver videos de TikTok vinculados a la película o programa de televisión y guardar la película o programa de televisión en Favoritos.</p>
+
+                <h3>Cómo guardar una película o programa de televisión en TikTok</h3>
+                <p>Para añadir una película o programa de televisión a Favoritos, haz lo siguiente:</p>
+                <ol>
+                    <li>En la aplicación TikTok, ve al video que contenga el enlace a la película o programa de televisión. En función de tu edad, puede que algunos enlaces no estén disponibles para ti.</li>
+                    <li>Pulsa el enlace de la película o programa de televisión que aparece sobre la descripción del video.</li>
+                    <li>Pulsa Añadir a Favoritos.</li>
+                </ol>
+
+                <h3>Cómo buscar tus películas y programas de televisión guardados</h3>
+                <p>Para acceder a tus películas y programas de televisión guardados, haz lo siguiente:</p>
+                <ol>
+                    <li>En la aplicación TikTok, pulsa Perfil en la parte inferior.</li>
+                    <li>Pulsa el botón Favoritos.</li>
+                    <li>Pulsa Cine y televisión. Es posible que tengas que deslizar hacia la izquierda.</li>
+                </ol>
+            </div>
+        </details>
+
+        <details>
+            <summary>8. Mira videos de listas de reproducción</summary>
+            <div class="content-box">
+                <p>La función «Lista de reproducción del creador» de TikTok permite a los creadores crear listas de reproducción con sus videos para que te resulte más fácil ver videos relacionados de forma seguida.</p>
+                <div class="note">Nota: La creación de listas de reproducción no está disponible para todos actualmente.</div>
+
+                <h3>Cómo acceder a los videos de una lista de reproducción desde un video</h3>
+                <p>Si estás viendo un video, es posible que veas la inscripción Lista de reproducción en su parte inferior. Eso significa que ese video forma parte de una lista de reproducción, y puedes ver todos los videos relacionados.</p>
+                <ol>
+                    <li>En la aplicación TikTok, pulsa en Lista de reproducción en la parte inferior del video en cuestión.</li>
+                    <li>Pulsa en cualquiera de los videos de la lista de reproducción para verlo.</li>
+                    <li>Puedes desplazarte hacia arriba o abajo para ver más videos de esa lista de reproducción.</li>
+                </ol>
+                <div class="note">Nota: El creador puede cambiar el orden de los videos de una lista de reproducción.</div>
+
+                <h3>Cómo ver una lista de reproducción desde el perfil de una persona</h3>
+                <p>Si estás mirando el perfil de una persona, verás sus listas de reproducción en la parte superior de la pestaña de sus videos.</p>
+                <ol>
+                    <li>En la aplicación TikTok, dirígete al perfil del creador cuyas listas de reproducción quieres ver.</li>
+                    <li>En la pestaña Videos de su perfil, pulsa en la lista de reproducción para empezar a ver videos.</li>
+                    <li>Desde aquí puedes:
+                        <ul>
+                            <li>Pulsar en Lista de reproducción en la parte inferior del video para ver el resto de los videos de esa lista de reproducción.</li>
+                            <li>Desplazarte hacia arriba o abajo para ver más videos de esa lista de reproducción.</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+        </details>
+
+        <details>
+            <summary>9. Cómo recomienda contenido TikTok</summary>
+            <div class="content-box">
+                <h3>¿En qué consisten los sistemas de sugerencias?</h3>
+                <p>La misión de TikTok consiste en potenciar la creatividad y hacer disfrutar a la gente. Disponemos de una gran variedad de contenido y queremos que descubras vídeos interesantes y contenido relevante. Por eso, usamos sistemas de sugerencias para ofrecerte una experiencia personalizada. Estos sistemas recomiendan contenido basándose en tus preferencias tal y como las expresas mediante tus interacciones en TikTok, como seguir una cuenta o dar me gusta a una publicación.</p>
+                <p>Cuando te registras en TikTok por primera vez, podríamos invitarte a seleccionar categorías de intereses, como mascotas o viajes, para ayudarnos a configurar tus feeds «Para ti» y «LIVE». Si no seleccionas ninguna categoría de intereses, empezaremos por ofrecerte un feed de publicaciones recientes que sean populares entre otros usuarios de TikTok. Al seleccionar tus publicaciones iniciales, el sistema de sugerencias buscará contenido popular adecuado para un público amplio y basado en tus ajustes de ubicación e idioma.</p>
+                <p>Además de las categorías, te sugeriremos creadores populares que puedes seguir. Si no seleccionas a ningún seguidor o no tienes amigos en TikTok, puede que no veas contenido en la pestaña Amigos o el feed «Siguiendo».</p>
+                <p>Una vez que empieces a interactuar con la aplicación, tus interacciones se usarán como señales para ayudar a los sistemas de recomendaciones a predecir el contenido que probablemente te interese, así como cuál podría interesarte menos y quizá prefieras omitir. Tus interacciones en TikTok pueden influir en cómo el sistema clasifica el contenido y te lo presenta.</p>
+
+                <h3>Cómo se recomienda el contenido en TikTok</h3>
+                <p>Recomendamos contenido basándonos en diversos factores para predecir cómo de relevante e interesante podría ser el contenido para el usuario. Los tres principales factores son las interacciones de los usuarios, la información de los contenidos y la información de los usuarios.</p>
+                <p>Cada sistema de recomendaciones selecciona contenido de una amplia colección de vídeos que cumple una serie de características, y lo clasifica en función de la predicción del sistema sobre la probabilidad de que te interese cada uno. En ciertos sistemas de recomendaciones, estas predicciones también las afectan las interacciones de otras personas en TikTok que parecen tener intereses similares. Por ejemplo, si al Usuario A le gustan los vídeos 1, 2 y 3 y al Usuario B le gustan los vídeos 1, 2, 3, 4 y 5, el sistema de recomendaciones puede predecir que al Usuario A también le gustarán los vídeos 4 y 5. Si bien varios usuarios podrían ver el mismo contenido, funciones como los feeds Para ti, Siguiendo, Amigos y LIVE están adaptadas a cada persona.</p>
+                <p>Puedes ver contenido en varios feeds y funciones que mejoramos continuamente y ampliamos con el tiempo. A continuación, verás algunos ejemplos populares.</p>
+
+                <h3>Para ti</h3>
+                <p>El feed Para ti muestra una serie de contenidos seleccionados especialmente para ti, para que puedas encontrar contenido y creadores que te gustan.</p>
+                <p>Estos son algunos ejemplos de información que puede influir en el contenido de TikTok que aparece en el feed Para ti:</p>
+                <ul>
+                    <li>Interacciones del usuario: contenido al que das me gusta, compartes, comentas, ves entero u omites, así como las cuentas de tus seguidores que sigues.</li>
+                    <li>Información del contenido: los sonidos, los hashtags, el número de visualizaciones del vídeo y el país en el que se publicó.</li>
+                    <li>Información del usuario: los ajustes del dispositivo, las preferencias de idioma, la ubicación, el día y la zona horaria y el tipo de dispositivo.</li>
+                </ul>
+                <p>Para la mayoría de los usuarios, las interacciones de usuario, que pueden incluir el tiempo dedicado a ver un vídeo, suelen tener más peso que otras.</p>
+
+                <h3>Siguiendo</h3>
+                <p>El feed Siguiendo muestra contenido de creadores que sigues. Cada feed Siguiendo es único: incluso cuando dos usuarios siguen el mismo conjunto de creadores, cada feed clasifica y presenta el contenido de una forma personalizada basada en cómo usas TikTok.</p>
+                <p>Estos son algunos ejemplos de información que puede influir en el contenido de TikTok que aparece en el feed Siguiendo:</p>
+                <ul>
+                    <li>Interacciones del usuario: visitas a los perfiles de usuario que sigues, así como contenido al que das me gusta, compartes, comentas, ves hasta el final u omites.</li>
+                    <li>Información del contenido: los sonidos, los hashtags, el número de visualizaciones del vídeo y el país en el que se publicó.</li>
+                    <li>Información del usuario: los ajustes del dispositivo, las preferencias de idioma, la ubicación, el día y la zona horaria y el tipo de dispositivo.</li>
+                </ul>
+                <p>Para la mayoría de los usuarios, las interacciones de usuario, que pueden incluir el tiempo dedicado a ver un vídeo, suelen tener más peso que otras.</p>
+
+                <h3>Amigos</h3>
+                <p>La pestaña Amigos muestra contenido de los seguidores a los que tú también sigues (tus amigos), de las cuentas que sigues y de otras cuentas recomendadas. Incluso si dos usuarios siguen el mismo conjunto de creadores, sus respectivas pestañas Amigos clasifican y presentan el contenido de una forma personalizada.</p>
+                <p>Estos son algunos ejemplos de información que puede influir en el contenido de TikTok que aparece en la pestaña Amigos:</p>
+                <ul>
+                    <li>Interacciones del usuario: visitas a los perfiles de tus amigos o de personas que puede que conozcas, así como contenido al que das me gusta, compartes, comentas, ves hasta el final u omites.</li>
+                    <li>Información del contenido: los sonidos, los hashtags, el número de visualizaciones del vídeo y el país en el que se publicó.</li>
+                    <li>Información del usuario: los ajustes del dispositivo, los contactos (si lo autorizas), las preferencias de idioma, la ubicación, el día y la zona horaria y el tipo de dispositivo.</li>
+                </ul>
+                <p>Para la mayoría de los usuarios, las interacciones de los usuarios, que pueden incluir el número de me gusta y comentarios en un vídeo, suelen tener más peso que otras.</p>
+
+                <h3>LIVE</h3>
+                <p>El feed LIVE muestra una serie de vídeos LIVE que permiten encontrar contenido y creadores que te gustan. Puedes ver vídeos LIVE seleccionando el botón LIVE de la parte superior del feed Para ti o, como alternativa, puedes ver vídeos LIVE recomendados en el feed Para ti.</p>
+                <p>Estos son algunos ejemplos de información que puede influir en el contenido de TikTok que aparece en el feed LIVE:</p>
+                <ul>
+                    <li>Interacciones del usuario: los vídeos LIVE a los que das me gusta y comentas, los creadores que sigues, el tiempo de visualización y los Regalos enviados.</li>
+                    <li>Información del contenido: los hashtags, el número de visualizaciones del LIVE, de me gusta, de Regalos enviados y de seguidores de ese creador, y el país en el que tiene lugar el LIVE.</li>
+                    <li>Información del usuario: los ajustes del dispositivo, las preferencias de idioma, la ubicación, el día y la zona horaria y el tipo de dispositivo.</li>
+                </ul>
+                <p>Para la mayoría de los usuarios, las interacciones de usuario, que pueden incluir el tiempo dedicado a ver un LIVE específico, suelen tener más peso que otras.</p>
+
+                <h3>TikTok Shop</h3>
+                <p>TikTok Shop ofrece productos para navegar y comprar a través de contenido, como publicaciones con enlaces a productos. Puedes ver el contenido y los productos de TikTok Shop a través de tus feeds de TikTok, la función de búsqueda o la pestaña Tienda (donde esté disponible). Más información sobre cómo recomienda contenido TikTok.</p>
+
+                <h3>Búsqueda</h3>
+                <p>Nuestra función de búsqueda te permite buscar contenido en TikTok. También te recomienda términos de búsqueda para que descubras contenido.</p>
+                <p>Estos son algunos ejemplos de información que puede influir en el contenido de TikTok que aparece en la pestaña Búsqueda:</p>
+                <ul>
+                    <li>Interacciones del usuario: tus hábitos de búsqueda históricos y el contenido al que hayas dado me gusta, compartido, comentado, visto entero u omitido.</li>
+                    <li>Información de contenido: hasta qué punto el contenido coincide con la búsqueda, hashtags y el sonido usado.</li>
+                    <li>Información del usuario: los ajustes del dispositivo, las preferencias de idioma y la ubicación.</li>
+                </ul>
+                <p>Para la mayoría de los usuarios, la información de contenido, que puede incluir el grado de coincidencia del contenido con el término específico introducido, suele tener más peso que otras.</p>
+
+                <h3>Comentarios</h3>
+                <p>Recomendamos comentarios en publicaciones que creemos que podrían interesarte y para fomentar las relaciones entre la comunidad de TikTok.</p>
+                <p>Estos son algunos ejemplos de información que puede influir en el contenido que te mostramos:</p>
+                <ul>
+                    <li>Interacciones del usuario: comentarios a los que hayas dado me gusta o respondido, y si sigues al creador de la publicación o el autor del comentario.</li>
+                    <li>Información del contenido: número de me gusta y el idioma del comentario.</li>
+                    <li>Información del usuario: tu ubicación, preferencia de idioma y ajustes del dispositivo.</li>
+                </ul>
+                <p>Para la mayoría de los usuarios, la información de contenido, que puede incluir el idioma del comentario y cuántos me gusta recibe, suele tener más peso que otras.</p>
+
+                <h3>Notificaciones</h3>
+                <p>Te enviaremos notificaciones con recomendaciones de contenido que podría gustarte, gente a la que quizá conozcas o términos de búsqueda que podrían resultarte útiles.</p>
+                <p>Estos son algunos ejemplos de información que puede influir en las notificaciones que te enviamos:</p>
+                <ul>
+                    <li>Interacciones del usuario: tu nivel de actividad en TikTok y tus interacciones pasadas con las notificaciones.</li>
+                    <li>Información del contenido: el creador del contenido, los hashtags, el número de visualizaciones del vídeo y el país en el que se publicó.</li>
+                    <li>Información del usuario: tu ubicación, idioma y tipo de dispositivo.</li>
+                </ul>
+                <p>Para la mayoría de los usuarios, las interacciones de usuario, que pueden incluir el número de notificaciones que reciben y abren, suelen tener más peso que otros factores.</p>
+
+                <h3>Recomendaciones de cuentas</h3>
+                <p>En TikTok, puedes conectar con personas a las que quizá conozcas y creadores que podrían interesarte en función de las personas con las que ya suelas interactuar.</p>
+                <p>Estos son algunos ejemplos de información que puede influir en las recomendaciones de la cuenta:</p>
+                <ul>
+                    <li>Interacciones del usuario: tu actividad en TikTok, como el tipo de cuentas que sigues, a las que das me gusta o con las que compartes contenido.</li>
+                    <li>Información del contenido: el número de seguidores y visualizaciones de la cuenta, su ubicación y la probabilidad de que conozcas a otra cuenta, por ejemplo, si está entre tus contactos (con tu permiso).</li>
+                    <li>Información del usuario: los ajustes del dispositivo, las preferencias de idioma y la ubicación.</li>
+                </ul>
+                <p>Para la mayoría de los usuarios, la información de contenido, que puede incluir el número de contactos en común entre dos cuentas, suele tener más peso que otros factores.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary>10. Cómo recomienda contenido TikTok Shop</summary>
+            <div class="content-box">
+                <h3>¿Qué son los sistemas de recomendación de TikTok Shop?</h3>
+                <p>La misión de TikTok consiste en potenciar la creatividad y hacer disfrutar a la gente. Nuestro objetivo es ayudarte a descubrir contenido interesante y relevante, incluyendo productos en TikTok Shop. Ofrecemos una amplia gama de contenido de TikTok Shop, como anuncios de productos o publicaciones con productos etiquetados. Además, ayudamos a clasificar los productos de una manera que tenga sentido para todos, ya seas cliente, vendedor o creador. Para personalizar tu experiencia, usamos sistemas de recomendación similares a los de otros feeds dentro de TikTok. Estos sistemas sugieren y clasifican el contenido y los productos basados en las preferencias que se muestran a través de las interacciones en TikTok y TikTok Shop, como la compra de un producto o que le des me gusta a una publicación.</p>
+
+                <h3>Cómo se recomienda el contenido en TikTok Shop</h3>
+                <p>Para predecir lo relevante e interesante que puede ser el contenido para los usuarios de TikTok, usamos tres factores principalmente: las interacciones de los usuarios, la información sobre el contenido y la información sobre los usuarios. La importancia de estos factores puede cambiar con el tiempo y la forma en que se clasifican dentro de las diferentes áreas de la aplicación. Además, algunos factores pueden jugar un papel más importante que otros en las recomendaciones.</p>
+
+                <h4>Interacciones de los usuarios</h4>
+                <p>Como cliente, vendedor o creador, puedes interactuar con TikTok Shop a través de varios feeds y funciones que mejoramos y ampliamos constantemente. Tus interacciones en TikTok y TikTok Shop funcionan como indicadores que ayudan al sistema a predecir el contenido y los productos que podrían resultarte interesantes y relevantes, así como el contenido que probablemente ignorarías. Por ejemplo, si le das me gusta o guardas un producto, indicas que podría interesarte y el sistema podría sugerirte productos similares antes que otros.</p>
+
+                <h4>Información sobre el contenido</h4>
+                <p>El tipo de contenido con el que interactúas, como el número de me gusta que recibe una publicación o el grado de similitud con la consulta de búsqueda, ayuda al sistema a predecir qué contenido y productos podrían interesarte y cuál podrías ignorar. Por ejemplo, si buscas «tarta», el sistema podría recomendarte una publicación o un producto relacionado con postres, como galletas, en lugar de comida salada, como pasta. Esto ocurre porque el contexto de la búsqueda sugiere que es más probable que te interesen los postres que los platos salados.</p>
+
+                <h4>Información de usuario</h4>
+                <p>La información que facilitas, como el idioma que prefieres y otros ajustes, ayuda al sistema a predecir el contenido y los productos que te pueden interesar y lo que es probable que te saltes. Por ejemplo, si consideramos que estás en España, el sistema podría sugerirte contenido y productos de España o que atraigan a usuarios de esa zona en lugar de productos y contenido de otras regiones.</p>
+                <p>Ten en cuenta lo siguiente sobre las clasificaciones:</p>
+                <ul>
+                    <li>Cada uno de estos factores puede influir en mayor o menor medida en lo que se recomienda y en la clasificación del contenido. La importancia o el peso de un factor puede cambiar con el tiempo.</li>
+                    <li>Se usan los factores que tienen un papel más importante para los clientes porque muestran mejor el tipo de contenido y productos que les pueden gustar.</li>
+                    <li>Se usan los factores que tienen un papel más importante para vendedores y creadores porque muestran mejor los tipos de productos que preferirías vender o las tiendas y creadores con los que preferirías trabajar.</li>
+                    <li>El contenido promocionado con publicidad de pago tendrá una mejor clasificación.</li>
+                </ul>
+
+                <h3>Cómo influye el sistema de recomendación en tu experiencia</h3>
+                <h4>Para clientes</h4>
+                <p>Puedes buscar productos y descubrir nuevos vendedores en TikTok Shop en función de tus intereses. A continuación, te mostramos algunas de las funciones más populares desde las que podrás acceder al contenido y a los productos de TikTok Shop.</p>
+
+                <h4>Feeds de TikTok</h4>
+                <p>Puedes ver el contenido y los productos de TikTok Shop a través de los feeds Para ti, Siguiendo, pestaña de Amigos y LIVE, que son únicos para cada persona y nos ayudan a personalizar las recomendaciones.</p>
+                <p>Estos son algunos ejemplos de información que puede influir en el contenido de TikTok Shop que aparece en tus feeds:</p>
+                <ul>
+                    <li>Interacciones de usuario: productos y tiendas por los que has navegado, productos que has guardado, añadido a tu cesta y comprado, publicaciones que te gustan, compartes, comentas, ves al completo o te saltas, hashtags que usas, tus búsquedas, y cuentas a las que sigues.</li>
+                    <li>Información sobre el contenido: número de visualizaciones, me gusta, comentarios y detalles del producto sobre el contenido, así como el país en el que se publicó la publicación.</li>
+                    <li>Información del usuario: los ajustes del dispositivo, las preferencias de idioma, la ubicación, el día y la zona horaria y el tipo de dispositivo.</li>
+                </ul>
+                <p>Para la mayoría de los clientes, las interacciones de usuario, que pueden incluir el tiempo dedicado a ver un vídeo y si ha comprado un producto, suelen tener más peso que otras.</p>
+
+                <h4>Pestaña Tienda</h4>
+                <p>La pestaña Tienda es la zona comercial de la aplicación TikTok, donde puedes navegar por las tiendas y comprar productos en un solo lugar. Si no te encuentras en una región en la que la pestaña Tienda esté disponible, puedes seguir viendo las tiendas de los vendedores y recibir recomendaciones de productos en la plataforma. Descubre cómo se clasifica el contenido y los productos cuando realizas una búsqueda en la pestaña Tienda.</p>
+                <p>Estos son algunos ejemplos de información que puede influir en el contenido de TikTok Shop que aparece en la pestaña Tienda:</p>
+                <ul>
+                    <li>Interacciones de usuario: productos y tiendas que has explorado, guardado, añadido a tu carrito y comprado, así como el contenido de TikTok Shop al que das me gusta, compartes o comentas, ves completo o te saltas.</li>
+                    <li>Información de contenido: información sobre el producto, como el número de visitas y reseñas que recibe un producto o una tienda, el nivel de detalle en las descripciones y fotos del producto, y la frecuencia con la que los productos se compran o se añaden al carrito.</li>
+                    <li>Información de usuario: ajustes del dispositivo, ubicación, zona horaria, día de la semana, tipo de dispositivo e información del vendedor como velocidad de envío, tasa de devoluciones, número de reclamaciones y certificados que puedan tener.</li>
+                </ul>
+                <p>Para la mayoría de los clientes, las interacciones con el usuario, que pueden incluir la compra de un producto, suelen tener más peso que otras.</p>
+
+                <h4>Buscar</h4>
+                <p>Hay varias maneras de buscar productos en TikTok Shop, incluyendo las herramientas de búsqueda dentro de los feeds Para ti, Siguiendo, y la pestaña Tienda, si está disponible en tu región.</p>
+                <p>Estos son algunos ejemplos de información que puede influir en el contenido de TikTok Shop que aparece en las búsquedas:</p>
+                <ul>
+                    <li>Interacciones de usuario: productos que has comprado, guardado o añadido a tu cesta tras realizar una búsqueda, así como las tiendas por las que has navegado y el contenido de TikTok Shop que te gusta, compartes o comentas, ves completo o ignoras.</li>
+                    <li>Información sobre el contenido: número de visitas que recibe el producto o la tienda, hasta qué punto el contenido del producto, la marca o TikTok Shop coincide con la consulta, el número de reseñas y el grado de satisfacción de los clientes con un producto, lo detallada y clara que es la información del producto y la frecuencia con la que otros usuarios compran o añaden el producto a sus carritos.</li>
+                    <li>Información del usuario: ajustes del dispositivo, preferencia de idioma, ubicación, zona horaria, tipo de dispositivo e información del vendedor como velocidad de envío, tasa de devoluciones, número de reclamaciones y certificados que puedan tener.</li>
+                </ul>
+                <p>Para la mayoría de los clientes, la información sobre el contenido, que puede incluir hasta qué punto el producto, la marca o el contenido de TikTok Shop coincide con la búsqueda, suele tener más peso en los resultados de búsqueda que los resultados sugeridos que están menos relacionados.</p>
+
+                <h4>Otros factores que influyen en la forma en que TikTok Shop recomienda contenido</h4>
+                <ul>
+                    <li>Diversificar las recomendaciones: cuando ves contenido en tus feeds de TikTok, nuestro objetivo es encontrar un equilibrio entre sugerir contenido que te resulte interesante y, al mismo tiempo, presentarte nuevas ideas, creadores y perspectivas. Por eso es posible que te encuentres con contenido que no parece estar relacionado con los intereses que has expresado. No solemos recomendar contenido que ya hayas visto y te animaremos a explorar diferentes categorías de contenido y creadores mediante las recomendaciones. Por esta razón, es posible que notes que en tus feeds hay una mezcla de contenido de TikTok y de TikTok Shop.</li>
+                    <li>Salvaguardar tu experiencia: la seguridad es un aspecto clave en el diseño de los sistemas, por lo que eliminamos cualquier contenido o producto que infrinja las Normas de la comunidad y las políticas de producto de acuerdo con los Términos del servicio. El equipo de seguridad toma precauciones adicionales revisando el contenido a medida que aumenta su popularidad, lo que reduce la probabilidad de recomendar contenido o productos que pueden no ser adecuados para todo el mundo en TikTok. Los productos y vídeos están sujetos a revisión antes de estar disponibles. Si una publicación o un producto están pendientes de revisión por parte del equipo, no se recomendarán ni se incluirán en la clasificación frente a otros productos.</li>
+                    <li>Disponibilidad de los productos: Todos los productos que aparezcan en el contenido de TikTok Shop o en los vídeos LIVE deben estar en stock y disponibles para su compra para poder ser recomendados. Para mantener la relevancia de los productos recomendados, los vídeos de más de 180 días no pueden ser recomendados.</li>
+                </ul>
+
+                <h4>Para vendedores</h4>
+                <p>Como vendedor, puedes mostrar tus productos en TikTok Shop y permitir que los clientes los descubran y los compren. También puedes usar el Centro de vendedores para obtener recomendaciones sobre cómo mejorar una tienda, incluida la búsqueda de creadores con los que asociarte.</p>
+                <p>Estos son algunos ejemplos de información que puede influir en el contenido de TikTok Shop que aparece en el Centro de vendedores:</p>
+                <ul>
+                    <li>Interacciones del usuario: interacciones del vendedor, como el historial de ventas, los creadores que ha visitado o con los que se ha puesto en contacto, las páginas que ha consultado y los tipos de contenido con los que ha interactuado.</li>
+                    <li>Información sobre el contenido: interacción entre un creador y los clientes, incluido el número de me gusta, las visualizaciones de productos y el tiempo de visualización, así como el historial de productos promocionados, los ingresos de las promociones y los métodos de promoción, como vídeos o campañas LIVE.</li>
+                    <li>Información del usuario: información del vendedor, como datos de la cuenta, categoría del producto, inventario, ingresos totales hasta la fecha e historial de creadores con los que se ha asociado.</li>
+                </ul>
+                <p>Para la mayoría de los vendedores, la información sobre el usuario, que puede incluir el inventario actual de la tienda y el historial de ventas, así como el número de seguidores del creador, la tasa de interacción y el historial de promociones de productos, suele tener más peso que otros factores.</p>
+
+                <h4>Para creadores</h4>
+                <p>Puedes asociarte con vendedores a través del Centro para creadores de TikTok Shop para mostrar productos que te encantan a tu comunidad y hacer un seguimiento de su rendimiento. Puedes acceder a funciones del Centro para creadores de TikTok Shop como «recomendado para ti», «los más vendidos» y otras, dependiendo de tu región.</p>
+                <p>Estos son algunos ejemplos de información que puede influir en el contenido de TikTok Shop que aparece en el Centro para creadores:</p>
+                <ul>
+                    <li>Interacciones de usuario: interacciones del creador, como el contenido publicado, la interacción en LIVE, el historial de búsquedas, los productos vistos, así como sus interacciones anteriores con productos, como aquellos de los que ha pedido muestras, los productos que ha promocionado y sus ventas totales.</li>
+                    <li>Información de contenido: información del producto como el precio, su categoría, el número de me gusta, visualizaciones que ha recibido, el volumen de ventas, la comisión recibida por un producto promocionado, e información de la tienda como el valor del producto y el grado de interacción de la tienda.</li>
+                    <li>Información de usuario: información del creador como el número de seguidores y publicaciones, el número de publicaciones que ha creado y su categoría de contenido.</li>
+                </ul>
+                <p>Para la mayoría de los creadores, las interacciones de los usuarios con los productos, que pueden incluir productos de los que han solicitado muestras, que ha decidido promocionar a través de canales como el escaparate o los vídeos LIVE, y las ventas realizadas, suelen tener más peso que otras.</p>
+
+                <h3>Cómo puedes influir en lo que ves en TikTok Shop</h3>
+                <p>Aunque hay muchas razones por las que te recomendamos contenido en TikTok Shop, como explicamos en este artículo, hay varias formas en las que puedes influir en lo que ves. Proporcionamos funciones y ajustes para ello, como la opción de dar me gusta a una publicación, que ayuda al sistema a sugerir contenido similar en el futuro. A continuación, te indicamos otras formas en las que puedes influir directamente en tu experiencia en TikTok Shop.</p>
+
+                <h4>Para clientes</h4>
+                <p><strong>Para ti</strong><br>Además de seleccionar categorías de interés cuando te registras en TikTok, puedes usar las siguientes funciones para ayudar a dar forma a tu feed Para ti:</p>
+                <ul>
+                    <li>No me interesa: si no te gusta un contenido específico, nos lo puedes hacer saber compartiendo comentarios de que no te interesa y te mostraremos menos contenido similar.</li>
+                    <li>Actualiza el feed: puedes actualizar el contenido que te recomendamos en el feed Para ti e interactuar con el contenido popular, por ejemplo, dándole a me gusta y comentando, para ayudar a modificar las recomendaciones de tu feed Para ti.</li>
+                    <li>Filtrar palabras clave: puedes usar filtros para eliminar de tu feed contenido que contenga palabras específicas y sus variaciones, así como hashtags de tu feed.</li>
+                </ul>
+
+                <p><strong>Siguiendo</strong><br>Usa las siguientes funciones para ayudar a dar forma al feed Siguiendo:</p>
+                <ul>
+                    <li>Dejar de seguir: dejar de seguir a un creador puede eliminar directamente las publicaciones del creador del feed Siguiendo.</li>
+                    <li>Filtrar palabras clave: puedes usar filtros para eliminar contenido con palabras específicas y sus variaciones, así como hashtags, de tu feed.</li>
+                </ul>
+
+                <p><strong>Amigos</strong><br>Usa las siguientes funciones para dar forma a la pestaña Amigos:</p>
+                <ul>
+                    <li>Dejar de seguir: si dejas de seguir a un creador o un amigo, podrás eliminar las publicaciones de esa cuenta en la pestaña Amigos.</li>
+                    <li>No me interesa: si no te gusta el contenido recomendado de personas que tal vez conozcas en función de las cuentas recomendadas, nos lo puedes hacer saber compartiendo comentarios de que no te interesa y te mostraremos menos contenido de ese creador.</li>
+                    <li>Filtrar palabras clave: usa los filtros para eliminar contenido que contenga ciertos hashtags o palabras y sus variantes de la pestaña Amigos.</li>
+                </ul>
+
+                <p><strong>LIVE</strong><br>Además de seleccionar categorías de interés cuando te registras en TikTok, puedes usar las siguientes funciones para ayudar a dar forma a tu feed LIVE:</p>
+                <ul>
+                    <li>No me interesa: si no te gusta un contenido o creador específico de LIVE, nos lo puedes hacer saber compartiendo comentarios de que no te interesa y te mostraremos menos contenido similar o de ese creador.</li>
+                    <li>Filtrar palabras clave: usa los filtros para eliminar contenido que contenga ciertos hashtags o palabras y sus variantes del feed LIVE.</li>
+                </ul>
+
+                <p><strong>Buscar</strong><br>Puedes usar las siguientes funciones para ayudar a dar forma a los resultados de las búsquedas:</p>
+                <ul>
+                    <li>Filtros: puedes elegir filtrar los resultados de la búsqueda para precisarla. Por ejemplo, puedes filtrar por rango de precios, valoraciones, colores o tallas.</li>
+                    <li>Ordenar por: puedes ordenar los resultados de la búsqueda por mejor coincidencia, más vendidos, precios de menor a mayor o de mayor a menor, o más recientes.</li>
+                </ul>
+
+                <p><strong>Pestaña Tienda</strong><br>Puedes usar las siguientes funciones para ayudar a dar forma a la pestaña Tienda:</p>
+                <ul>
+                    <li>Comentarios: si no te gusta un producto concreto, puedes hacérnoslo saber. Mantén pulsado un producto en los resultados de búsqueda o en el feed de la pestaña Tienda para indicar que no te interesa un producto o productos similares.</li>
+                </ul>
+
+                <h4>Para vendedores</h4>
+                <p><strong>Centro de vendedores</strong><br>Puedes usar las siguientes funciones para ayudar a dar forma al Centro de vendedores:</p>
+                <ul>
+                    <li>Filtros: puedes elegir filtrar los resultados de la búsqueda para precisarla. Por ejemplo, puedes encontrar creadores con los que asociarte por categoría o número de seguidores.</li>
+                </ul>
+
+                <h4>Para creadores</h4>
+                <p><strong>Centro para creadores</strong><br>Puedes usar las siguientes funciones para ayudar a dar forma al Centro para creadores:</p>
+                <ul>
+                    <li>Filtros: puedes elegir filtrar los resultados de la búsqueda para precisarla. Por ejemplo, puedes buscar vendedores con los que trabajar por categoría de producto o porcentaje de comisión.</li>
+                    <li>Ordenar por: puedes ordenar los resultados de la búsqueda por recomendados, más vendidos, precios de menor a mayor o de mayor a menor, novedades y tasa de comisión.</li>
+                </ul>
+            </div>
+        </details>
+
+        <details>
+            <summary>11. Donaciones en TikTok</summary>
+            <div class="content-box">
+                <h3>¿Qué son las Donaciones en TikTok?</h3>
+                <p>Con las Donaciones en TikTok puedes usar la herramienta de donaciones para enviar fondos a ONG a partir de videos de tu feed «Para ti», LIVE y perfiles.</p>
+
+                <h3>Cómo funcionan las Donaciones en TikTok</h3>
+                <p>Puedes añadir stickers de donación a tus videos y videos LIVE o enlaces de donación a tu perfil. Los espectadores podrán pulsar los stickers y enlaces para hacer donaciones a la organización que hayas enlazado a través de nuestro proveedor externo.</p>
+
+                <h3>Cómo hacer donaciones en TikTok</h3>
+                <p>Hay diferentes formas de hacer donaciones en TikTok. Los enlaces de donación pueden estar en los siguientes lugares:</p>
+                <ul>
+                    <li>Descripción corta</li>
+                    <li>Stickers en videos</li>
+                    <li>Stickers en videos LIVE</li>
+                    <li>Enlaces situados antes de las descripciones de los videos</li>
+                </ul>
+
+                <p>Para hacer donaciones a través de TikTok:</p>
+                <ol>
+                    <li>En la aplicación TikTok, pulsa el sticker de donación que veas en un video o LIVE, o pulsa el enlace de donación que encontrarás en la descripción corta.</li>
+                    <li>Pulsa el botón Donar situado en la parte inferior de la ventana emergente. Si quieres obtener más información sobre la organización, pulsa Más información en la pantalla de donaciones.</li>
+                    <li>Se te redirigirá a nuestra plataforma externa, donde se te pedirá la información siguiente:
+                        <ul>
+                            <li>Importe que quieres donar</li>
+                            <li>Tu correo electrónico</li>
+                            <li>Si quieres que la donación sea anónima</li>
+                            <li>Si quieres permitir que la ONG contacte contigo</li>
+                        </ul>
+                    </li>
+                    <li>Pulsa Siguiente.</li>
+                    <li>Elige el método de pago y pulsa Donar en la parte inferior. Recibirás un mensaje para que confirmes la donación.</li>
+                </ol>
+
+                <h3>¿Cuáles son los requisitos para hacer donaciones en TikTok?</h3>
+                <p>Para hacer donaciones en TikTok, ten en cuenta lo siguiente:</p>
+                <ul>
+                    <li>Debes tener como mínimo 18 años para hacer donaciones o recaudarlas en TikTok.</li>
+                    <li>El importe mínimo de las donaciones es de 3,00 USD.</li>
+                    <li>Debes proporcionar una dirección de correo electrónico válida para cada donación.</li>
+                    <li>Si eliges que la donación no sea anónima, tu nombre y el importe de la donación podrían aparecer en la pantalla de donaciones.</li>
+                </ul>
+                <p>Obtén más información sobre cómo recaudar fondos en TikTok.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary>12. Transmitir TikTok a un televisor</summary>
+            <div class="content-box">
+                <h3>Cómo ver TikTok en el televisor</h3>
+                <p>Puedes mirar videos de TikTok en un televisor transmitiendo desde el teléfono móvil.</p>
+
+                <h3>¿Qué dispositivos se pueden utilizar para transmitir TikTok a un televisor?</h3>
+                <p>Puedes transmitir TikTok con los dispositivos siguientes:</p>
+                <ul>
+                    <li>Un teléfono Android con Android 6.0 o una versión posterior</li>
+                    <li>Un iPhone con iOS 12.0 o una versión posterior</li>
+                </ul>
+                <div class="note">Nota: Puedes transmitir TikTok a dispositivos compatibles con la integración de Google Chromecast. Obtén más información sobre los televisores compatibles con dispositivos Chromecast.</div>
+
+                <h3>Cómo transmitir TikTok al televisor</h3>
+                <p>Para transmitir a un televisor desde tu dispositivo:</p>
+                <ol>
+                    <li>Asegúrate de que tanto el teléfono como el televisor estén conectados a la misma red Wi-Fi. Después, abre la aplicación TikTok y busca el video que quieras transmitir.</li>
+                    <li>Pulsa el botón Compartir y, después, pulsa Ver en TV en la parte inferior. Puede ser que tengas que desplazarte hacia la derecha para que se muestre Ver en TV. Si es la primera vez que transmites en iOS, se te pedirá que concedas acceso a tu red local para transmitir dispositivos.</li>
+                    <li>Selecciona el televisor al que quieras transmitir. Si no ves el televisor, pulsa el botón Actualizar.</li>
+                    <li>Para detener la transmisión, pulsa el banner del dispositivo de transmisión situado en la parte inferior y, después, Pulsar para desconectar.</li>
+                </ol>
+                <div class="note">Nota: Para cambiar de televisor, toca el banner del dispositivo de transmisión en la parte inferior y, después, selecciona a qué televisor quieres transmitir.</div>
+            </div>
+        </details>
+
+        <details>
+            <summary>13. «Tendencias» y búsqueda</summary>
+            <div class="content-box">
+                <h3>¿Qué son las «Tendencias»?</h3>
+                <p>«Tendencias» te permite buscar y explorar el diverso contenido de la comunidad de TikTok, incluidos videos, hashtags y creadores populares, así como contenido patrocinado.</p>
+                <div class="note">Nota: A algunas personas les aparecerá la pestaña «Amigos» en lugar de «Tendencias». Esta función no está disponible actualmente en todo el mundo.</div>
+
+                <h3>Cómo acceder a la pestaña «Tendencias»</h3>
+                <ol>
+                    <li>En la aplicación TikTok, pulsa Tendencias en la parte inferior.</li>
+                    <li>Usa la barra de búsqueda de la parte superior para encontrar contenido específico o explorar vídeos en tendencia, hashtags, creadores, contenido patrocinado y más.</li>
+                </ol>
+
+                <h3>Cómo buscar en TikTok</h3>
+                <p>Para buscar personas, publicaciones, sonidos o hashtags, entre otros, haz lo siguiente:</p>
+                <ol>
+                    <li>En la aplicación TikTok, pulsa el botón Buscar de la parte superior de la pantalla.</li>
+                    <li>Introduce lo que buscas en la barra de búsqueda y pulsa Buscar. Ten en cuenta que los resultados más relevantes aparecen en la pestaña «Mejores».</li>
+                    <li>Para acotar la búsqueda, pulsa el botón Más opciones … de la parte superior y, a continuación, pulsa Filtros para ordenar los resultados. Pulsa Aplicar después de seleccionar los filtros.</li>
+                </ol>
+                <p>Consulta más información sobre cómo influir en tus búsquedas de TikTok.</p>
+                <div class="note">Nota: El contenido que no sea apropiado no se mostrará en los resultados de búsqueda. Obtén más información sobre la moderación de contenido en TikTok.</div>
+
+                <h3>Qué es la búsqueda visual por captura de pantalla</h3>
+                <p>La búsqueda visual por captura de pantalla te permite encontrar contenido y productos haciendo una captura de pantalla dentro de la aplicación TikTok. Cuando se proporciona una imagen, TikTok usa un algoritmo para analizarla e identificar elementos visualmente similares. Los resultados pueden incluir publicaciones de TikTok, contenido de comercio electrónico, resúmenes de IA y otro contenido multimedia que coincida.</p>
+                <p>Información importante sobre la búsqueda visual por captura de pantalla en TikTok:</p>
+                <ul>
+                    <li>Esta función solo está disponible para personas que tengan 18 años o más y que hayan iniciado sesión en la aplicación TikTok.</li>
+                    <li>Es posible que filtremos publicaciones para garantizar que los resultados de la búsqueda sean relevantes, apropiados y seguros, lo que incluye la eliminación de aquellas que infrinjan las Normas de la comunidad.</li>
+                    <li>Cuando creas una publicación, puedes elegir si quieres que aparezca o no en los resultados de la búsqueda visual. Esta opción está activada de forma predeterminada, pero puedes desactivarla antes de publicar.</li>
+                    <li>Las capturas de pantalla se guardan en tu dispositivo y solo tú puedes verlas en la aplicación. TikTok no guarda copias de tus capturas de pantalla en sus servidores.</li>
+                    <li>La búsqueda visual es una función opcional, lo que significa que puedes decidir si quieres subir una imagen cuando se te solicite o no.</li>
+                </ul>
+
+                <h3>Cómo usar la búsqueda visual por captura de pantalla en TikTok</h3>
+                <ol>
+                    <li>En la aplicación TikTok, ve a la publicación que tenga un elemento que quieras buscar.</li>
+                    <li>Haz una captura de pantalla con el dispositivo.</li>
+                    <li>Pulsa la miniatura para ver los resultados de la búsqueda visual.</li>
+                </ol>
+
+                <h3>Cómo borrar tu historial de búsqueda en TikTok</h3>
+                <ol>
+                    <li>En la aplicación TikTok, pulsa el botón Buscar de la parte superior de la pantalla.</li>
+                    <li>Pulsa el botón Borrar búsqueda junto al resultado de búsqueda que quieras eliminar.</li>
+                </ol>
+            </div>
+        </details>
+
+        <details>
+            <summary>14. Compartir en TikTok</summary>
+            <div class="content-box">
+                <p>Puedes compartir sonidos, creadores o videos populares con amigos, familiares y la comunidad en general dentro de TikTok o a través de otras redes sociales.</p>
+
+                <h3>Cómo compartir publicaciones en TikTok</h3>
+                <p>Para compartir una publicación de TikTok, haz lo siguiente:</p>
+                <ol>
+                    <li>En la aplicación TikTok, ve a la publicación.</li>
+                    <li>Pulsa el botón Compartir en el lateral de la publicación.</li>
+                    <li>Elige cómo te gustaría compartir la publicación.</li>
+                    <li>Sigue los pasos de la plataforma que selecciones.</li>
+                </ol>
+                <p>En el caso de algunas publicaciones del feed «Para ti», podemos animarte a que las compartas con personas que quizás conozcas o con alguien con quien hayas interactuado en TikTok. Pulsa el aviso en la parte inferior de la publicación para compartirla con esa persona en un mensaje directo.</p>
+                <p>Ten en cuenta que cuando envíes una publicación a un amigo en otra plataforma, también le enviaremos esa publicación en TikTok, siempre que pulse el enlace compartido y permita los mensajes directos de otras personas.</p>
+                <p>Para descargar una publicación que se ha compartido contigo, haz lo siguiente:</p>
+                <ol>
+                    <li>En la aplicación TikTok, ve a la publicación.</li>
+                    <li>Pulsa el botón Compartir.</li>
+                    <li>Pulsa Guardar foto o Guardar video. Solo se mostrará esta opción en las publicaciones con los permisos de descarga activados.</li>
+                </ol>
+
+                <h3>Cómo compartir un perfil</h3>
+                <p>Para compartir tu perfil de TikTok, haz lo siguiente:</p>
+                <ol>
+                    <li>En la aplicación TikTok, pulsa Perfil en la parte inferior.</li>
+                    <li>Pulsa Compartir perfil.</li>
+                    <li>Elige cómo te gustaría compartir tu perfil.</li>
+                    <li>Sigue los pasos de la plataforma que selecciones.</li>
+                </ol>
+                <p>Para compartir tu perfil de TikTok a través de un código QR, haz lo siguiente:</p>
+                <ol>
+                    <li>En la aplicación TikTok, pulsa Perfil en la parte inferior.</li>
+                    <li>Pulsa el botón Menú ☰ en la parte superior y, después, pulsa Mi código QR.</li>
+                    <li>Permite a otras personas que escaneen tu código QR con la cámara de su dispositivo o el escáner de códigos QR de la aplicación en la parte superior de la pantalla.</li>
+                </ol>
+                <p>Para compartir el perfil de TikTok de otro creador, haz lo siguiente:</p>
+                <ol>
+                    <li>En la aplicación TikTok, ve al perfil del creador.</li>
+                    <li>Pulsa la foto de perfil o el botón Compartir en la parte superior.</li>
+                    <li>Elige cómo te gustaría compartir el perfil.</li>
+                </ol>
+
+                <h3>Cómo compartir un sonido</h3>
+                <p>Para compartir un sonido en TikTok, haz lo siguiente:</p>
+                <ol>
+                    <li>En la aplicación TikTok, ve al sonido. Para ello, pulsa el botón Sonido en la parte inferior de una publicación o escribe lo que estás buscando en la barra de búsqueda de la parte superior.</li>
+                    <li>Pulsa el botón Compartir en la parte superior.</li>
+                    <li>Elige cómo te gustaría compartir el sonido.</li>
+                </ol>
+
+                <h3>Cómo compartir un hashtag</h3>
+                <p>Para compartir un hashtag en TikTok, haz lo siguiente:</p>
+                <ol>
+                    <li>En la aplicación TikTok, pulsa el hashtag en la descripción de una publicación o escribe el hashtag en la barra de búsqueda de la parte superior.</li>
+                    <li>Pulsa la pestaña Hashtags debajo de la barra de búsqueda. Es posible que tengas que deslizar hacia la derecha.</li>
+                    <li>Pulsa el hashtag que quieras compartir y, después, el botón Compartir en la parte superior.</li>
+                    <li>Elige cómo te gustaría compartir el hashtag.</li>
+                </ol>
+            </div>
+        </details>
+
+        <details>
+            <summary>15. TikTok ahora</summary>
+            <div class="content-box">
+                <h3>¿Qué es TikTok Now?</h3>
+                <p>TikTok Now te invita a ti y a tus amigos a capturar lo que estáis haciendo en un determinado momento usando la cámara frontal y trasera del dispositivo. Recibirás un aviso diario al mismo tiempo que tus amigos para capturar un video de 10 segundos o una foto y compartirlo con ellos.</p>
+                <p>TikTok Now está disponible en la aplicación TikTok Now de App Store o Google Play en regiones seleccionadas. Tu cuenta de TikTok está vinculada con la aplicación TikTok Now para que puedas mantener la sesión iniciada y navegar entre las dos aplicaciones usando la misma información personal que proporcionaste al crear una cuenta. No tienes que descargar la aplicación TikTok además de la aplicación TikTok Now, pero debes crear una cuenta de TikTok.</p>
+                <p>Ten en cuenta lo siguiente sobre TikTok Now:</p>
+                <ul>
+                    <li>Las publicaciones Now solo están disponibles durante un período de tiempo limitado y solo después de haber publicado tu propio Now ese día.</li>
+                    <li>Debes tener como mínimo 13 años (14 en Indonesia, Quebec y Corea del Sur) para usar TikTok Now.</li>
+                    <li>Las personas que tengan 18 años o más tendrán 3 minutos para tomar un TikTok Now. Quienes tengan entre 13 y 17 años no tendrán un límite de tiempo para tomar una foto o un video.</li>
+                </ul>
+
+                <h3>Cómo iniciar sesión o registrarse en TikTok Now</h3>
+                <p>Para iniciar sesión o registrarte en la aplicación TikTok Now, haz lo siguiente:</p>
+                <ol>
+                    <li>Descarga TikTok Now desde Google Play o App Store.</li>
+                    <li>Abre la aplicación. Desde aquí, puedes:
+                        <ul>
+                            <li>Crear una cuenta de TikTok, que puedes usar tanto para TikTok como para TikTok Now. Pulsa Iniciar sesión o Registrarse y sigue los pasos descritos para crear una cuenta de TikTok.</li>
+                            <li>Iniciar sesión usando una cuenta existente de TikTok.</li>
+                            <li>Iniciar sesión a través de una plataforma de terceros, como Google o Facebook. Seguirá siendo necesario que tengas una cuenta de TikTok si eliges este método.</li>
+                        </ul>
+                    </li>
+                </ol>
+
+                <h3>Cómo publicar un Now</h3>
+                <p>Para publicar un Now, haz lo siguiente:</p>
+                <ol>
+                    <li>En la aplicación TikTok Now, pulsa el aviso del feed Amigos o la notificación push diaria Now.</li>
+                    <li>Haz una foto o un video.
+                        <ul>
+                            <li>Si es la primera vez que usas la cámara, se te pedirá que actives el permiso de acceso a la cámara y el micrófono.</li>
+                            <li>Tendrás 3 minutos (si eres mayor de 18 años) para capturar la foto o grabar el video con la cámara frontal y la cámara trasera.</li>
+                        </ul>
+                    </li>
+                    <li>Revisa la foto o el video. Puedes eliminarlos o volver a tomarlos. La cuenta atrás de 3 minutos no se detendrá.</li>
+                    <li>Pulsa el botón Publicar.</li>
+                </ol>
+                <p>Tu Now se mostrará en el feed Amigos de la aplicación TikTok Now y tus amigos recibirán una notificación. También puedes publicar varios Now en un mismo día.</p>
+                <p>Ten en cuenta lo siguiente:</p>
+                <ul>
+                    <li>Se usan tanto la cámara frontal como la cámara trasera a la hora de capturar un Now. A la hora de tomar una foto o video, ten en cuenta a las personas que se encuentran cerca de ti, ya que debes evitar publicar contenido en entornos delicados y lugares donde la gente espera privacidad.</li>
+                    <li>Solo debes publicar contenido que cumpla nuestras Normas de la comunidad para ayudar a fomentar una experiencia inclusiva, segura y divertida en TikTok.</li>
+                </ul>
+
+                <h3>Dónde encontrar publicaciones Now</h3>
+                <p>Puedes ver publicaciones Now en las siguientes secciones:</p>
+                <ul>
+                    <li>Feed «Amigos»: las publicaciones Now de tus amigos en común y otras cuentas sugeridas de la comunidad de TikTok aparecen aquí.</li>
+                    <li>Feed «Explorar»: las publicaciones Now públicas de creadores de TikTok (mayores de 18 años) de tu región aparecen aquí.</li>
+                    <li>Recuerdos: es donde se muestran todas tus publicaciones Now.</li>
+                </ul>
+
+                <h3>Cómo administrar quién puede ver tu Now</h3>
+                <p>Para modificar quién puede ver tu Now, haz lo siguiente:</p>
+                <ol>
+                    <li>Antes de hacer la publicación, pulsa el botón Ajustes de privacidad en la parte inferior de tu foto o video.</li>
+                    <li>Elige a quién quieres dar permiso para ver tu Now.
+                        <ul>
+                            <li>Todo el mundo (solo para cuentas públicas): cualquier persona de tu región puede ver tu Now.</li>
+                            <li>Seguidores (solo para cuentas privadas): cualquier persona que te siga puede ver tu Now.</li>
+                            <li>Amigos: los seguidores a los que tú también sigues pueden ver tu Now. Al elegir un ajuste de privacidad, también debes tener en cuenta el contenido de tu Now y evitar publicar contenido en entornos delicados y lugares donde la gente esperaría tener privacidad.</li>
+                        </ul>
+                    </li>
+                </ol>
+
+                <h3>Cómo eliminar un Now</h3>
+                <p>Para eliminar tu Now, haz lo siguiente:</p>
+                <ol>
+                    <li>En la aplicación TikTok Now, pulsa tu foto de perfil en la parte inferior.</li>
+                    <li>Ve al Now que quieres eliminar.</li>
+                    <li>Pulsa el botón Más opciones o el botón Compartir y luego pulsa Eliminar.</li>
+                    <li>Pulsa Eliminar para completar el proceso.</li>
+                </ol>
+
+                <h3>Cómo encontrar más amigos en TikTok Now</h3>
+                <p>Es posible que quieras buscar más amigos que tengan intereses similares e invitar a otros a unirse a TikTok Now. Según la información que elijas compartir con TikTok, podríamos mostrarte una cuenta recomendada por pertenecer a alguien cuyo número de teléfono está en los contactos de tu teléfono o por ser tu amigo/a en Facebook, siempre y cuando ambos tengáis activada la opción Sincronizar contactos y amigos de Facebook.</p>
+                <p>Para conectar con más amigos en la aplicación TikTok, haz lo siguiente:</p>
+                <ol>
+                    <li>Pulsa tu foto de perfil en la parte inferior de la pantalla.</li>
+                    <li>Pulsa el botón Ajustes en la parte superior.</li>
+                    <li>Pulsa Privacidad y, después, Sincronizar contactos y amigos de Facebook.</li>
+                    <li>Activa o desactiva la opción Sincronizar contactos o Sincronizar la lista de amigos de Facebook para cambiar la manera en que te recomendamos cuentas.</li>
+                </ol>
+                <p>O bien:</p>
+                <ol>
+                    <li>Pulsa el botón Añadir amigos en la parte inferior de la pantalla.</li>
+                    <li>Elige un método para conectar con amigos.</li>
+                </ol>
+                <p>Ten en cuenta que si eliminas el acceso de TikTok a los contactos de tu teléfono en los ajustes de tu dispositivo, dejaremos de sincronizar los contactos, aunque seguiremos sugiriéndote cuentas a partir de los contactos sincronizados anteriormente. Si quieres eliminar todos los contactos de tu teléfono sincronizados con TikTok y dejar de sincronizar contactos en todos los dispositivos, puedes Eliminar contactos sincronizados anteriormente desde el ajuste Sincronizar contactos y amigos de Facebook.</p>
+
+                <h3>Cómo activar o desactivar las notificaciones de TikTok Now</h3>
+                <p>Para administrar las notificaciones de TikTok Now, haz lo siguiente:</p>
+                <ol>
+                    <li>En la aplicación TikTok Now, pulsa tu foto de perfil en la parte inferior.</li>
+                    <li>Pulsa el botón Ajustes en la parte superior.</li>
+                    <li>Pulsa Notificaciones push. Se te redirigirá a los ajustes de tu dispositivo.</li>
+                    <li>Activa o desactiva las notificaciones.</li>
+                </ol>
+            </div>
+        </details>
+
+        <details>
+            <summary>16. Ver videos en TikTok Series</summary>
+            <div class="content-box">
+                <h3>¿Qué es Series en TikTok?</h3>
+                <p>Series ofrece paquetes premium de videos exclusivos producidos por creadores. El acceso a Series se puede comprar desde el perfil del creador y a través de los enlaces adjuntos a los videos de TikTok.</p>
+
+                <h3>Cómo acceder a las Series de TikTok</h3>
+                <p>Puedes comprar el acceso a una Series directamente desde el perfil del creador o desde un video de TikTok si el creador ha adjuntado un enlace.</p>
+                <p>Para comprar el acceso a una Series desde el perfil del creador, debes hacer lo siguiente:</p>
+                <ol>
+                    <li>En la aplicación TikTok, pulsa Series en el perfil del creador.</li>
+                    <li>Pulsa la Series que te gustaría comprar.</li>
+                    <li>Desplázate para ver la lista de videos que incluye la Series. La compra incluirá el acceso a todos los videos que se muestran en la Series.</li>
+                    <li>Pulsa Comprar y sigue los pasos descritos para completar el pago.</li>
+                </ol>
+                <p>Para comprar el acceso a una Series desde un video de TikTok, debes hacer lo siguiente:</p>
+                <ol>
+                    <li>En la aplicación TikTok, pulsa el enlace de la Series sobre el nombre de usuario del creador en el video de TikTok.</li>
+                    <li>Desplázate para ver la lista de videos de la Series actual. Pulsa Ver todas las Series si quieres ver la lista de todas las Series del creador. La compra incluirá el acceso a todos los videos que se muestran en la Series.</li>
+                    <li>Pulsa Comprar y sigue los pasos descritos para completar el pago.</li>
+                </ol>
+
+                <h3>Cómo ver una Series</h3>
+                <p>Una vez que hayas completado el pago, podrás ver los videos de la Series.</p>
+                <p>Para ver una Series que has comprado, haz lo siguiente:</p>
+                <ol>
+                    <li>En la aplicación TikTok, pulsa Perfil en la parte inferior.</li>
+                    <li>Pulsa el botón Menú en la parte superior y luego selecciona Series.</li>
+                </ol>
+                <p>También puedes acceder a las Series compradas desde tus notificaciones, Favoritos y desde el perfil del creador.</p>
+
+                <h3>Cómo valorar una Series</h3>
+                <p>Puedes enviar valoraciones sobre las Series compradas y estas se publicarán en la página de la Series en cuestión.</p>
+                <p>Para enviar una valoración, haz lo siguiente:</p>
+                <ol>
+                    <li>Ve a la Series que te gustaría valorar.</li>
+                    <li>Pulsa el botón Menú en la parte superior y luego selecciona Valorar esta Series.</li>
+                    <li>Selecciona una valoración.</li>
+                    <li>Pulsa Enviar para completar el proceso.</li>
+                </ol>
+
+                <h3>Cómo solicitar el reembolso de una Series</h3>
+                <p>Si no estás satisfecho/a con tu compra, puedes solicitar el reembolso de una TikTok Series durante los 14 días posteriores a la compra, siempre que no hayas visto más del 25 % de la Series. También puedes solicitar un reembolso si eliminamos la Series por incumplir nuestras Normas de la comunidad o los Términos del servicio.</p>
+                <p>Para solicitar un reembolso, debes hacer lo siguiente:</p>
+                <ol>
+                    <li>Ve a la Series por la que te gustaría solicitar un reembolso.</li>
+                    <li>Pulsa el botón Más opciones en la parte superior y luego selecciona Solicitar reembolso.</li>
+                    <li>Selecciona el motivo por el que solicitas el reembolso y luego pulsa Enviar.</li>
+                    <li>Pulsa Confirmar para completar el proceso.</li>
+                </ol>
+                <p>Una vez enviada la solicitud, la estudiaremos y te notificaremos cuando el reembolso se haya aprobado. Cuando solicites un reembolso, ya no podrás ver la Series.</p>
+                <p>Ten en cuenta lo siguiente:</p>
+                <ul>
+                    <li>Nos reservamos el derecho de ofrecerte un reembolso parcial o total de acuerdo con los términos de la Series.</li>
+                    <li>Los reembolsos se realizarán mediante el método de pago original.</li>
+                    <li>El reembolso puede tardar hasta 30 días en aparecer en tu cuenta según el método de pago original que usaste para realizar la compra.</li>
+                </ul>
+            </div>
+        </details>
+
+        <details>
+            <summary>17. Valorar compras de TikTok Ads</summary>
+            <div class="content-box">
+                <h3>Compartir comentarios</h3>
+                <p>Puedes valorar y compartir comentarios sobre las compras que has hecho a través de los anuncios de TikTok. Las compras pueden incluir descargar una aplicación, enviar un formulario para clientes potenciales o comprar a través de un sitio web de terceros.</p>
+                <p>Aspectos importantes que debes saber antes de escribir una reseña:</p>
+                <ul>
+                    <li>Solo aceptamos reseñas de clientes que hayan completado una compra o interacción verificada a través de TikTok Ads.</li>
+                    <li>No se permiten las reseñas falsas, ya sean positivas o negativas. Tu reseña debe ser sincera y reflejar tu experiencia genuina.</li>
+                    <li>No permitimos las reseñas incentivadas, lo que incluye escribir reseñas a cambio de regalos, cupones u otros incentivos económicos.</li>
+                    <li>Todas las reseñas deben seguir las Normas de la comunidad.</li>
+                    <li>Puede que otras personas puedan ver tus comentarios en TikTok.</li>
+                </ul>
+
+                <h3>Cómo valorar una compra</h3>
+                <p>Después de completar una compra o acción, es posible que recibas una breve encuesta. Además, también podemos recopilar reseñas y comentarios de clientes a través de:</p>
+                <ul>
+                    <li>Comentarios de clientes en la aplicación</li>
+                    <li>Informes de clientes</li>
+                    <li>Reclamaciones directas enviadas a través de los canales de soporte</li>
+                </ul>
+                <p>Para las compras realizadas directamente a través de TikTok Shop, visita la Política de reseñas de clientes de TikTok Shop.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary>18. Ver Stories en TikTok</summary>
+            <div class="content-box">
+                <p>Las Stories de TikTok te permiten ver fotos o videos disponibles durante 24 horas. Puedes enviar respuestas o emojis de reacción para interactuar con las Stories.</p>
+                <p>Más información sobre cómo publicar Stories en TikTok.</p>
+
+                <h3>Cómo ver Stories</h3>
+                <p>Puedes ver Stories publicadas por otras personas en los siguientes lugares:</p>
+                <ul>
+                    <li>Bandeja de entrada</li>
+                    <li>Perfiles públicos</li>
+                    <li>Feed «Siguiendo»</li>
+                    <li>Feed «Para ti»</li>
+                </ul>
+                <p>Ten en cuenta que la gente sabrá que has visto su Story aunque tu cuenta sea privada o tu historial de visualizaciones del perfil esté desactivado.</p>
+
+                <h3>Cómo enviar reacciones y respuestas a una Story</h3>
+                <p>Puedes reaccionar a Stories con emojis o responder con mensajes directos. Las reacciones a Stories y las respuestas mediante mensaje directo enviados a amigos (seguidores a los que también sigas) se enviarán directamente a la bandeja de entrada. De lo contrario, se enviarán como solicitudes de mensajes.</p>
+                <p>Para reaccionar o responder a una Story:</p>
+                <ol>
+                    <li>En la aplicación TikTok, pulsa la foto de perfil de la persona con cuya Story quieras interactuar.</li>
+                    <li>Pulsa Mensaje, redacta tu mensaje y pulsa el botón Enviar. También puedes seleccionar un emoji para enviar tu reacción.</li>
+                </ol>
+            </div>
+        </details>
+
+        <details>
+            <summary>19. Compartir</summary>
+            <div class="content-box">
+                <h3>¿Qué es la función «Compartir» en TikTok?</h3>
+                <p>Esta función te permite compartir videos que te parezcan interesantes con tus amigos y comunidad en su feed «Para ti». Los videos compartidos aparecen en el feed «Para ti» igual que los demás videos, pero cuentan con una etiqueta «Compartido» junto con la foto de perfil y el apodo de la persona que los ha compartido.</p>
+
+                <h3>Cómo compartir una publicación en TikTok</h3>
+                <p>Para compartir una publicación en TikTok, haz lo siguiente:</p>
+                <ol>
+                    <li>En la aplicación TikTok, ve al video que quieres compartir.</li>
+                    <li>Desde aquí:
+                        <ul>
+                            <li>Pulsa el botón Compartir y, después, Compartir.</li>
+                            <li>Mantén pulsado el video y, después, pulsa Compartir.</li>
+                            <li>Si un amigo ha compartido el video, pulsa su foto de perfil en el video y, después, Compartir.</li>
+                        </ul>
+                    </li>
+                </ol>
+
+                <h3>Cómo eliminar una publicación compartida en TikTok</h3>
+                <p>Para eliminar una publicación compartida en TikTok, haz lo siguiente:</p>
+                <ol>
+                    <li>En la aplicación TikTok, ve al video que has compartido.</li>
+                    <li>Desde aquí:
+                        <ul>
+                            <li>Pulsa el botón Compartir y, después, Eliminar la publicación compartida.</li>
+                            <li>Mantén pulsado el video y, después, pulsa Eliminar la publicación compartida.</li>
+                            <li>Pulsa tu foto de perfil en el video, Compartido y, después, Eliminar la publicación compartida.</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>Ten en cuenta que, en cuanto pulses «Compartir», el video se compartirá. Podrás verlo en tu perfil en la pestaña de publicaciones compartidas. Si tu cuenta es privada, solo tus seguidores podrán ver el contenido que has compartido en tu perfil y en su feed «Para ti».</p>
+            </div>
+        </details>
+
+        <details>
+            <summary>20. Descarga contenido</summary>
+            <div class="content-box">
+                <p>Puedes guardar los vídeos y las fotos de TikTok en tu dispositivo para verlos y compartirlos sin conexión si el creador de las publicaciones permite descargar su contenido. También puedes administrar si permites que descarguen tus publicaciones.</p>
+
+                <h3>Cómo descargar un vídeo</h3>
+                <p>Para descargar un vídeo, haz lo siguiente:</p>
+                <ol>
+                    <li>En la aplicación TikTok, ve al vídeo que quieras descargar.</li>
+                    <li>Pulsa el botón Compartir en el lateral del vídeo.</li>
+                    <li>Pulsa Guardar vídeo. Si no ves la opción de guardar el vídeo, significa que el creador no lo permite.</li>
+                </ol>
+
+                <h3>Cómo descargar una foto</h3>
+                <p>Para descargar una foto, haz lo siguiente:</p>
+                <ol>
+                    <li>En la aplicación TikTok, ve a la publicación de foto que quieras descargar.</li>
+                    <li>Pulsa el botón Compartir.</li>
+                    <li>Pulsa Guardar foto. Si hay varias fotos, pulsa Seleccionar todo para descargar todas las fotos o selecciona las que quieras descargar. Si no ves la opción de guardar la foto, significa que el creador no lo permite.</li>
+                    <li>Pulsa Guardar.</li>
+                </ol>
+
+                <h3>Cómo guardar publicaciones en el dispositivo</h3>
+                <p>Recomendamos que descargues tus vídeos o fotos antes de publicarlos para que tengas copias de tu contenido en el dispositivo.</p>
+                <p>Para guardar los vídeos o las fotos antes de publicarlos, haz lo siguiente:</p>
+                <ol>
+                    <li>En la pantalla Publicar, pulsa Más opciones.</li>
+                    <li>Activa la opción Guardar en el dispositivo.</li>
+                </ol>
+                <p>También puedes pulsar Guardaren el panel lateral mientras editas para descargar una publicación de vídeo o foto.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary>21. Cerca</summary>
+            <div class="content-box">
+                <h3>¿Qué es el feed «Cerca» de TikTok?</h3>
+                <p>Se trata de un feed personalizado de contenido local que incluye publicaciones sobre viajes, comida y bebida, eventos y otros servicios relacionados. El feed Cerca se basa en tus intereses e interacciones, pero te muestra contenido recomendado de creadores de TikTok que publican contenido local en tu región o etiquetan ubicaciones o servicios de tu ciudad, estado o provincia. Para garantizar que el contenido sea variado, también podemos recomendar publicaciones de otras ciudades, estados o provincias.</p>
+                <div class="note">Nota: Esta función no está disponible actualmente para todo el mundo. Para ver el feed Cerca o que aparezca tu contenido en él (donde esté disponible), debes ser mayor de 18 años y haber iniciado sesión en TikTok.</div>
+
+                <h3>Cómo se determina tu ubicación en el feed «Cerca»</h3>
+                <p>Determinamos tu ubicación aproximada según la información de tu dispositivo o red, como la tarjeta SIM o la dirección IP. En las regiones donde estén disponibles los Servicios de ubicación, determinaremos tu ubicación mediante la información GPS del dispositivo si el ajuste está activado. La información de ubicación se usa para recomendar contenido más relevante en el feed Cerca o para determinar tu ubicación al publicar contenido. Puedes encontrar más información sobre los ajustes de ubicación del dispositivo en el Centro de ayuda de Android o en el Soporte de Apple.</p>
+                <div class="note">Nota: Es posible que los Servicios de ubicación no estén disponibles en todo el mundo, incluido Estados Unidos y Corea del Sur.</div>
+
+                <h3>Cómo aparecen tus publicaciones en el feed «Cerca»</h3>
+                <p>Las publicaciones del feed Cerca se muestran a los demás usuarios en función de la ubicación, el tema del contenido y la fecha de publicación. Si eres creador, tus publicaciones públicas podrían mostrarse a los usuarios de la ciudad, el estado o la provincia en la que las publicaste o si etiquetaste una ubicación o un servicio. No obstante, tus publicaciones no aparecerán en el feed Cerca si se dan estas condiciones:</p>
+                <ul>
+                    <li>Eres menor de 18 años.</li>
+                    <li>Tu cuenta es privada.</li>
+                    <li>Los ajustes de privacidad de las publicaciones están establecidos en Amigos o Solo tú.</li>
+                    <li>El contenido se publicó hace más de 90 días.</li>
+                </ul>
+                <p>Ten en cuenta que, si la publicación está relacionada con servicios locales, pero no etiquetas una ubicación o un servicio, podría aparecer aun así en el feed Cerca en función de la red, la información del dispositivo o el ajuste de Servicios de ubicación.</p>
+
+                <h3>Cómo cambiar la región del feed Cerca</h3>
+                <p>Puedes cambiar la región del feed Cerca para ver contenido de otras ubicaciones en TikTok.</p>
+                <ol>
+                    <li>En la aplicación TikTok, ve al feed Cerca.</li>
+                    <li>Pulsa el nombre de la región o Cerca en la parte superior y, después, sigue los pasos para cambiar la región.</li>
+                </ol>
+            </div>
+        </details>
+
+        <details>
+            <summary>22. PineDrama en TikTok</summary>
+            <div class="content-box">
+                <h3>¿Qué es PineDrama?</h3>
+                <p>PineDrama es una aplicación diseñada para consumir contenido de minidramas. La aplicación ofrece una biblioteca de minidramas que te permite encontrar contenido adaptado a tus intereses de visualización específicos. PineDrama está disponible para mayores de 18 años.</p>
+                <div class="note">Nota: En estos momentos, PineDrama no está disponible en todas las regiones.</div>
+
+                <h3>Cómo usar PineDrama</h3>
+                <p>Tu cuenta de TikTok está vinculada a la cuenta de PineDrama para que puedas mantener la sesión iniciada y navegar entre las dos aplicaciones. Si no tienes una cuenta de TikTok, puedes registrarte directamente a través de PineDrama.</p>
+                <p>Para registrarte o iniciar sesión en PineDrama, haz lo siguiente:</p>
+                <ul>
+                    <li>Descarga PineDrama desde Google Play o la App Store.</li>
+                    <li>Abre la aplicación. Desde aquí, puedes hacer lo siguiente:
+                        <ul>
+                            <li>Crear una cuenta de TikTok que podrás usar tanto para TikTok como para PineDrama. Pulsa Registrarse en la parte inferior de la pantalla y sigue los pasos pertinentes para crear una cuenta de TikTok.</li>
+                            <li>Iniciar sesión con una cuenta ya existente de TikTok.</li>
+                            <li>Iniciar sesión a través de una plataforma de terceros, como Google o Facebook. Si eliges este método, recuerda que deberás tener una cuenta de TikTok.</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h3>Funciones de PineDrama</h3>
+                <p>Las siguientes funciones están disponibles en PineDrama.</p>
+                <h4>Inicio</h4>
+                <p>Conoce y explora el contenido de minidramas:</p>
+                <ul>
+                    <li>Feed: deslízate en sentido vertical para descubrir contenido nuevo. El feed ofrece recomendaciones de minidramas personalizadas basadas en tus intereses de visualización e interacciones.</li>
+                    <li>Detalles del contenido: consulta la información del vídeo que se está reproduciendo, como el creador, el título y la interacción de los usuarios.</li>
+                    <li>Navegación por episodios: visualiza más episodios de una serie, selecciona episodios concretos o explora otro contenido.</li>
+                    <li>Interacción: interactúa con el contenido y sigue a creadores, da me gusta, guarda vídeos en favoritos y añade comentarios.</li>
+                </ul>
+
+                <h4>Tendencias</h4>
+                <p>Descubre nuevos minidramas:</p>
+                <ul>
+                    <li>Biblioteca de dramas: explora un catálogo centralizado de todos los minidramas disponibles en la plataforma.</li>
+                    <li>Encuentra contenido más rápido: usa filtros y etiquetas para encontrar rápidamente el contenido que te interesa.</li>
+                    <li>Explora las categorías: echa un vistazo a los dramas o descubre contenido en tendencia.</li>
+                    <li>Empieza a ver: pulsa la portada de un drama para empezar a ver la serie completa.</li>
+                </ul>
+
+                <h4>Bandeja de entrada</h4>
+                <p>Revisa y administra las notificaciones:</p>
+                <ul>
+                    <li>Nuevos seguidores: recibe actualizaciones sobre nuevos seguidores.</li>
+                    <li>Notificaciones del sistema: consulta anuncios importantes y mensajes relacionados con la cuenta.</li>
+                </ul>
+                <div class="note">Nota: La función de mensajes directos no está disponible en PineDrama. Podrás acceder a los chats desde la aplicación TikTok.</div>
+
+                <h4>Perfil</h4>
+                <p>Gestiona la cuenta y consulta tu actividad:</p>
+                <ul>
+                    <li>Consulta las estadísticas: revisa la información de tu cuenta, como tu apodo, las cuentas que sigues, los seguidores y el total de me gusta.</li>
+                    <li>Gestiona el contenido: accede a las pestañas que muestran los minidramas que has publicado y el contenido que has añadido a favoritos. Este contenido se sincroniza con las secciones correspondientes de tu cuenta de TikTok.</li>
+                    <li>Ajustes: accede a los ajustes a través del icono de la esquina superior derecha para hacer lo siguiente:
+                        <ul>
+                            <li>Gestionar tu cuenta (consultar información, cerrar sesión o eliminar la cuenta).</li>
+                            <li>Establecer tu idioma preferido para la aplicación PineDrama.</li>
+                            <li>Consultar los términos y las políticas.</li>
+                            <li>Cambiar de cuenta o cerrar sesión.</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <p>Información sobre tu cuenta de PineDrama:</p>
+                <ul>
+                    <li>Sincronización de la cuenta: para modificar la información de tu cuenta principal (como el apodo), debes ir a tu página de perfil en la aplicación TikTok. Todos los cambios que se realicen en la aplicación TikTok se sincronizan con PineDrama.</li>
+                    <li>Estado de la cuenta: recuerda que los cambios en el estado de tu cuenta de PineDrama (como eliminarla) también se sincronizan con tu cuenta principal de TikTok.</li>
+                    <li>Ajustes de idioma: las preferencias de idioma establecidas en PineDrama no afectarán a los ajustes de la aplicación TikTok.</li>
+                    <li>Comentarios y asistencia: si tienes algún comentario o sugerencia para PineDrama, vuelve a la aplicación TikTok y ponte en contacto con nosotros. Para ello, haz lo siguiente:
+                        <ol>
+                            <li>Pulsa Perfil en la parte inferior.</li>
+                            <li>Pulsa el botón Menú ☰ en la parte superior y, después, selecciona Ajustes y privacidad.</li>
+                            <li>Pulsa Asistencia.</li>
+                        </ol>
+                    </li>
+                </ul>
+
+                <h3>Gestiona los ajustes de la cuenta y la privacidad</h3>
+                <p>Toda la información de tu cuenta y los ajustes de privacidad se comparten entre la aplicación TikTok y PineDrama. Puedes gestionarlos en la aplicación TikTok y los cambios se sincronizarán automáticamente con PineDrama:</p>
+                <ul>
+                    <li>Información del usuario: actualiza la información de contacto de tu cuenta.</li>
+                    <li>Contraseña: actualiza la contraseña de la cuenta.</li>
+                    <li>Seguridad y permisos: revisa las alertas de seguridad y gestiona los ajustes de seguridad, como la verificación en dos pasos y los dispositivos de confianza de tu cuenta.</li>
+                    <li>Ajustes de privacidad: gestiona ajustes como el estado de tu cuenta privada y los comentarios.</li>
+                    <li>Cuentas bloqueadas: gestiona las cuentas que has bloqueado en TikTok. Recuerda que al bloquear una cuenta en TikTok, también se bloquea en PineDrama.</li>
+                    <li>Descargar tus datos: solicita la descarga de tus datos.</li>
+                    <li>Desactivar o eliminar la cuenta: desactiva temporalmente o elimina de forma permanente tu cuenta de TikTok. Recuerda que esto eliminará el acceso a tus cuentas de TikTok y PineDrama.</li>
+                </ul>
+            </div>
+        </details>
+
+        <footer class="mt-20 text-center pb-20">
+            <p class="text-[9px] font-black text-gray-700 uppercase tracking-[0.8em]">Agencia ELArbol • SF. Master Guide</p>
+        </footer>
+    </div>
+</body>
+</html>

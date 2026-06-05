@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lobby | SF. Agency</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root { --tk-pink: #fe2c55; --tk-cyan: #25f4ee; }
+        body { background-color: #050505; color: white; font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; overflow-y: auto; }
+        
+        .video-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: -2; }
+        .tiktok-bg { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; 
+            background: radial-gradient(circle at center, rgba(17,17,17,0.6) 0%, rgba(0,0,0,0.95) 100%); 
+            backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+            pointer-events: none;
+        }
+
+        .colab-btn { position: fixed; top: 1.5rem; left: 1.5rem; z-index: 1000; cursor: pointer; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 0.8rem 1.5rem; border-radius: 1rem; backdrop-filter: blur(10px); transition: 0.3s; text-transform: uppercase; font-size: 10px; font-weight: 900; letter-spacing: 2px; color: rgba(255,255,255,0.6); display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .colab-btn:hover { border-color: var(--tk-pink); color: white; transform: scale(1.05); background: rgba(254, 44, 85, 0.05); }
+
+        .menu-btn { position: fixed; top: 1.5rem; right: 1.5rem; z-index: 1000; cursor: pointer; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 1rem; border-radius: 1rem; backdrop-filter: blur(10px); transition: 0.3s; }
+        .line { width: 22px; height: 2px; background: white; display: block; margin: 4px 0; transition: 0.4s; }
+        .open .line-1 { transform: translateY(6px) rotate(45deg); }
+        .open .line-2 { opacity: 0; }
+        .open .line-3 { transform: translateY(-6px) rotate(-45deg); }
+
+        #menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5,5,5,0.98); backdrop-filter: blur(40px); z-index: 999; display: flex; flex-direction: column; align-items: center; transition: all 0.5s cubic-bezier(0.85, 0, 0.15, 1); clip-path: circle(0% at 95% 5%); padding-top: 80px; }
+        #menu-overlay.active { clip-path: circle(150% at 95% 5%); }
+
+        .nav-container { width: 100%; max-width: 550px; height: 75vh; overflow-y: auto; padding: 20px; scrollbar-width: none; }
+        .nav-container::-webkit-scrollbar { display: none; }
+
+        details { background: rgba(255,255,255,0.02); border-radius: 1rem; margin-bottom: 0.5rem; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
+        details[open] { background: rgba(255,255,255,0.05); border-color: var(--tk-cyan); }
+        summary { padding: 1.2rem; font-weight: 700; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; color: rgba(255,255,255,0.6); }
+        summary::after { content: '\f078'; font-family: 'Font Awesome 6 Free'; font-weight: 900; font-size: 0.7rem; transition: 0.3s; }
+        details[open] summary::after { transform: rotate(180deg); color: var(--tk-cyan); }
+        .sub-link { display: block; padding: 0.8rem 2.5rem; font-size: 0.8rem; color: #888; text-decoration: none; border-left: 2px solid transparent; transition: 0.2s; }
+        .sub-link:hover { color: var(--tk-cyan); border-left-color: var(--tk-cyan); background: rgba(37, 244, 238, 0.05); }
+
+        .action-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 1.2rem; padding: 1.2rem; backdrop-filter: blur(15px); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-align: center; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .action-card:hover { border-color: var(--tk-cyan); background: rgba(37, 244, 238, 0.05); transform: translateY(-6px); box-shadow: 0 10px 25px -5px rgba(37, 244, 238, 0.2); }
+
+        .mvv-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 1.5rem; padding: 1.5rem; backdrop-filter: blur(10px); transition: 0.4s; text-align: center; }
+        .mvv-card:hover { border-color: var(--tk-cyan); background: rgba(255, 255, 255, 0.05); transform: translateY(-5px); }
+        .mvv-img { width: 100%; height: 140px; object-fit: cover; border-radius: 1rem; margin-bottom: 1.2rem; border: 1px solid rgba(255,255,255,0.1); opacity: 0.8; transition: 0.4s; }
+        .mvv-card:hover .mvv-img { opacity: 1; transform: scale(1.02); }
+
+        .news-ticker { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(254, 44, 85, 0.05); border-top: 1px solid rgba(254, 44, 85, 0.2); backdrop-filter: blur(10px); padding: 12px 0; overflow: hidden; z-index: 500; display: flex; white-space: nowrap; }
+        .ticker-content { display: inline-block; padding-left: 100%; animation: ticker 30s linear infinite; font-size: 11px; font-weight: 800; color: #ddd; letter-spacing: 1px; text-transform: uppercase; }
+        .ticker-content span { margin-right: 60px; }
+        .ticker-content span i { color: var(--tk-cyan); margin-right: 5px; }
+        @keyframes ticker { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-100%, 0, 0); } }
+
+        .video-overlay-container {
+            position: relative;
+            width: 100%;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            background: #111;
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center pt-24 pb-32 relative min-h-screen">
+    
+    <video class="video-bg" autoplay loop muted playsinline>
+        <source src="tu-video.mp4" type="video/mp4">
+    </video>
+
+    <div class="tiktok-bg"></div>
+
+    <a href="talentos.html" target="_blank" class="colab-btn">
+        <i class="fa-solid fa-users text-pink-500"></i><span>Colaboradores</span>
+    </a>
+
+    <div id="btn-toggle" class="menu-btn">
+        <span class="line line-1"></span><span class="line line-2"></span><span class="line line-3"></span>
+    </div>
+
+    <div class="flex flex-col items-center z-10 w-full max-w-3xl px-6">
+        
+        <h1 class="text-4xl md:text-6xl font-black italic tracking-tighter uppercase leading-none text-white drop-shadow-[0_4px_10px_rgba(0,0,0,0.8)] mb-6 md:mb-8 text-center whitespace-nowrap">
+            Agencia ELArbol
+        </h1>
+
+        <div id="welcome-card" class="opacity-0 transition-opacity duration-1000 ease-in-out mb-4">
+            <div class="bg-white/5 border border-white/10 px-5 py-2 rounded-full shadow-lg backdrop-blur-md">
+                <p class="text-xs md:text-sm font-bold text-gray-300 tracking-wide">
+                    Hola, <span id="streamer-name" class="text-cyan-400">...</span> 👋 ¿Listo para streamear hoy?
+                </p>
+            </div>
+        </div>
+
+        <div class="video-overlay-container aspect-video mb-8 group">
+            <video id="main-promo-video" class="w-full h-full object-cover" autoplay loop muted playsinline>
+                <source src="promo-agencia.mp4" type="video/mp4">
+            </video>
+
+            <button onclick="toggleMute()" class="absolute bottom-4 right-4 z-20 bg-black/50 hover:bg-cyan-400 hover:text-black border border-white/20 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm transition-all shadow-lg">
+                <i id="mute-icon" class="fa-solid fa-volume-xmark text-sm"></i>
+            </button>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 md:gap-4 w-full">
+            <a href="batallas.html" class="action-card group"><i class="fa-solid fa-bolt text-2xl md:text-3xl text-yellow-400 mb-2 md:mb-3 group-hover:scale-110 drop-shadow-[0_0_10px_rgba(250,204,21,0.5)]"></i><span class="text-[10px] md:text-xs font-black uppercase text-gray-300 group-hover:text-white">Batallas PK</span></a>
+            <a href="ranking.html" class="action-card group"><i class="fa-solid fa-trophy text-2xl md:text-3xl text-pink-500 mb-2 md:mb-3 group-hover:scale-110 drop-shadow-[0_0_10px_rgba(254,44,85,0.5)]"></i><span class="text-[10px] md:text-xs font-black uppercase text-gray-300 group-hover:text-white">Ranking</span></a>
+            <a href="kpi.html" class="action-card group"><i class="fa-solid fa-chart-line text-2xl md:text-3xl text-emerald-400 mb-2 md:mb-3 group-hover:scale-110 drop-shadow-[0_0_10px_rgba(52,211,153,0.5)]"></i><span class="text-[10px] md:text-xs font-black uppercase text-gray-300 group-hover:text-white">KPI</span></a>
+            <a href="#" class="action-card group"><i class="fa-solid fa-fire text-2xl md:text-3xl text-orange-500 mb-2 md:mb-3 group-hover:scale-110 drop-shadow-[0_0_10px_rgba(249,115,22,0.5)]"></i><span class="text-[10px] md:text-xs font-black uppercase text-gray-300 group-hover:text-white">Campañas</span></a>
+            <a href="asesoria.html" class="action-card group"><i class="fa-solid fa-headset text-2xl md:text-3xl text-cyan-400 mb-2 md:mb-3 group-hover:scale-110 drop-shadow-[0_0_10px_rgba(37,244,238,0.5)]"></i><span class="text-[10px] md:text-xs font-black uppercase text-gray-300 group-hover:text-white">Soporte</span></a>
+        </div>
+    </div>
+
+    <div class="w-full max-w-5xl px-6 mt-16 z-10">
+        <div class="text-center mb-8 border-t border-white/10 pt-10">
+            <h2 class="text-2xl md:text-3xl font-black italic uppercase tracking-widest text-gray-400">Nuestra <span class="text-green-400">Esencia</span></h2>
+            <p class="text-[10px] text-gray-500 font-bold uppercase tracking-[0.3em] mt-2">Lo que nos hace fuertes</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="mvv-card">
+                <img src="tu-foto-mision.jpg" class="mvv-img" alt="Misión Agencia" onerror="this.src='https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=500&auto=format&fit=crop'">
+                <h3 class="text-lg font-black uppercase text-cyan-400 mb-2"><i class="fa-solid fa-rocket mr-2"></i>Misión</h3>
+                <p class="text-[11px] md:text-xs text-gray-300 leading-relaxed">Impulsar el talento de nuestros creadores, brindándoles las herramientas, asesoría y apoyo necesario para que maximicen su potencial y alcancen el éxito en TikTok Live.</p>
+            </div>
+            <div class="mvv-card">
+                <img src="tu-foto-vision.jpg" class="mvv-img" alt="Visión Agencia" onerror="this.src='https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=500&auto=format&fit=crop'">
+                <h3 class="text-lg font-black uppercase text-pink-500 mb-2"><i class="fa-solid fa-eye mr-2"></i>Visión</h3>
+                <p class="text-[11px] md:text-xs text-gray-300 leading-relaxed">Ser la agencia líder a nivel global en desarrollo de talentos digitales, reconocida por construir la comunidad de creadores más unida y rentable de la plataforma.</p>
+            </div>
+            <div class="mvv-card">
+                <img src="tu-foto-valores.jpg" class="mvv-img" alt="Valores Agencia" onerror="this.src='https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?q=80&w=500&auto=format&fit=crop'">
+                <h3 class="text-lg font-black uppercase text-yellow-400 mb-2"><i class="fa-solid fa-handshake-angle mr-2"></i>Valores</h3>
+                <ul class="text-[11px] md:text-xs text-gray-300 leading-relaxed text-left pl-4 list-disc marker:text-yellow-400 space-y-1">
+                    <li><b>Transparencia:</b> Claridad total en cada proceso.</li>
+                    <li><b>Comunidad:</b> Apoyo mutuo entre creadores.</li>
+                    <li><b>Innovación:</b> Siempre un paso adelante.</li>
+                    <li><b>Compromiso:</b> Tu éxito es el nuestro.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="news-ticker">
+        <div class="ticker-content">
+            <span><i class="fa-solid fa-bullhorn text-pink-500"></i> ¡Campaña activa! Sube 3 videos esta semana y gana bonos especiales.</span>
+            <span><i class="fa-solid fa-trophy text-yellow-400"></i> Felicidades a los talentos Top 5 de la semana.</span>
+        </div>
+    </div>
+
+    <div id="menu-overlay">
+        <div class="text-center mb-6"><p class="text-[9px] font-black text-cyan-400 tracking-[0.5em] uppercase italic">Centro de Ayuda y Gestión</p></div>
+        
+        <nav class="nav-container">
+            <details>
+                <summary>Guía de inicio</summary>
+                <a href="guia-crear-cuenta.html" class="sub-link">Crear una cuenta</a>
+                <a href="configurar-perfil.html" class="sub-link">Configurar tu perfil</a>
+                <a href="para-ti.html" class="sub-link">Para ti</a>
+            </details>
+            <details>
+                <summary>Guia de uso de Tik Tok</summary>
+                <a href="crear-videos.html" class="sub-link">Crear vídeos</a>
+                <a href="guias-completas.html" class="sub-link">Explorar vídeos</a>
+                <a href="#" class="sub-link">Mensajes y notificaciones</a>
+                <a href="#" class="sub-link">Seguidores y seguidos</a>
+                <a href="#" class="sub-link">Aumentar el número de espectadores</a>
+                <a href="#" class="sub-link">Informar de un problema</a>
+            </details>
+            <details>
+                <summary>Ajustes de la cuenta y privacidad</summary>
+                <a href="#" class="sub-link">Datos de la cuenta</a>
+                <a href="#" class="sub-link">Ajustes de privacidad de la cuenta</a>
+                <a href="#" class="sub-link">Cambiar ajustes de anuncios personalizados</a>
+                <a href="#" class="sub-link">Eliminar una cuenta</a>
+            </details>
+            <details>
+                <summary>Seguridad</summary>
+                <a href="#" class="sub-link">Informar de un problema</a>
+                <a href="#" class="sub-link">Seguridad de la cuenta y del usuario</a>
+                <a href="#" class="sub-link">Informar de vulnerabilidades de seguridad</a>
+            </details>
+            <details>
+                <summary>Inicio de sesión y solución de problemas</summary>
+                <a href="#" class="sub-link">Inicio de sesión</a>
+                <a href="#" class="sub-link">Solución de problemas</a>
+            </details>
+            <details>
+                <summary>Tik Tok LIVE, Regalos y cartera</summary>
+                <a href="#" class="sub-link">Tik Tok LIVE</a>
+                <a href="#" class="sub-link">Regalos</a>
+            </details>
+            <details>
+                <summary>Monetización en Tik Tok</summary>
+                <a href="#" class="sub-link">Tik Tok For Business</a>
+                <a href="#" class="sub-link">Políticas de monetización</a>
+                <a href="#" class="sub-link">Tik Tok One</a>
+                <a href="#" class="sub-link">Regalos para videos</a>
+            </details>
+            <a href="admin.html" id="admin-link" class="hidden mt-4 block p-4 bg-pink-500/10 border border-pink-500/20 rounded-xl text-xs font-bold text-center text-pink-500 uppercase tracking-widest">Panel Admin</a>
+        </nav>
+
+        <button id="btn-logout" class="my-6 text-[9px] font-black uppercase tracking-[0.4em] text-gray-600 hover:text-white transition">Cerrar Sesión</button>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAclvp8IB1SS_7rnv5MVAE3kIfR6Rz6ahg",
+            authDomain: "paginaweb-cf486.firebaseapp.com",
+            projectId: "paginaweb-cf486",
+            appId: "1:136417590997:web:6ae1e65956018d8f77ec5c"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Control del Menú
+        const btn = document.getElementById('btn-toggle');
+        const overlay = document.getElementById('menu-overlay');
+        btn.onclick = () => { btn.classList.toggle('open'); overlay.classList.toggle('active'); };
+        document.getElementById('btn-logout').onclick = () => signOut(auth).then(() => window.location.href = "index.html");
+
+        // Funcionalidad de Audio Mute/Unmute para el video local
+        window.toggleMute = () => {
+            const video = document.getElementById('main-promo-video');
+            const icon = document.getElementById('mute-icon');
+            video.muted = !video.muted;
+            if (video.muted) {
+                icon.classList.replace('fa-volume-high', 'fa-volume-xmark');
+            } else {
+                icon.classList.replace('fa-volume-xmark', 'fa-volume-high');
+            }
+        };
+
+        // Autenticación
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) { window.location.href = "index.html"; return; }
+            const userDoc = await getDoc(doc(db, "usuarios", user.uid));
+            
+            if (userDoc.exists()) { 
+                const userData = userDoc.data();
+                
+                // Si es Admin
+                if (userData.isAdmin) { 
+                    document.getElementById('admin-link').classList.remove('hidden'); 
+                }
+
+                document.getElementById('streamer-name').innerText = userData.tiktok || "Streamer";
+                document.getElementById('welcome-card').classList.remove('opacity-0');
+            }
+        });
+    </script>
+</body>
+</html>

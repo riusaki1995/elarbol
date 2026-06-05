@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talentos Oficiales | Agencia ELArbol</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root { --tk-pink: #fe2c55; --tk-cyan: #25f4ee; }
+        body { background-color: #050505; color: white; font-family: 'Inter', sans-serif; margin: 0; }
+        
+        /* AQUÍ ESTÁ EL CAMBIO DEL FONDO */
+        .tiktok-bg { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            z-index: -2; 
+            /* Cambia 'fondo.jpg' por el nombre exacto de tu imagen */
+            background-image: url('fondo.png'); 
+            background-size: cover; 
+            background-position: center;
+            background-repeat: no-repeat;
+            /* Oscurecemos un poco la imagen para que las tarjetas resalten */
+            filter: brightness(0.4); 
+        }
+        
+        /* Modificamos la tarjeta para que se comporte como un botón interactivo */
+        .bento-card { 
+            background: rgba(255, 255, 255, 0.05); 
+            backdrop-filter: blur(20px); 
+            border: 1px solid rgba(255,255,255,0.1); 
+            border-radius: 2rem; 
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+            text-decoration: none; /* Quita el subrayado de los links */
+        }
+        /* Efecto al pasar el ratón: se eleva, cambia borde y brilla */
+        .bento-card:hover { 
+            border-color: var(--tk-cyan); 
+            transform: translateY(-8px); 
+            box-shadow: 0 15px 30px -10px rgba(37, 244, 238, 0.15); 
+        }
+        
+        .text-gradient { background: linear-gradient(to right, var(--tk-pink), var(--tk-cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    </style>
+</head>
+<body class="p-10">
+    <div class="tiktok-bg"></div>
+    
+    <div class="max-w-7xl mx-auto">
+        <header class="flex justify-between items-center mb-20">
+            <div class="text-3xl font-black italic uppercase tracking-tighter">Agencia ELArbol<span class="text-pink-500"> . CREADORES</span></div>
+            <button onclick="window.close()" class="text-[10px] font-bold uppercase tracking-widest text-gray-500 hover:text-white transition">Cerrar Galería</button>
+        </header>
+
+        <div id="streamers-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <p class="col-span-full text-center opacity-30 animate-pulse uppercase tracking-widest text-xs">Sincronizando red de creadores...</p>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyAclvp8IB1SS_7rnv5MVAE3kIfR6Rz6ahg",
+            authDomain: "paginaweb-cf486.firebaseapp.com",
+            projectId: "paginaweb-cf486",
+            appId: "1:136417590997:web:6ae1e65956018d8f77ec5c"
+        };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const container = document.getElementById('streamers-container');
+
+        function mensaje(texto) {
+            container.innerHTML = `<p class="col-span-full text-center opacity-40 uppercase tracking-widest text-xs">${texto}</p>`;
+        }
+
+        async function load() {
+            try {
+                const snap = await getDocs(collection(db, "usuarios"));
+                container.innerHTML = '';
+                let encontrados = 0;
+                const vistos = new Set();
+
+                snap.forEach(docSnap => {
+                    const s = docSnap.data();
+                    if (s.aprobado) {
+                        const userLimpio = (s.tiktok || '').replace('@', '');
+                        const clave = userLimpio.toLowerCase();
+                        if (!userLimpio || vistos.has(clave)) return;
+                        vistos.add(clave);
+                        encontrados++;
+                        container.innerHTML += `
+                            <a href="https://www.tiktok.com/@${userLimpio}" target="_blank" rel="noopener noreferrer" class="bento-card p-10 flex flex-col items-center group">
+                                <img src="https://unavatar.io/tiktok/${userLimpio}" class="w-28 h-28 rounded-full mb-6 ring-4 ring-cyan-500/20 shadow-2xl transition-all duration-300 group-hover:ring-pink-500/50" onerror="this.src='https://ui-avatars.com/api/?name=${userLimpio}'">
+                                <h4 class="font-black text-2xl text-gradient uppercase tracking-tighter">@${userLimpio}</h4>
+                                <p class="text-[9px] text-gray-500 uppercase font-black tracking-[0.3em] mt-3">Creador Verificado</p>
+                            </a>`;
+                    }
+                });
+
+                if (encontrados === 0) mensaje('Aún no hay creadores aprobados');
+            } catch (err) {
+                mensaje('Error al cargar: ' + err.code);
+                console.error(err);
+            }
+        }
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                load();
+            } else {
+                window.location.href = "index.html";
+            }
+        });
+    </script>
+</body>
+</html>

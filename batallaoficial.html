@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batallas Oficiales | Agencia ELArbol</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root { --tk-pink: #fe2c55; --tk-cyan: #25f4ee; --tk-gold: #f39c12; }
+        body { background-color: #050505; color: white; font-family: 'Inter', sans-serif; margin: 0; min-height: 100vh;}
+        
+        .video-bg {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            object-fit: cover; z-index: -2;
+        }
+
+        .tiktok-bg { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; 
+            background: radial-gradient(circle at center, rgba(17,17,17,0.4) 0%, rgba(0,0,0,0.85) 100%); 
+            pointer-events: none;
+        }
+
+        .glass-panel {
+            background: rgba(15, 15, 15, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(243, 156, 18, 0.3); 
+            border-radius: 1.5rem;
+            box-shadow: 0 0 40px rgba(243, 156, 18, 0.1);
+            position: relative;
+        }
+
+        .btn-close {
+            position: absolute;
+            top: 1.5rem; right: 1.5rem;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 1.8rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            z-index: 100;
+            text-decoration: none;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .btn-close:hover { color: var(--tk-gold); transform: rotate(90deg); }
+
+        ::-webkit-scrollbar { display: none; }
+
+        .content-text h3 { 
+            color: var(--tk-gold); font-weight: 900; font-size: 1.2rem; 
+            margin-top: 2rem; margin-bottom: 1rem; text-transform: uppercase; 
+            letter-spacing: 1px; border-bottom: 1px solid rgba(243, 156, 18, 0.2);
+            padding-bottom: 0.5rem;
+        }
+        .content-text ul { list-style: none; padding-left: 0; margin-bottom: 1.5rem; }
+        .content-text ul li { margin-bottom: 0.8rem; display: flex; align-items: flex-start; line-height: 1.6; color: #ccc; }
+        .content-text ul li::before { content: "🏆"; margin-right: 10px; font-size: 1rem; }
+        .content-text p { color: #d1d5db; font-size: 1rem; margin-bottom: 1.2rem; line-height: 1.6; }
+        .content-text b { color: white; }
+
+        .checklist-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            color: #eee;
+        }
+    </style>
+</head>
+<body class="p-6 md:p-10">
+
+    <video class="video-bg" autoplay loop muted playsinline>
+        <source src="tu-video.mp4" type="video/mp4">
+    </video>
+
+    <div class="tiktok-bg"></div>
+
+    <div class="max-w-4xl mx-auto pb-20">
+        <header class="flex justify-between items-center mb-8">
+            <div>
+                <a href="batallas.html" class="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-orange-400 transition-all mb-2">
+                    <i class="fa-solid fa-arrow-left"></i> Volver a Batallas
+                </a>
+                <h1 class="text-3xl md:text-5xl font-black italic uppercase tracking-tighter text-white">Agencia ELArbol<span class="text-orange-500">. ÉLITE</span></h1>
+            </div>
+        </header>
+
+        <div class="glass-panel p-8 md:p-12 relative mt-4">
+            
+            <a href="batallas.html" class="btn-close">
+                <i class="fa-solid fa-xmark"></i>
+            </a>
+
+            <div class="text-center mb-10">
+                <i class="fa-solid fa-fire text-6xl text-orange-500 mb-6 drop-shadow-[0_0_15px_rgba(243,156,18,0.6)]"></i>
+                <h2 class="text-3xl md:text-5xl font-black italic uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-yellow-400">Guía de Élite</h2>
+                <p class="text-lg md:text-xl text-gray-200 font-bold tracking-widest uppercase mt-3">Todo sobre las BATALLAS OFICIALES 🏆</p>
+            </div>
+
+            <div class="content-text">
+                <p class="text-white font-semibold text-lg text-center bg-orange-500/10 p-4 rounded-xl border border-orange-500/20 mb-8">
+                    Si has sido seleccionado para una Batalla Oficial, felicidades: TikTok y tu agencia te ven como un creador con potencial real. Aquí ya no se trata solo de divertirse, sino de rendimiento, estrategia y prestigio.
+                </p>
+
+                <h3>1. ¿Qué es una Batalla Oficial?</h3>
+                <p>A diferencia de un PK normal, una Batalla Oficial:</p>
+                <ul>
+                    <li><span><b>Es programada:</b> Tiene fecha y hora exacta (no puedes llegar tarde).</span></li>
+                    <li><span><b>Tiene Arbitraje/Soporte:</b> TikTok monitorea el evento para asegurar que sea justo.</span></li>
+                    <li><span><b>Mayor Visibilidad:</b> El algoritmo suele dar un "empujón" (push) de tráfico al Live para que más gente entre a ver la competición.</span></li>
+                    <li><span><b>Recompensas Especiales:</b> A menudo hay bonos de diamantes o marcos de perfil exclusivos para el ganador.</span></li>
+                </ul>
+
+                <h3>2. Requisitos de Oro (Lo que TikTok te pide)</h3>
+                <p>Para mantener el nivel, TikTok exige:</p>
+                <ul>
+                    <li><span><b>Puntualidad Extrema:</b> Debes estar conectado al menos 10-15 minutos antes.</span></li>
+                    <li><span><b>Conexión Estable:</b> Se recomienda usar WiFi de 5GHz o cable de red. Si se te cae el Live, pierdes por default.</span></li>
+                    <li><span><b>Cumplimiento de Normas:</b> Cero palabras prohibidas, nada de fumar en cámara, ni contenido que pueda ser reportado. Una infracción en una batalla oficial puede banear tu cuenta de futuros eventos.</span></li>
+                </ul>
+
+                <h3>3. La Estrategia de los "Pesos Pesados"</h3>
+                <p>En estas batallas, tu comunidad debe estar organizada como un ejército:</p>
+                <ul>
+                    <li><span><b>Designa Moderadores Activos:</b> Ellos deben estar en el chat animando, fijando comentarios y avisando sobre los multiplicadores (Guantes).</span></li>
+                    <li><span><b>El Calentamiento:</b> Haz un Live de 30 minutos antes de la batalla oficial para reunir a tu gente y que el algoritmo ya te tenga arriba cuando empiece el reto.</span></li>
+                    <li><span><b>Usa los "Guantes de Victoria":</b> En las oficiales, el uso del Guante (multiplicador x5) en el momento correcto suele decidir quién gana. ¡No dejes que tu equipo los gaste al principio!</span></li>
+                    <li><span><b>El "Snipe" Profesional:</b> En las batallas oficiales, los últimos 10 segundos son una locura. Pide a tus donadores más grandes que esperen hasta el final para que el rival no tenga tiempo de reaccionar.</span></li>
+                </ul>
+
+                <h3>4. Beneficios Reales para Ti (Creador)</h3>
+                <p>¿Por qué esforzarte tanto en una oficial?</p>
+                <ul>
+                    <li><span><b>Crecimiento Acelerado:</b> Atraes seguidores de la comunidad del rival y del tráfico que TikTok te manda.</span></li>
+                    <li><span><b>Ranking de Creadores:</b> Ganar batallas oficiales te posiciona mejor en el ranking semanal de tu país.</span></li>
+                    <li><span><b>Acceso a Eventos Presenciales:</b> Los ganadores recurrentes suelen ser invitados a los TikTok Awards o eventos VIP de la plataforma.</span></li>
+                </ul>
+
+                <h3>5. Check-list de Victoria (Antes de empezar)</h3>
+                <div class="my-6">
+                    <div class="checklist-item"><i class="fa-regular fa-square-check text-orange-500"></i> ¿Mi fondo se ve profesional y bien iluminado?</div>
+                    <div class="checklist-item"><i class="fa-regular fa-square-check text-orange-500"></i> ¿Tengo mi meta de diamantes configurada en pantalla?</div>
+                    <div class="checklist-item"><i class="fa-regular fa-square-check text-orange-500"></i> ¿Mis moderadores saben a qué hora es el evento?</div>
+                    <div class="checklist-item"><i class="fa-regular fa-square-check text-orange-500"></i> ¿Tengo un "Castigo" épico preparado para el rival?</div>
+                </div>
+
+                <div class="bg-cyan-500/10 border border-cyan-500/30 rounded-xl p-6 mt-10">
+                    <h4 class="text-cyan-400 font-black uppercase tracking-widest text-sm mb-3 flex items-center">
+                        <i class="fa-solid fa-lightbulb mr-2 text-yellow-300"></i> Un consejo final:
+                    </h4>
+                    <p class="mb-0 text-gray-200 italic">
+                        En una batalla oficial, la narrativa importa. No solo pidas regalos; cuenta una historia, di por qué esta batalla es importante para tu carrera y haz que tu comunidad sienta que la victoria es de TODOS, no solo tuya.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <footer class="mt-12 text-center">
+            <p class="text-[9px] font-black text-gray-600 uppercase tracking-[0.6em]">Agencia ELArbol • Élite Streamers</p>
+        </footer>
+    </div>
+</body>
+</html>
