@@ -56,7 +56,7 @@
         <header class="mb-10">
             <a href="lobby.html" class="back-btn mb-4"><i class="fa-solid fa-arrow-left"></i> Lobby</a>
             <h1 class="text-3xl md:text-5xl font-black italic uppercase tracking-tighter mt-4">Panel <span class="text-emerald-400">KPI</span></h1>
-            <p class="text-[10px] text-gray-500 font-black uppercase tracking-[0.3em] mt-2">Importa el reporte y visualiza a todos los creadores</p>
+            <p id="header-sub" class="text-[10px] text-gray-500 font-black uppercase tracking-[0.3em] mt-2">Importa el reporte y visualiza a todos los creadores</p>
         </header>
 
         <!-- IMPORTAR (solo admin) -->
@@ -75,22 +75,22 @@
         <div id="resumen" class="grid grid-cols-3 gap-4 mb-8 hidden">
             <div class="stat-card" style="--accent:#25f4ee">
                 <p class="stat-value text-cyan-400" id="total-users">0</p>
-                <p class="stat-label mt-2">Creadores</p>
+                <p class="stat-label mt-2" id="label-users">Creadores</p>
             </div>
             <div class="stat-card" style="--accent:#fe2c55">
                 <p class="stat-value text-pink-500" id="total-diamantes">0</p>
-                <p class="stat-label mt-2">Diamantes Totales</p>
+                <p class="stat-label mt-2" id="label-diamantes">Diamantes Totales</p>
             </div>
             <div class="stat-card" style="--accent:#34d399">
                 <p class="stat-value text-emerald-400" id="total-horas">0</p>
-                <p class="stat-label mt-2">Horas Totales</p>
+                <p class="stat-label mt-2" id="label-horas">Horas Totales</p>
             </div>
         </div>
 
         <!-- TABLA -->
         <div id="tabla-panel" class="glass-panel p-6 md:p-8 hidden">
             <div class="flex flex-wrap justify-between items-center gap-4 mb-5">
-                <h2 class="text-sm font-black uppercase tracking-widest text-gray-300"><i class="fa-solid fa-table-list text-cyan-400 mr-2"></i>Creadores</h2>
+                <h2 class="text-sm font-black uppercase tracking-widest text-gray-300"><i class="fa-solid fa-table-list text-cyan-400 mr-2"></i><span id="tabla-titulo">Creadores</span></h2>
                 <input type="text" id="buscar" class="form-input" style="max-width:260px" placeholder="Buscar usuario...">
             </div>
             <div class="table-wrap">
@@ -113,8 +113,8 @@
         <!-- ESTADO VACÍO -->
         <div id="vacio" class="glass-panel p-12 text-center">
             <i class="fa-solid fa-chart-simple text-5xl text-gray-700 mb-4"></i>
-            <p class="text-sm font-bold text-gray-500 uppercase tracking-widest">Aún no has importado ningún reporte</p>
-            <p class="text-[10px] text-gray-600 uppercase tracking-widest mt-2">Sube tu archivo .xlsx para ver a los creadores</p>
+            <p id="vacio-titulo" class="text-sm font-bold text-gray-500 uppercase tracking-widest">Aún no has importado ningún reporte</p>
+            <p id="vacio-sub" class="text-[10px] text-gray-600 uppercase tracking-widest mt-2">Sube tu archivo .xlsx para ver a los creadores</p>
         </div>
 
     </div>
@@ -138,6 +138,7 @@
         let sortKey = 'diamantes';
         let sortDir = -1;
         let esAdmin = false;
+        let miUsuario = '';
 
         const fmt = (n) => Number(n || 0).toLocaleString('es-MX', { maximumFractionDigits: 1 });
         const norm = (s) => (s || '').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
@@ -287,27 +288,81 @@
             reader.readAsArrayBuffer(file);
         }
 
+        function filaHTML(d, posicion) {
+            const rankClass = posicion === 1 ? 'rank-1' : posicion === 2 ? 'rank-2' : posicion === 3 ? 'rank-3' : '';
+            return `
+                <tr>
+                    <td><span class="rank-badge ${rankClass}">${posicion}</span></td>
+                    <td class="font-bold text-white">${d.usuario}</td>
+                    <td class="font-black text-pink-500"><i class="fa-solid fa-gem text-[10px] mr-1 opacity-60"></i>${fmt(d.diamantes)}</td>
+                    <td class="font-bold text-emerald-400"><i class="fa-solid fa-clock text-[10px] mr-1 opacity-60"></i>${fmt(d.horas)} h</td>
+                    <td class="font-bold text-yellow-400"><i class="fa-solid fa-calendar-check text-[10px] mr-1 opacity-60"></i>${fmt(d.dias)}</td>
+                    <td class="font-bold text-cyan-400"><i class="fa-solid fa-user-plus text-[10px] mr-1 opacity-60"></i>${fmt(d.seguidores)}</td>
+                </tr>`;
+        }
+
         function render() {
             const vacio = document.getElementById('vacio');
             const tablaPanel = document.getElementById('tabla-panel');
             const resumen = document.getElementById('resumen');
+            const buscar = document.getElementById('buscar');
 
             if (!datos.length) {
+                document.getElementById('vacio-titulo').innerText = esAdmin ? 'Aún no has importado ningún reporte' : 'El reporte aún no está disponible';
+                document.getElementById('vacio-sub').innerText = esAdmin ? 'Sube tu archivo .xlsx para ver a los creadores' : 'Vuelve más tarde, el administrador aún no ha publicado los datos';
                 vacio.classList.remove('hidden');
                 tablaPanel.classList.add('hidden');
                 resumen.classList.add('hidden');
                 return;
             }
 
+            // Ranking global por diamantes para mostrar la posición real
+            const rankingGlobal = [...datos].sort((a, b) => b.diamantes - a.diamantes);
+
+            // ---------- VISTA PERSONAL (usuario normal: solo ve sus propios datos) ----------
+            if (!esAdmin) {
+                buscar.classList.add('hidden');
+                document.getElementById('header-sub').innerText = 'Consulta tu desempeño personal';
+                document.getElementById('label-users').innerText = 'Tu Posición';
+                document.getElementById('label-diamantes').innerText = 'Tus Diamantes';
+                document.getElementById('label-horas').innerText = 'Tus Horas';
+                document.getElementById('tabla-titulo').innerText = 'Tus Resultados';
+
+                const miIndice = rankingGlobal.findIndex(d => norm(d.usuario) === miUsuario);
+                const miFila = miIndice >= 0 ? rankingGlobal[miIndice] : null;
+
+                if (!miFila) {
+                    document.getElementById('vacio-titulo').innerText = 'No encontramos tus datos en el reporte';
+                    document.getElementById('vacio-sub').innerText = 'Verifica que tu usuario de TikTok coincida con el del reporte';
+                    vacio.classList.remove('hidden');
+                    tablaPanel.classList.add('hidden');
+                    resumen.classList.add('hidden');
+                    return;
+                }
+
+                vacio.classList.add('hidden');
+                tablaPanel.classList.remove('hidden');
+                resumen.classList.remove('hidden');
+
+                document.getElementById('total-users').innerText = '#' + (miIndice + 1);
+                document.getElementById('total-diamantes').innerText = fmt(miFila.diamantes);
+                document.getElementById('total-horas').innerText = fmt(miFila.horas);
+
+                document.getElementById('tabla-body').innerHTML = filaHTML(miFila, miIndice + 1);
+                return;
+            }
+
+            // ---------- VISTA ADMIN (ve a todos los creadores) ----------
             vacio.classList.add('hidden');
             tablaPanel.classList.remove('hidden');
             resumen.classList.remove('hidden');
+            buscar.classList.remove('hidden');
 
             document.getElementById('total-users').innerText = datos.length;
             document.getElementById('total-diamantes').innerText = fmt(datos.reduce((a, d) => a + d.diamantes, 0));
             document.getElementById('total-horas').innerText = fmt(datos.reduce((a, d) => a + d.horas, 0));
 
-            const filtro = norm(document.getElementById('buscar').value);
+            const filtro = norm(buscar.value);
             let lista = datos.filter(d => norm(d.usuario).includes(filtro));
 
             lista.sort((a, b) => {
@@ -316,18 +371,7 @@
             });
 
             const body = document.getElementById('tabla-body');
-            body.innerHTML = lista.map((d, i) => {
-                const rankClass = i === 0 ? 'rank-1' : i === 1 ? 'rank-2' : i === 2 ? 'rank-3' : '';
-                return `
-                    <tr>
-                        <td><span class="rank-badge ${rankClass}">${i + 1}</span></td>
-                        <td class="font-bold text-white">${d.usuario}</td>
-                        <td class="font-black text-pink-500"><i class="fa-solid fa-gem text-[10px] mr-1 opacity-60"></i>${fmt(d.diamantes)}</td>
-                        <td class="font-bold text-emerald-400"><i class="fa-solid fa-clock text-[10px] mr-1 opacity-60"></i>${fmt(d.horas)} h</td>
-                        <td class="font-bold text-yellow-400"><i class="fa-solid fa-calendar-check text-[10px] mr-1 opacity-60"></i>${fmt(d.dias)}</td>
-                        <td class="font-bold text-cyan-400"><i class="fa-solid fa-user-plus text-[10px] mr-1 opacity-60"></i>${fmt(d.seguidores)}</td>
-                    </tr>`;
-            }).join('');
+            body.innerHTML = lista.map((d, i) => filaHTML(d, i + 1)).join('');
         }
 
         // Eventos de importacion
@@ -372,6 +416,7 @@
             try {
                 const perfil = await getDoc(doc(db, "usuarios", user.uid));
                 esAdmin = perfil.exists() && perfil.data().isAdmin === true;
+                miUsuario = perfil.exists() ? norm((perfil.data().tiktok || '').toString().replace(/^@/, '')) : '';
             } catch (e) { esAdmin = false; }
 
             if (esAdmin) {
