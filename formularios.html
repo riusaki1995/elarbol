@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formularios | Agencia ELArbol</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root { --tk-pink: #fe2c55; --tk-cyan: #25f4ee; }
+        body { background-color: #050505; color: white; font-family: 'Inter', sans-serif; margin: 0; min-height: 100vh; overflow-x: hidden; }
+
+        .tiktok-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background: radial-gradient(circle at center, rgba(17,17,17,0.6) 0%, rgba(0,0,0,0.95) 100%);
+            pointer-events: none;
+        }
+
+        .form-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            backdrop-filter: blur(15px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+        .form-card:hover {
+            border-color: var(--tk-cyan);
+            background: rgba(37, 244, 238, 0.05);
+            transform: translateY(-6px);
+            box-shadow: 0 15px 35px -5px rgba(37, 244, 238, 0.2);
+        }
+        .form-icon {
+            width: 56px; height: 56px;
+            border-radius: 1rem;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 1.2rem;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center pt-20 pb-24 px-6 relative">
+
+    <div class="tiktok-bg"></div>
+
+    <div class="w-full max-w-5xl z-10">
+
+        <header class="mb-10">
+            <a href="lobby.html" class="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-cyan-400 transition-all mb-3">
+                <i class="fa-solid fa-arrow-left"></i> Volver al Lobby
+            </a>
+            <h1 class="text-4xl md:text-6xl font-black italic tracking-tighter uppercase leading-none text-white drop-shadow-[0_4px_10px_rgba(0,0,0,0.8)]">
+                Formularios
+            </h1>
+            <p class="text-[11px] md:text-sm font-bold text-gray-400 tracking-wide mt-3 uppercase">
+                Elige el formulario que necesitas completar
+            </p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSe1adDBdZ7x22jWlEXpZPfFOusZioQ_nobLktPB4VoivZnSdg/viewform" target="_blank" rel="noopener" class="form-card group">
+                <div class="form-icon bg-cyan-400/10 text-cyan-400"><i class="fa-solid fa-clipboard-check"></i></div>
+                <span class="text-[10px] font-black uppercase tracking-[0.2em] text-cyan-400 mb-1">Formulario 1</span>
+                <h2 class="text-lg md:text-xl font-black uppercase text-white group-hover:text-cyan-400 transition">Evaluación de Creadores</h2>
+                <p class="text-xs text-gray-400 mt-2 leading-relaxed">Información general, frecuencia de lives, equipo y objetivos como creador de TikTok Live.</p>
+                <span class="mt-4 inline-flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-gray-300 group-hover:text-white">
+                    Abrir formulario <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                </span>
+            </a>
+
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSe1adDBdZ7x22jWlEXpZPfFOusZioQ_nobLktPB4VoivZnSdg/viewform" target="_blank" rel="noopener" class="form-card group">
+                <div class="form-icon bg-pink-500/10 text-pink-500"><i class="fa-solid fa-user-plus"></i></div>
+                <span class="text-[10px] font-black uppercase tracking-[0.2em] text-pink-500 mb-1">Formulario 2</span>
+                <h2 class="text-lg md:text-xl font-black uppercase text-white group-hover:text-pink-500 transition">Postulación de Talento</h2>
+                <p class="text-xs text-gray-400 mt-2 leading-relaxed">Solicitud para unirte a la agencia y comenzar tu proceso de evaluación.</p>
+                <span class="mt-4 inline-flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-gray-300 group-hover:text-white">
+                    Abrir formulario <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                </span>
+            </a>
+
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSe1adDBdZ7x22jWlEXpZPfFOusZioQ_nobLktPB4VoivZnSdg/viewform" target="_blank" rel="noopener" class="form-card group">
+                <div class="form-icon bg-yellow-400/10 text-yellow-400"><i class="fa-solid fa-chart-simple"></i></div>
+                <span class="text-[10px] font-black uppercase tracking-[0.2em] text-yellow-400 mb-1">Formulario 3</span>
+                <h2 class="text-lg md:text-xl font-black uppercase text-white group-hover:text-yellow-400 transition">Encuesta de Desempeño</h2>
+                <p class="text-xs text-gray-400 mt-2 leading-relaxed">Cuéntanos sobre tus diamantes, horarios y resultados para darte mejor apoyo.</p>
+                <span class="mt-4 inline-flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-gray-300 group-hover:text-white">
+                    Abrir formulario <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                </span>
+            </a>
+
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSdLcNusNhtAjhH0qspInBN-pEWT9DZQg8KG3d8AKRVEJhNKjw/viewform" target="_blank" rel="noopener" class="form-card group">
+                <div class="form-icon bg-green-400/10 text-green-400"><i class="fa-solid fa-handshake"></i></div>
+                <span class="text-[10px] font-black uppercase tracking-[0.2em] text-green-400 mb-1">Formulario 4</span>
+                <h2 class="text-lg md:text-xl font-black uppercase text-white group-hover:text-green-400 transition">Queremos Conocerte</h2>
+                <p class="text-xs text-gray-400 mt-2 leading-relaxed">Formulario para los nuevos del 2026 en la Agencia ELArbol.</p>
+                <span class="mt-4 inline-flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-gray-300 group-hover:text-white">
+                    Abrir formulario <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                </span>
+            </a>
+
+        </div>
+    </div>
+
+</body>
+</html>
