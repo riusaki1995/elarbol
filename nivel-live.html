@@ -86,6 +86,16 @@
             padding: 0.9rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.85rem;
         }
         .hist-row:last-child { border-bottom: none; }
+        .table-wrap { max-height: 65vh; overflow: auto; border-radius: 1rem; border: 1px solid rgba(255,255,255,0.08); }
+        table { width: 100%; border-collapse: collapse; }
+        thead th {
+            position: sticky; top: 0; background: #0c0c0c; font-size: 9px; font-weight: 900;
+            letter-spacing: 0.15em; text-transform: uppercase; color: #888; padding: 0.9rem 1rem;
+            text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); cursor: pointer; white-space: nowrap;
+        }
+        thead th:hover { color: var(--tk-cyan); }
+        tbody td { padding: 0.85rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.85rem; }
+        tbody tr:hover { background: rgba(255,255,255,0.03); }
         .motivacion-box {
             background: linear-gradient(135deg, rgba(254,44,85,0.08), rgba(37,244,238,0.08));
             border: 1px solid rgba(255,255,255,0.1); border-radius: 1.2rem; padding: 1.2rem 1.5rem;
@@ -137,8 +147,9 @@
             <select id="mes-selector" class="form-select" style="max-width:220px"></select>
         </div>
 
-        <div class="flex flex-wrap gap-2 mb-8">
-            <button class="tab-btn active" data-tab="nivel"><i class="fa-solid fa-gamepad mr-1"></i> Mi nivel</button>
+        <div class="flex flex-wrap gap-2 mb-8" id="tabs-nav">
+            <button class="tab-btn active" data-tab="nivel" id="tab-btn-nivel"><i class="fa-solid fa-gamepad mr-1"></i> Mi nivel</button>
+            <button class="tab-btn hidden" data-tab="todos" id="tab-btn-todos"><i class="fa-solid fa-users mr-1"></i> Todos los creadores</button>
             <button class="tab-btn" data-tab="ranking"><i class="fa-solid fa-trophy mr-1"></i> Ranking</button>
             <button class="tab-btn" data-tab="graficas"><i class="fa-solid fa-chart-bar mr-1"></i> Gráficas</button>
             <button class="tab-btn" data-tab="historial"><i class="fa-solid fa-clock-rotate-left mr-1"></i> Historial</button>
@@ -205,6 +216,36 @@
                 <div class="future-badge"><i class="fa-solid fa-gift text-pink-500 text-xl mb-2"></i><p class="text-[9px] font-black uppercase tracking-widest text-gray-500">Recompensas</p><p class="text-[8px] text-gray-600 mt-1">Próximamente</p></div>
                 <div class="future-badge"><i class="fa-solid fa-fire-flame-curved text-orange-400 text-xl mb-2"></i><p class="text-[9px] font-black uppercase tracking-widest text-gray-500">Racha Nivel 4</p><p class="text-[8px] text-gray-600 mt-1">3 meses = beneficio</p></div>
                 <div class="future-badge"><i class="fa-solid fa-star text-cyan-400 text-xl mb-2"></i><p class="text-[9px] font-black uppercase tracking-widest text-gray-500">Campañas VIP</p><p class="text-[8px] text-gray-600 mt-1">Próximamente</p></div>
+            </div>
+        </div>
+
+        <!-- TODOS (solo admin) -->
+        <div id="tab-todos" class="hidden">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6" id="admin-resumen"></div>
+            <div class="glass p-6 md:p-8">
+                <div class="flex flex-wrap justify-between items-center gap-4 mb-5">
+                    <h2 class="text-sm font-black uppercase tracking-widest text-gray-300">
+                        <i class="fa-solid fa-users text-cyan-400 mr-2"></i>Todos los creadores — <span id="todos-mes-label"></span>
+                    </h2>
+                    <input type="text" id="buscar-todos" class="form-input" style="max-width:260px" placeholder="Buscar usuario...">
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width:50px">#</th>
+                                <th data-sort="usuario">Creador</th>
+                                <th data-sort="nivel">Nivel</th>
+                                <th data-sort="dias">Días</th>
+                                <th data-sort="horas">Horas LIVE</th>
+                                <th>Progreso</th>
+                                <th>Racha</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-todos"></tbody>
+                    </table>
+                </div>
+                <p class="text-[10px] text-gray-600 mt-4 text-right" id="todos-count"></p>
             </div>
         </div>
 
@@ -284,6 +325,8 @@
         let mesActual = '';
         let todosMeses = {};
         let miHistorial = [];
+        let sortKey = 'nivel';
+        let sortDir = -1;
 
         const norm = (s) => (s || '').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().replace(/^@/, '');
         const fmt = (n) => Number(n || 0).toLocaleString('es-MX', { maximumFractionDigits: 1 });
@@ -422,14 +465,20 @@
         }
 
         // --- UI ---
+        const TAB_IDS = ['nivel', 'todos', 'ranking', 'graficas', 'historial'];
+
+        function activarTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(b => {
+                b.classList.toggle('active', b.dataset.tab === tab);
+            });
+            TAB_IDS.forEach(t => {
+                const el = document.getElementById('tab-' + t);
+                if (el) el.classList.toggle('hidden', t !== tab);
+            });
+        }
+
         document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.onclick = () => {
-                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                ['nivel','ranking','graficas','historial'].forEach(t => {
-                    document.getElementById('tab-' + t).classList.toggle('hidden', btn.dataset.tab !== t);
-                });
-            };
+            btn.onclick = () => activarTab(btn.dataset.tab);
         });
 
         function badgeHTML(nivel) {
@@ -448,8 +497,23 @@
             panel.classList.remove('hidden');
 
             if (!mi) {
-                document.getElementById('mi-nombre').innerText = miUsuario ? '@' + miUsuario : 'Sin datos';
-                document.getElementById('mi-motivacion').innerText = 'No apareces en el reporte de este mes. Verifica que tu usuario coincida.';
+                document.getElementById('mi-avatar').src = avatarUrl(miUsuario);
+                document.getElementById('mi-nombre').innerText = miUsuario ? '@' + miUsuario : 'Administrador';
+                document.getElementById('mi-badge').innerHTML = esAdmin
+                    ? '<span class="level-badge lvl-4"><i class="fa-solid fa-shield-halved mr-1"></i> Vista Admin</span>'
+                    : badgeHTML(0);
+                document.getElementById('mi-desc-nivel').innerText = esAdmin
+                    ? 'Revisa el rendimiento de todos los creadores en la pestaña "Todos los creadores".'
+                    : 'No apareces en el reporte de este mes.';
+                document.getElementById('mi-posicion').innerText = '—';
+                document.getElementById('xp-pct').innerText = '—';
+                document.getElementById('xp-bar').style.width = '0%';
+                document.getElementById('mi-dias').innerText = '—';
+                document.getElementById('mi-horas').innerText = '—';
+                document.getElementById('mi-motivacion').innerText = esAdmin
+                    ? `Hay ${datosMes.length} creadores en el reporte de ${mesLabel(mesActual)}.`
+                    : 'Verifica que tu usuario de TikTok coincida con el del reporte.';
+                document.getElementById('level-steps').innerHTML = '';
                 return;
             }
 
@@ -486,6 +550,54 @@
                 if (mi.nivel === L.n) cls += ' current';
                 return `<div class="${cls}"><div class="text-lg mb-1">${L.emoji}</div>Nv ${L.n}<br><span class="text-gray-600">${L.dias}d · ${L.horas}h</span></div>`;
             }).join('');
+        }
+
+        function renderTodos() {
+            if (!esAdmin) return;
+            document.getElementById('todos-mes-label').innerText = mesActual ? mesLabel(mesActual) : '';
+
+            const dist = [0, 0, 0, 0, 0];
+            datosMes.forEach(d => dist[d.nivel]++);
+            document.getElementById('admin-resumen').innerHTML = `
+                <div class="stat-mini md:col-span-1"><p class="stat-mini-val text-white">${datosMes.length}</p><p class="stat-mini-lbl">Creadores</p></div>
+                ${[1,2,3,4].map(n => `<div class="stat-mini"><p class="stat-mini-val text-cyan-400">${dist[n]}</p><p class="stat-mini-lbl">Nv ${n}</p></div>`).join('')}
+            `;
+
+            const filtro = norm(document.getElementById('buscar-todos').value);
+            let lista = datosMes.filter(d => norm(d.usuario).includes(filtro) || norm(d.nombre).includes(filtro));
+            lista.sort((a, b) => {
+                if (sortKey === 'usuario') return sortDir * a.usuario.localeCompare(b.usuario);
+                return sortDir * (a[sortKey] - b[sortKey]);
+            });
+
+            document.getElementById('tabla-todos').innerHTML = lista.map((d, i) => {
+                const prog = progresoSiguiente(d.nivel, d.dias, d.horas);
+                const racha = calcularRacha(d.usuario);
+                return `<tr>
+                    <td class="font-black text-gray-500 text-xs">${i + 1}</td>
+                    <td>
+                        <div class="flex items-center gap-3">
+                            <img src="${avatarUrl(d.usuario)}" class="w-9 h-9 rounded-full object-cover border border-white/10" onerror="this.src='https://i.pravatar.cc/150?img=0'">
+                            <div>
+                                <p class="font-bold text-white">${esc(d.nombre || d.usuario)}</p>
+                                <p class="text-[10px] text-gray-500">@${esc(d.usuario)}</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td>${badgeHTML(d.nivel)}</td>
+                    <td class="font-bold text-emerald-400">${fmt(d.dias)}</td>
+                    <td class="font-bold text-cyan-400">${fmt(d.horas)} h</td>
+                    <td style="min-width:120px">
+                        <div class="flex items-center gap-2">
+                            <div class="chart-bar-track flex-1" style="height:8px"><div class="chart-bar-fill" style="width:${prog.pct}%;background:linear-gradient(90deg,#fe2c55,#25f4ee)"></div></div>
+                            <span class="text-[10px] font-bold text-gray-500">${prog.pct}%</span>
+                        </div>
+                    </td>
+                    <td class="text-[10px] text-gray-500">${racha >= 3 ? '🔥 ' + racha : racha > 0 ? racha + ' mes' : '—'}</td>
+                </tr>`;
+            }).join('');
+
+            document.getElementById('todos-count').innerText = `Mostrando ${lista.length} de ${datosMes.length} creadores`;
         }
 
         function renderRanking() {
@@ -582,20 +694,27 @@
 
         function render() {
             const vacio = document.getElementById('vacio');
-            const tabs = ['nivel','ranking','graficas','historial'];
 
             if (!datosMes.length) {
                 vacio.classList.remove('hidden');
-                tabs.forEach(t => document.getElementById('tab-' + t).classList.add('hidden'));
+                TAB_IDS.forEach(t => {
+                    const el = document.getElementById('tab-' + t);
+                    if (el) el.classList.add('hidden');
+                });
                 document.getElementById('vacio-titulo').innerText = esAdmin ? 'Importa el reporte mensual' : 'Sin datos para este mes';
                 document.getElementById('vacio-sub').innerText = esAdmin ? 'Sube el Excel con días y horas LIVE' : 'Vuelve cuando el admin publique el reporte';
                 return;
             }
 
             vacio.classList.add('hidden');
-            document.getElementById('tab-nivel').classList.remove('hidden');
+            if (esAdmin) {
+                activarTab('todos');
+            } else {
+                activarTab('nivel');
+            }
 
             renderMiNivel();
+            renderTodos();
             renderRanking();
             renderGraficas();
             renderHistorial();
@@ -676,7 +795,21 @@
                 esAdmin = perfil.data().isAdmin === true;
                 miUsuario = norm(perfil.data().tiktok);
             }
-            if (esAdmin) document.getElementById('import-panel').classList.remove('hidden');
+            if (esAdmin) {
+                document.getElementById('import-panel').classList.remove('hidden');
+                document.getElementById('tab-btn-todos').classList.remove('hidden');
+            }
+
+            document.getElementById('buscar-todos').oninput = renderTodos;
+            document.querySelectorAll('#tab-todos th[data-sort]').forEach(th => {
+                th.onclick = () => {
+                    const key = th.dataset.sort;
+                    if (sortKey === key) sortDir *= -1;
+                    else { sortKey = key; sortDir = key === 'usuario' ? 1 : -1; }
+                    renderTodos();
+                };
+            });
+
             document.getElementById('mes-import').value = mesActualId();
             await cargarTodosMeses();
         });
