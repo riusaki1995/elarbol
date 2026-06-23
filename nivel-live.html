@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nivel LIVE | Agencia ELArbol</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root { --tk-pink: #fe2c55; --tk-cyan: #25f4ee; --tk-green: #34d399; --tk-gold: #facc15; }
+        body { background-color: #050505; color: white; font-family: 'Inter', sans-serif; margin: 0; min-height: 100vh; }
+        .tiktok-bg {
+            position: fixed; inset: 0; z-index: -1;
+            background-image: url('fondo.png');
+            background-size: cover; background-position: center;
+            filter: brightness(0.2);
+        }
+        .glass { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 1.5rem; backdrop-filter: blur(20px); }
+        .back-btn {
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+            padding: 0.7rem 1.3rem; border-radius: 1rem; text-transform: uppercase;
+            font-size: 10px; font-weight: 900; letter-spacing: 2px; color: rgba(255,255,255,0.6);
+            display: inline-flex; align-items: center; gap: 10px; text-decoration: none; transition: 0.3s;
+        }
+        .back-btn:hover { border-color: var(--tk-cyan); color: white; }
+        .tab-btn {
+            padding: 0.65rem 1.3rem; border-radius: 999px; font-size: 10px; font-weight: 900;
+            letter-spacing: 0.12em; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.1);
+            background: transparent; color: #888; cursor: pointer; transition: 0.3s;
+        }
+        .tab-btn.active { background: rgba(37,244,238,0.1); border-color: var(--tk-cyan); color: white; }
+        .form-input, .form-select {
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            width: 100%; padding: 0.8rem 1rem; border-radius: 0.9rem; color: white; outline: none; font-size: 0.85rem;
+        }
+        .form-input:focus, .form-select:focus { border-color: var(--tk-cyan); }
+        .form-select option { background: #111; }
+        .dropzone {
+            border: 2px dashed rgba(255,255,255,0.15); border-radius: 1.5rem; padding: 2rem;
+            text-align: center; cursor: pointer; transition: 0.3s; background: rgba(255,255,255,0.02);
+        }
+        .dropzone:hover, .dropzone.drag { border-color: var(--tk-green); background: rgba(52,211,153,0.05); }
+        .xp-track {
+            height: 22px; background: rgba(0,0,0,0.5); border-radius: 999px; overflow: hidden;
+            border: 2px solid rgba(255,255,255,0.1); position: relative;
+        }
+        .xp-fill {
+            height: 100%; border-radius: 999px;
+            background: linear-gradient(90deg, #fe2c55, #f472b6, #25f4ee, #34d399);
+            transition: width 1s cubic-bezier(0.4,0,0.2,1);
+            box-shadow: 0 0 20px rgba(37,244,238,0.4);
+        }
+        .xp-glow { position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); animation: shine 2s infinite; }
+        @keyframes shine { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+        .level-badge {
+            display: inline-flex; align-items: center; gap: 8px; padding: 0.5rem 1.2rem;
+            border-radius: 999px; font-size: 11px; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase;
+        }
+        .lvl-0 { background: rgba(255,255,255,0.08); color: #888; border: 1px solid rgba(255,255,255,0.1); }
+        .lvl-1 { background: rgba(52,211,153,0.15); color: #34d399; border: 1px solid rgba(52,211,153,0.3); }
+        .lvl-2 { background: rgba(37,244,238,0.15); color: #25f4ee; border: 1px solid rgba(37,244,238,0.3); }
+        .lvl-3 { background: rgba(244,114,182,0.15); color: #f472b6; border: 1px solid rgba(244,114,182,0.3); }
+        .lvl-4 { background: rgba(250,204,21,0.15); color: #facc15; border: 1px solid rgba(250,204,21,0.4); box-shadow: 0 0 20px rgba(250,204,21,0.2); }
+        .level-step {
+            flex: 1; text-align: center; padding: 0.75rem 0.25rem; border-radius: 1rem;
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+            opacity: 0.4; transition: 0.3s; font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.05em;
+        }
+        .level-step.done { opacity: 1; border-color: var(--tk-cyan); background: rgba(37,244,238,0.08); }
+        .level-step.current { opacity: 1; border-color: var(--tk-pink); background: rgba(254,44,85,0.1); transform: scale(1.05); }
+        .rank-row {
+            display: flex; align-items: center; gap: 12px; padding: 0.9rem 1rem;
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 1rem; margin-bottom: 0.5rem; transition: 0.2s;
+        }
+        .rank-row:hover { border-color: var(--tk-cyan); transform: translateX(4px); }
+        .rank-pos { width: 32px; font-weight: 900; font-size: 0.9rem; color: var(--tk-cyan); }
+        .rank-pos.gold { color: var(--tk-gold); }
+        .chart-bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 0.6rem; }
+        .chart-bar-label { width: 90px; font-size: 10px; font-weight: 700; text-transform: uppercase; color: #888; truncate; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .chart-bar-track { flex: 1; height: 10px; background: rgba(255,255,255,0.06); border-radius: 999px; overflow: hidden; }
+        .chart-bar-fill { height: 100%; border-radius: 999px; transition: width 0.8s; }
+        .hist-row {
+            display: grid; grid-template-columns: 1fr auto auto auto; gap: 1rem; align-items: center;
+            padding: 0.9rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.85rem;
+        }
+        .hist-row:last-child { border-bottom: none; }
+        .motivacion-box {
+            background: linear-gradient(135deg, rgba(254,44,85,0.08), rgba(37,244,238,0.08));
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 1.2rem; padding: 1.2rem 1.5rem;
+        }
+        .future-badge {
+            background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.15);
+            border-radius: 1rem; padding: 1rem; text-align: center; opacity: 0.7;
+        }
+        .stat-mini { background: rgba(255,255,255,0.04); border-radius: 1rem; padding: 1rem; text-align: center; border: 1px solid rgba(255,255,255,0.06); }
+        .stat-mini-val { font-size: 1.5rem; font-weight: 900; line-height: 1; }
+        .stat-mini-lbl { font-size: 8px; font-weight: 900; letter-spacing: 0.2em; text-transform: uppercase; color: #666; margin-top: 0.4rem; }
+    </style>
+</head>
+<body class="p-4 md:p-10 pb-16">
+    <div class="tiktok-bg"></div>
+
+    <div class="max-w-6xl mx-auto">
+        <header class="mb-8">
+            <a href="lobby.html" class="back-btn mb-4"><i class="fa-solid fa-arrow-left"></i> Lobby</a>
+            <h1 class="text-3xl md:text-5xl font-black italic uppercase tracking-tighter">
+                Nivel <span class="text-cyan-400">LIVE</span>
+            </h1>
+            <p class="text-[10px] text-gray-500 font-black uppercase tracking-[0.3em] mt-2">Sistema de crecimiento · Ranking mensual</p>
+        </header>
+
+        <!-- ADMIN IMPORT -->
+        <div id="import-panel" class="glass p-6 mb-8 hidden">
+            <h2 class="text-sm font-black uppercase tracking-widest text-gray-300 mb-4">
+                <i class="fa-solid fa-file-import text-emerald-400 mr-2"></i>Importar reporte mensual
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label class="text-[10px] font-black uppercase tracking-widest text-gray-500 mb-1 block">Mes del reporte</label>
+                    <input type="month" id="mes-import" class="form-input">
+                </div>
+            </div>
+            <div id="dropzone" class="dropzone">
+                <i class="fa-solid fa-cloud-arrow-up text-3xl text-emerald-400 mb-3"></i>
+                <p class="text-sm font-bold text-gray-300">Arrastra el Excel mensual de TikTok LIVE</p>
+                <p class="text-[10px] text-gray-500 uppercase tracking-widest mt-2">.xlsx · .xls · .csv</p>
+                <input type="file" id="file-input" accept=".xlsx,.xls,.csv" class="hidden">
+            </div>
+            <p id="import-msg" class="mt-3 text-center text-[10px] font-bold uppercase tracking-widest"></p>
+        </div>
+
+        <!-- SELECTOR MES -->
+        <div class="flex flex-wrap items-center gap-4 mb-6">
+            <label class="text-[10px] font-black uppercase tracking-widest text-gray-500">Ver mes:</label>
+            <select id="mes-selector" class="form-select" style="max-width:220px"></select>
+        </div>
+
+        <div class="flex flex-wrap gap-2 mb-8">
+            <button class="tab-btn active" data-tab="nivel"><i class="fa-solid fa-gamepad mr-1"></i> Mi nivel</button>
+            <button class="tab-btn" data-tab="ranking"><i class="fa-solid fa-trophy mr-1"></i> Ranking</button>
+            <button class="tab-btn" data-tab="graficas"><i class="fa-solid fa-chart-bar mr-1"></i> Gráficas</button>
+            <button class="tab-btn" data-tab="historial"><i class="fa-solid fa-clock-rotate-left mr-1"></i> Historial</button>
+        </div>
+
+        <!-- VACÍO -->
+        <div id="vacio" class="glass p-14 text-center hidden">
+            <i class="fa-solid fa-signal text-5xl text-gray-700 mb-4"></i>
+            <p id="vacio-titulo" class="text-sm font-bold text-gray-500 uppercase tracking-widest">Sin datos para este mes</p>
+            <p id="vacio-sub" class="text-[10px] text-gray-600 uppercase tracking-widest mt-2">El administrador aún no ha cargado el reporte</p>
+        </div>
+
+        <!-- MI NIVEL -->
+        <div id="tab-nivel" class="hidden">
+            <div class="glass p-6 md:p-8 mb-6">
+                <div class="flex flex-wrap items-start gap-6">
+                    <img id="mi-avatar" src="" class="w-24 h-24 rounded-2xl border-2 border-cyan-400 object-cover bg-gray-800" alt="">
+                    <div class="flex-1 min-w-[240px]">
+                        <p class="text-[10px] font-black uppercase tracking-widest text-gray-500 mb-1">Creador LIVE</p>
+                        <h2 id="mi-nombre" class="text-2xl font-black uppercase">@usuario</h2>
+                        <div class="mt-3" id="mi-badge"></div>
+                        <p id="mi-desc-nivel" class="text-sm text-gray-400 mt-2 italic"></p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-[10px] font-black uppercase tracking-widest text-gray-500">Posición</p>
+                        <p id="mi-posicion" class="text-4xl font-black text-cyan-400">—</p>
+                    </div>
+                </div>
+
+                <div class="mt-8">
+                    <div class="flex justify-between text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2">
+                        <span id="xp-label">Progreso al siguiente nivel</span>
+                        <span id="xp-pct" class="text-pink-500">0%</span>
+                    </div>
+                    <div class="xp-track">
+                        <div id="xp-bar" class="xp-fill" style="width:0%"></div>
+                        <div class="xp-glow"></div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 mt-4">
+                        <div class="stat-mini">
+                            <p class="stat-mini-val text-emerald-400" id="mi-dias">0</p>
+                            <p class="stat-mini-lbl">Días activos</p>
+                            <p class="text-[10px] text-gray-600 mt-1" id="mi-dias-meta">/ 7</p>
+                        </div>
+                        <div class="stat-mini">
+                            <p class="stat-mini-val text-cyan-400" id="mi-horas">0</p>
+                            <p class="stat-mini-lbl">Horas LIVE</p>
+                            <p class="text-[10px] text-gray-600 mt-1" id="mi-horas-meta">/ 15 h</p>
+                        </div>
+                    </div>
+                    <p id="mi-siguiente" class="text-sm text-gray-300 mt-4 text-center font-bold"></p>
+                </div>
+
+                <div class="flex gap-2 mt-8" id="level-steps"></div>
+            </div>
+
+            <div class="motivacion-box mb-6">
+                <p class="text-[10px] font-black uppercase tracking-widest text-pink-500 mb-2"><i class="fa-solid fa-fire mr-1"></i> Mensaje motivacional</p>
+                <p id="mi-motivacion" class="text-sm text-gray-200 leading-relaxed"></p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3" id="future-badges">
+                <div class="future-badge"><i class="fa-solid fa-medal text-yellow-400 text-xl mb-2"></i><p class="text-[9px] font-black uppercase tracking-widest text-gray-500">Insignias</p><p class="text-[8px] text-gray-600 mt-1">Próximamente</p></div>
+                <div class="future-badge"><i class="fa-solid fa-gift text-pink-500 text-xl mb-2"></i><p class="text-[9px] font-black uppercase tracking-widest text-gray-500">Recompensas</p><p class="text-[8px] text-gray-600 mt-1">Próximamente</p></div>
+                <div class="future-badge"><i class="fa-solid fa-fire-flame-curved text-orange-400 text-xl mb-2"></i><p class="text-[9px] font-black uppercase tracking-widest text-gray-500">Racha Nivel 4</p><p class="text-[8px] text-gray-600 mt-1">3 meses = beneficio</p></div>
+                <div class="future-badge"><i class="fa-solid fa-star text-cyan-400 text-xl mb-2"></i><p class="text-[9px] font-black uppercase tracking-widest text-gray-500">Campañas VIP</p><p class="text-[8px] text-gray-600 mt-1">Próximamente</p></div>
+            </div>
+        </div>
+
+        <!-- RANKING -->
+        <div id="tab-ranking" class="hidden">
+            <div class="glass p-6 md:p-8">
+                <h2 class="text-lg font-black uppercase tracking-widest mb-2">
+                    <i class="fa-solid fa-trophy text-yellow-400 mr-2"></i>Ranking mensual
+                </h2>
+                <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-6" id="ranking-mes-label"></p>
+                <div id="ranking-list"></div>
+            </div>
+        </div>
+
+        <!-- GRÁFICAS -->
+        <div id="tab-graficas" class="hidden">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="glass p-6">
+                    <h3 class="text-xs font-black uppercase tracking-widest text-cyan-400 mb-4"><i class="fa-solid fa-clock mr-1"></i> Horas LIVE</h3>
+                    <div id="chart-horas"></div>
+                </div>
+                <div class="glass p-6">
+                    <h3 class="text-xs font-black uppercase tracking-widest text-emerald-400 mb-4"><i class="fa-solid fa-calendar-check mr-1"></i> Días activos</h3>
+                    <div id="chart-dias"></div>
+                </div>
+                <div class="glass p-6 md:col-span-2">
+                    <h3 class="text-xs font-black uppercase tracking-widest text-pink-500 mb-4"><i class="fa-solid fa-layer-group mr-1"></i> Distribución de niveles</h3>
+                    <div id="chart-niveles" class="flex flex-wrap gap-3"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- HISTORIAL -->
+        <div id="tab-historial" class="hidden">
+            <div class="glass p-6 md:p-8 mb-6">
+                <h2 class="text-lg font-black uppercase tracking-widest mb-4"><i class="fa-solid fa-chart-line text-cyan-400 mr-2"></i>Mi evolución mensual</h2>
+                <div id="mi-historial"></div>
+            </div>
+            <div id="admin-historial-wrap" class="glass p-6 md:p-8 hidden">
+                <h2 class="text-sm font-black uppercase tracking-widest text-gray-400 mb-4">Tabla general del mes</h2>
+                <div class="overflow-x-auto">
+                    <div class="hist-row font-black text-[10px] uppercase tracking-widest text-gray-500 border-b border-white/10 pb-2 mb-2" style="display:grid;grid-template-columns:1fr auto auto auto auto;">
+                        <span>Creador</span><span>Días</span><span>Horas</span><span>Nivel</span><span>Racha*</span>
+                    </div>
+                    <div id="tabla-historial"></div>
+                </div>
+                <p class="text-[9px] text-gray-600 mt-4">* Racha y beneficios — estructura preparada para futuras recompensas</p>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAclvp8IB1SS_7rnv5MVAE3kIfR6Rz6ahg",
+            authDomain: "paginaweb-cf486.firebaseapp.com",
+            projectId: "paginaweb-cf486",
+            appId: "1:136417590997:web:6ae1e65956018d8f77ec5c"
+        };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const NIVELES = [
+            { n: 0, nombre: 'Sin nivel', emoji: '⚪', dias: 0, horas: 0, desc: 'Aún no alcanzas el Nivel 1', msg: 'Comienza a transmitir con constancia para desbloquear tu primer nivel.' },
+            { n: 1, nombre: 'Inicio', emoji: '🌱', dias: 7, horas: 15, desc: 'Creador constante iniciando su crecimiento', msg: 'Vas comenzando. Mantén constancia para desbloquear nuevos niveles.' },
+            { n: 2, nombre: 'Crecimiento', emoji: '📈', dias: 15, horas: 50, desc: 'Creador desarrollando disciplina y comunidad', msg: 'Tu disciplina está creciendo. Estás cerca de entrar al siguiente nivel.' },
+            { n: 3, nombre: 'Avanzado', emoji: '🔥', dias: 18, horas: 70, desc: 'Creador con alto compromiso y rendimiento', msg: 'Estás dentro de los creadores con mayor actividad. Sigue avanzando.' },
+            { n: 4, nombre: 'Élite', emoji: '👑', dias: 22, horas: 90, desc: 'Creador élite de la comunidad', msg: 'Has alcanzado el máximo nivel mensual de actividad.' }
+        ];
+
+        let esAdmin = false, miUsuario = '', uid = '';
+        let datosMes = [];
+        let mesActual = '';
+        let todosMeses = {};
+        let miHistorial = [];
+
+        const norm = (s) => (s || '').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().replace(/^@/, '');
+        const fmt = (n) => Number(n || 0).toLocaleString('es-MX', { maximumFractionDigits: 1 });
+        const esc = (s) => (s || '').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+        const MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+        function mesLabel(id) {
+            const [y, m] = id.split('-');
+            return `${MESES[parseInt(m,10)-1]} ${y}`;
+        }
+        function mesActualId() {
+            const d = new Date();
+            return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+        }
+        function avatarUrl(u) {
+            const t = norm(u);
+            return t ? `https://unavatar.io/tiktok/${t}` : 'https://i.pravatar.cc/150?img=0';
+        }
+
+        function calcularNivel(dias, horas) {
+            let nivel = 0;
+            for (let i = 4; i >= 1; i--) {
+                if (dias >= NIVELES[i].dias && horas >= NIVELES[i].horas) { nivel = i; break; }
+            }
+            return nivel;
+        }
+
+        function progresoSiguiente(nivel, dias, horas) {
+            if (nivel >= 4) return { pct: 100, sig: null, faltanDias: 0, faltanHoras: 0, msg: 'Has alcanzado el máximo nivel mensual de actividad.' };
+            const sig = NIVELES[nivel + 1];
+            const pctDias = Math.min(100, (dias / sig.dias) * 100);
+            const pctHoras = Math.min(100, (horas / sig.horas) * 100);
+            const pct = Math.round((pctDias + pctHoras) / 2);
+            const faltanDias = Math.max(0, sig.dias - dias);
+            const faltanHoras = Math.max(0, sig.horas - horas);
+            let msg = `Te faltan ${fmt(faltanHoras)} horas y ${faltanDias} días para el Nivel ${sig.n}`;
+            if (faltanHoras === 0 && faltanDias > 0) msg = `Te faltan ${faltanDias} días activos para el Nivel ${sig.n}`;
+            if (faltanDias === 0 && faltanHoras > 0) msg = `Te faltan ${fmt(faltanHoras)} horas para llegar al Nivel ${sig.n}`;
+            if (faltanDias === 0 && faltanHoras === 0) msg = `¡Casi llegas al Nivel ${sig.n}!`;
+            return { pct, sig, faltanDias, faltanHoras, msg };
+        }
+
+        function enriquecer(d) {
+            const nivel = calcularNivel(d.dias, d.horas);
+            return { ...d, nivel, nivelInfo: NIVELES[nivel] };
+        }
+
+        // --- Excel (misma lógica que KPI) ---
+        const CLAVES = {
+            usuario: ['nombre de usuario del creador', 'nombre de usuario', 'username', 'creator username', 'handle', 'nickname'],
+            nombre: ['nombre del creador', 'nombre', 'display name', 'creador'],
+            horas: ['duracion de live', 'duracion live', 'live duration', 'duration of live', 'duration', 'horas'],
+            dias: ['dias validos de emisiones live', 'dias validos de emision', 'valid go live days', 'go live days', 'dias validos', 'dias']
+        };
+
+        function buscarColumna(headers, claves) {
+            let mejor = null, mejorLen = 0;
+            for (const h of headers) {
+                const hn = norm(h);
+                for (const k of claves) {
+                    if (hn.includes(norm(k)) && k.length > mejorLen) { mejor = h; mejorLen = k.length; }
+                }
+            }
+            return mejor;
+        }
+
+        function puntuarFila(fila) {
+            let p = 0;
+            for (const celda of fila) {
+                const c = norm(celda);
+                if (!c) continue;
+                for (const claves of Object.values(CLAVES)) {
+                    if (claves.some(k => norm(c).includes(norm(k)))) { p++; break; }
+                }
+            }
+            return p;
+        }
+
+        function aHoras(valor) {
+            if (valor == null || valor === '') return 0;
+            if (typeof valor === 'number') {
+                if (valor > 0 && valor < 1) return valor * 24;
+                if (valor >= 1000) return valor / 3600;
+                return valor;
+            }
+            const txt = valor.toString().trim();
+            if (txt.includes(':')) {
+                const partes = txt.split(':').map(Number);
+                if (partes.length === 3) return partes[0] + partes[1]/60 + partes[2]/3600;
+                if (partes.length === 2) return partes[0] + partes[1]/60;
+            }
+            const num = parseFloat(txt.replace(/[^0-9.]/g, ''));
+            return isNaN(num) ? 0 : num;
+        }
+
+        function aNumero(valor) {
+            if (valor == null || valor === '') return 0;
+            if (typeof valor === 'number') return valor;
+            return parseFloat(valor.toString().replace(/[^0-9.-]/g, '')) || 0;
+        }
+
+        function procesarLibro(workbook) {
+            const hoja = workbook.Sheets[workbook.SheetNames[0]];
+            const matriz = XLSX.utils.sheet_to_json(hoja, { header: 1, defval: '' });
+            if (!matriz.length) throw new Error('La hoja está vacía');
+            let filaHeader = 0, mejor = -1;
+            for (let i = 0; i < Math.min(matriz.length, 15); i++) {
+                const p = puntuarFila(matriz[i]);
+                if (p > mejor) { mejor = p; filaHeader = i; }
+            }
+            const headers = matriz[filaHeader].map((h, i) => (h && h.toString().trim()) ? h.toString().trim() : `Columna ${i+1}`);
+            const filas = matriz.slice(filaHeader + 1).filter(r => r.some(c => c !== '' && c != null));
+            const colUsuario = buscarColumna(headers, CLAVES.usuario);
+            const colNombre = buscarColumna(headers, CLAVES.nombre);
+            const colHoras = buscarColumna(headers, CLAVES.horas);
+            const colDias = buscarColumna(headers, CLAVES.dias);
+            if (!colUsuario) throw new Error('No se encontró columna de usuario');
+            return filas.map(r => {
+                const obj = {};
+                headers.forEach((h, i) => { obj[h] = r[i] != null ? r[i] : ''; });
+                return {
+                    usuario: (obj[colUsuario] || '').toString().trim().replace(/^@/, ''),
+                    nombre: colNombre ? (obj[colNombre] || '').toString().trim() : '',
+                    dias: colDias ? aNumero(obj[colDias]) : 0,
+                    horas: colHoras ? aHoras(obj[colHoras]) : 0
+                };
+            }).filter(d => d.usuario).map(enriquecer);
+        }
+
+        async function guardarMes(mesId, datos) {
+            await setDoc(doc(db, 'nivel_live', mesId), {
+                datos,
+                mesLabel: mesLabel(mesId),
+                actualizado: Date.now()
+            });
+        }
+
+        // --- UI ---
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.onclick = () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                ['nivel','ranking','graficas','historial'].forEach(t => {
+                    document.getElementById('tab-' + t).classList.toggle('hidden', btn.dataset.tab !== t);
+                });
+            };
+        });
+
+        function badgeHTML(nivel) {
+            const L = NIVELES[nivel];
+            return `<span class="level-badge lvl-${nivel}">${L.emoji} Nivel ${nivel} — ${L.nombre}</span>`;
+        }
+
+        function renderMiNivel() {
+            const mi = datosMes.find(d => norm(d.usuario) === miUsuario);
+            const panel = document.getElementById('tab-nivel');
+
+            if (!mi && !esAdmin) {
+                panel.classList.add('hidden');
+                return;
+            }
+            panel.classList.remove('hidden');
+
+            if (!mi) {
+                document.getElementById('mi-nombre').innerText = miUsuario ? '@' + miUsuario : 'Sin datos';
+                document.getElementById('mi-motivacion').innerText = 'No apareces en el reporte de este mes. Verifica que tu usuario coincida.';
+                return;
+            }
+
+            const prog = progresoSiguiente(mi.nivel, mi.dias, mi.horas);
+            const sorted = [...datosMes].sort((a, b) => b.horas - a.horas || b.dias - a.dias);
+            const pos = sorted.findIndex(d => norm(d.usuario) === miUsuario) + 1;
+
+            document.getElementById('mi-avatar').src = avatarUrl(mi.usuario);
+            document.getElementById('mi-nombre').innerText = mi.nombre ? mi.nombre : '@' + mi.usuario;
+            document.getElementById('mi-badge').innerHTML = badgeHTML(mi.nivel);
+            document.getElementById('mi-desc-nivel').innerText = mi.nivelInfo.desc;
+            document.getElementById('mi-posicion').innerText = pos > 0 ? '#' + pos : '—';
+            document.getElementById('xp-pct').innerText = prog.pct + '%';
+            document.getElementById('xp-bar').style.width = prog.pct + '%';
+            document.getElementById('mi-dias').innerText = fmt(mi.dias);
+            document.getElementById('mi-horas').innerText = fmt(mi.horas);
+
+            if (mi.nivel >= 4) {
+                document.getElementById('mi-dias-meta').innerText = `${fmt(mi.dias)} / ${NIVELES[4].dias} ✓`;
+                document.getElementById('mi-horas-meta').innerText = `${fmt(mi.horas)} / ${NIVELES[4].horas} h ✓`;
+                document.getElementById('xp-label').innerText = 'Nivel máximo alcanzado';
+            } else {
+                document.getElementById('mi-dias-meta').innerText = `${fmt(mi.dias)} / ${prog.sig.dias}`;
+                document.getElementById('mi-horas-meta').innerText = `${fmt(mi.horas)} / ${prog.sig.horas} h`;
+                document.getElementById('xp-label').innerText = `Progreso al Nivel ${prog.sig.n}`;
+            }
+
+            document.getElementById('mi-siguiente').innerText = prog.msg;
+            document.getElementById('mi-motivacion').innerText = mi.nivelInfo.msg;
+
+            document.getElementById('level-steps').innerHTML = NIVELES.slice(1).map(L => {
+                let cls = 'level-step';
+                if (mi.nivel >= L.n) cls += ' done';
+                if (mi.nivel === L.n) cls += ' current';
+                return `<div class="${cls}"><div class="text-lg mb-1">${L.emoji}</div>Nv ${L.n}<br><span class="text-gray-600">${L.dias}d · ${L.horas}h</span></div>`;
+            }).join('');
+        }
+
+        function renderRanking() {
+            const sorted = [...datosMes].sort((a, b) => b.nivel - a.nivel || b.horas - a.horas || b.dias - a.dias);
+            document.getElementById('ranking-mes-label').innerText = mesActual ? mesLabel(mesActual) : '';
+            document.getElementById('ranking-list').innerHTML = sorted.length ? sorted.map((d, i) => {
+                const medal = i === 0 ? '🏆 ' : i === 1 ? '🥈 ' : i === 2 ? '🥉 ' : '';
+                const posCls = i < 3 ? 'gold' : '';
+                return `<div class="rank-row">
+                    <span class="rank-pos ${posCls}">${medal}#${i+1}</span>
+                    <img src="${avatarUrl(d.usuario)}" class="w-10 h-10 rounded-full object-cover border border-white/10" onerror="this.src='https://i.pravatar.cc/150?img=0'">
+                    <div class="flex-1 min-w-0">
+                        <p class="font-bold text-sm truncate">${esc(d.nombre || d.usuario)}</p>
+                        <p class="text-[10px] text-gray-500">@${esc(d.usuario)}</p>
+                    </div>
+                    ${badgeHTML(d.nivel)}
+                    <span class="text-cyan-400 font-black text-sm whitespace-nowrap">${fmt(d.horas)} h</span>
+                </div>`;
+            }).join('') : '<p class="text-center text-gray-600 py-8 text-sm">Sin datos</p>';
+        }
+
+        function barChart(containerId, items, key, color) {
+            const max = Math.max(...items.map(d => d[key]), 1);
+            const top = items.slice(0, 10);
+            document.getElementById(containerId).innerHTML = top.length ? top.map(d =>
+                `<div class="chart-bar-row">
+                    <span class="chart-bar-label" title="@${esc(d.usuario)}">${esc((d.usuario||'').slice(0,10))}</span>
+                    <div class="chart-bar-track"><div class="chart-bar-fill" style="width:${(d[key]/max)*100}%;background:${color}"></div></div>
+                    <span class="text-[10px] font-bold text-gray-400 w-12 text-right">${fmt(d[key])}</span>
+                </div>`
+            ).join('') : '<p class="text-xs text-gray-600">Sin datos</p>';
+        }
+
+        function renderGraficas() {
+            const sorted = [...datosMes].sort((a, b) => b.horas - a.horas);
+            barChart('chart-horas', sorted, 'horas', 'linear-gradient(90deg,#25f4ee,#34d399)');
+            barChart('chart-dias', [...datosMes].sort((a,b)=>b.dias-a.dias), 'dias', 'linear-gradient(90deg,#34d399,#facc15)');
+
+            const dist = [0,0,0,0,0];
+            datosMes.forEach(d => dist[d.nivel]++);
+            document.getElementById('chart-niveles').innerHTML = NIVELES.map((L, i) => {
+                if (i === 0) return '';
+                const pct = datosMes.length ? Math.round((dist[i]/datosMes.length)*100) : 0;
+                return `<div class="flex-1 min-w-[120px] glass p-4 text-center">
+                    <div class="text-2xl mb-1">${L.emoji}</div>
+                    <p class="text-[10px] font-black uppercase text-gray-500">Nv ${i}</p>
+                    <p class="text-xl font-black text-white mt-1">${dist[i]}</p>
+                    <p class="text-[10px] text-gray-600">${pct}%</p>
+                </div>`;
+            }).join('');
+        }
+
+        function calcularRacha(usuario) {
+            const ids = Object.keys(todosMeses).sort().reverse();
+            let racha = 0;
+            for (const id of ids) {
+                const c = (todosMeses[id].datos || []).find(d => norm(d.usuario) === norm(usuario));
+                if (c && c.nivel >= 4) racha++;
+                else break;
+            }
+            return racha;
+        }
+
+        function renderHistorial() {
+            const ids = Object.keys(todosMeses).sort().reverse();
+            miHistorial = ids.map(id => {
+                const c = (todosMeses[id].datos || []).find(d => norm(d.usuario) === miUsuario);
+                return c ? { mes: id, label: mesLabel(id), ...c } : null;
+            }).filter(Boolean);
+
+            document.getElementById('mi-historial').innerHTML = miHistorial.length ? miHistorial.map(h =>
+                `<div class="flex flex-wrap justify-between items-center gap-4 py-4 border-b border-white/5 last:border-0">
+                    <div><p class="font-black text-sm">${esc(h.label)}</p><p class="text-[10px] text-gray-500">${fmt(h.dias)} días · ${fmt(h.horas)} h</p></div>
+                    ${badgeHTML(h.nivel)}
+                </div>`
+            ).join('') : '<p class="text-sm text-gray-600 py-6 text-center">Aún no hay historial mensual registrado</p>';
+
+            if (esAdmin) {
+                document.getElementById('admin-historial-wrap').classList.remove('hidden');
+                document.getElementById('tabla-historial').innerHTML = [...datosMes]
+                    .sort((a,b) => b.nivel - a.nivel || b.horas - a.horas)
+                    .map(d => {
+                        const racha = calcularRacha(d.usuario);
+                        return `<div class="hist-row">
+                            <span class="font-bold truncate">@${esc(d.usuario)}</span>
+                            <span class="text-emerald-400 font-bold">${fmt(d.dias)}</span>
+                            <span class="text-cyan-400 font-bold">${fmt(d.horas)}</span>
+                            <span>${badgeHTML(d.nivel)}</span>
+                            <span class="text-[10px] text-gray-500">${racha >= 3 ? '🔥 ' + racha + ' meses Nv4' : racha > 0 ? racha + ' mes' : '—'}</span>
+                        </div>`;
+                    }).join('');
+            }
+        }
+
+        function render() {
+            const vacio = document.getElementById('vacio');
+            const tabs = ['nivel','ranking','graficas','historial'];
+
+            if (!datosMes.length) {
+                vacio.classList.remove('hidden');
+                tabs.forEach(t => document.getElementById('tab-' + t).classList.add('hidden'));
+                document.getElementById('vacio-titulo').innerText = esAdmin ? 'Importa el reporte mensual' : 'Sin datos para este mes';
+                document.getElementById('vacio-sub').innerText = esAdmin ? 'Sube el Excel con días y horas LIVE' : 'Vuelve cuando el admin publique el reporte';
+                return;
+            }
+
+            vacio.classList.add('hidden');
+            document.getElementById('tab-nivel').classList.remove('hidden');
+
+            renderMiNivel();
+            renderRanking();
+            renderGraficas();
+            renderHistorial();
+        }
+
+        async function cargarMes(mesId) {
+            mesActual = mesId;
+            const snap = await getDoc(doc(db, 'nivel_live', mesId));
+            if (snap.exists() && Array.isArray(snap.data().datos)) {
+                datosMes = snap.data().datos.map(enriquecer);
+            } else {
+                datosMes = [];
+            }
+            render();
+        }
+
+        async function cargarTodosMeses() {
+            const snap = await getDocs(collection(db, 'nivel_live'));
+            todosMeses = {};
+            const sel = document.getElementById('mes-selector');
+            sel.innerHTML = '';
+            const docs = snap.docs.sort((a, b) => (b.data().actualizado || 0) - (a.data().actualizado || 0));
+            docs.forEach(d => {
+                todosMeses[d.id] = d.data();
+                const opt = document.createElement('option');
+                opt.value = d.id;
+                opt.textContent = d.data().mesLabel || mesLabel(d.id);
+                sel.appendChild(opt);
+            });
+            if (!docs.length) {
+                const opt = document.createElement('option');
+                opt.value = mesActualId();
+                opt.textContent = mesLabel(mesActualId()) + ' (sin datos)';
+                sel.appendChild(opt);
+            }
+            const target = docs.length ? docs[0].id : mesActualId();
+            sel.value = target;
+            sel.onchange = () => cargarMes(sel.value);
+            await cargarMes(target);
+        }
+
+        // Import
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('file-input');
+        dropzone.onclick = () => fileInput.click();
+        dropzone.ondragover = e => { e.preventDefault(); dropzone.classList.add('drag'); };
+        dropzone.ondragleave = () => dropzone.classList.remove('drag');
+        dropzone.ondrop = e => { e.preventDefault(); dropzone.classList.remove('drag'); if (e.dataTransfer.files[0]) leerArchivo(e.dataTransfer.files[0]); };
+        fileInput.onchange = e => { if (e.target.files[0]) leerArchivo(e.target.files[0]); };
+
+        function leerArchivo(file) {
+            const msg = document.getElementById('import-msg');
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+                try {
+                    const workbook = XLSX.read(new Uint8Array(e.target.result), { type: 'array' });
+                    const datos = procesarLibro(workbook);
+                    const mesId = document.getElementById('mes-import').value || mesActualId();
+                    msg.innerText = `Guardando ${datos.length} creadores...`;
+                    msg.style.color = '#25f4ee';
+                    await guardarMes(mesId, datos);
+                    msg.innerText = `Importados ${datos.length} creadores — ${mesLabel(mesId)}`;
+                    msg.style.color = '#34d399';
+                    await cargarTodosMeses();
+                } catch (err) {
+                    msg.innerText = 'Error: ' + err.message;
+                    msg.style.color = '#fe2c55';
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) { window.location.href = 'index.html'; return; }
+            uid = user.uid;
+            const perfil = await getDoc(doc(db, 'usuarios', user.uid));
+            if (perfil.exists()) {
+                esAdmin = perfil.data().isAdmin === true;
+                miUsuario = norm(perfil.data().tiktok);
+            }
+            if (esAdmin) document.getElementById('import-panel').classList.remove('hidden');
+            document.getElementById('mes-import').value = mesActualId();
+            await cargarTodosMeses();
+        });
+    </script>
+</body>
+</html>
