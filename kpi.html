@@ -78,31 +78,7 @@
             <p id="header-sub" class="text-[10px] text-gray-500 font-black uppercase tracking-[0.3em] mt-2">Importa el reporte y visualiza a todos los creadores</p>
         </header>
 
-        <!-- IMPORTAR (solo admin) -->
-        <div id="import-panel" class="glass-panel p-6 md:p-8 mb-8 hidden">
-            <h2 class="text-sm font-black uppercase tracking-widest text-gray-300 mb-5"><i class="fa-solid fa-file-import text-emerald-400 mr-2"></i>Importar reporte (.xlsx)</h2>
-            <div id="dropzone" class="dropzone">
-                <i class="fa-solid fa-cloud-arrow-up text-4xl text-emerald-400 mb-4"></i>
-                <p class="text-sm font-bold text-gray-300">Arrastra tu archivo Excel aquí o haz clic para seleccionarlo</p>
-                <p class="text-[10px] text-gray-500 uppercase tracking-widest mt-2">Formatos: .xlsx, .xls, .csv</p>
-                <input type="file" id="file-input" accept=".xlsx,.xls,.csv" class="hidden">
-            </div>
-
-            <div id="meta-config" class="mt-6 pt-6 border-t border-white/10">
-                <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 block">
-                    <i class="fa-solid fa-bullseye text-pink-500 mr-1"></i> Meta de diamantes del mes
-                </label>
-                <div class="flex flex-wrap gap-3">
-                    <input type="text" id="meta-input" class="form-input flex-1 min-w-[180px]" placeholder="Ej: 5000000 o 5M">
-                    <button type="button" id="meta-guardar" class="meta-btn"><i class="fa-solid fa-check mr-1"></i> Guardar meta</button>
-                </div>
-                <p id="meta-msg" class="mt-2 text-[10px] font-bold uppercase tracking-widest"></p>
-            </div>
-
-            <p id="import-msg" class="mt-4 text-center text-[10px] font-bold uppercase tracking-widest"></p>
-        </div>
-
-        <!-- PROGRESO META DIAMANTES -->
+        <!-- PROGRESO META DIAMANTES (visible para todos) -->
         <div id="meta-progress-panel" class="glass-panel p-6 md:p-8 mb-8 hidden">
             <h2 class="text-sm font-black uppercase tracking-widest text-gray-300 mb-6">
                 <i class="fa-solid fa-gem text-pink-500 mr-2"></i>Progreso de meta del mes
@@ -129,12 +105,24 @@
                 <div class="flex-1 w-full space-y-5">
                     <div>
                         <p class="text-[10px] font-black uppercase tracking-widest text-gray-500 mb-1">Avance actual</p>
-                        <p class="text-2xl md:text-3xl font-black tracking-tight">
-                            <span id="progress-actual" class="text-pink-500">0</span>
-                            <span class="text-gray-600 text-xl mx-2">/</span>
-                            <span id="progress-meta" class="text-white">0</span>
-                            <span class="text-[10px] font-black uppercase tracking-widest text-gray-500 ml-2">diamantes</span>
-                        </p>
+                        <div class="flex flex-wrap items-end gap-4 md:gap-6">
+                            <p class="text-2xl md:text-3xl font-black tracking-tight">
+                                <span id="progress-actual" class="text-pink-500">0</span>
+                                <span class="text-gray-600 text-xl mx-2">/</span>
+                                <span id="progress-meta" class="text-white">0</span>
+                                <span class="text-[10px] font-black uppercase tracking-widest text-gray-500 ml-2">diamantes</span>
+                            </p>
+                            <div class="flex gap-3 pb-1">
+                                <div class="meta-stat px-3 py-2">
+                                    <p class="meta-stat-val text-emerald-400" id="stat-activos">0</p>
+                                    <p class="meta-stat-lbl">Activos</p>
+                                </div>
+                                <div class="meta-stat px-3 py-2">
+                                    <p class="meta-stat-val text-gray-400" id="stat-inactivos">0</p>
+                                    <p class="meta-stat-lbl">Inactivos</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div>
                         <div class="flex justify-between text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2">
@@ -161,6 +149,30 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <!-- IMPORTAR (solo admin) -->
+        <div id="import-panel" class="glass-panel p-6 md:p-8 mb-8 hidden">
+            <h2 class="text-sm font-black uppercase tracking-widest text-gray-300 mb-5"><i class="fa-solid fa-file-import text-emerald-400 mr-2"></i>Importar reporte (.xlsx)</h2>
+            <div id="dropzone" class="dropzone">
+                <i class="fa-solid fa-cloud-arrow-up text-4xl text-emerald-400 mb-4"></i>
+                <p class="text-sm font-bold text-gray-300">Arrastra tu archivo Excel aquí o haz clic para seleccionarlo</p>
+                <p class="text-[10px] text-gray-500 uppercase tracking-widest mt-2">Formatos: .xlsx, .xls, .csv</p>
+                <input type="file" id="file-input" accept=".xlsx,.xls,.csv" class="hidden">
+            </div>
+
+            <div id="meta-config" class="mt-6 pt-6 border-t border-white/10">
+                <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 block">
+                    <i class="fa-solid fa-bullseye text-pink-500 mr-1"></i> Meta de diamantes del mes
+                </label>
+                <div class="flex flex-wrap gap-3">
+                    <input type="text" id="meta-input" class="form-input flex-1 min-w-[180px]" placeholder="Ej: 5000000 o 5M">
+                    <button type="button" id="meta-guardar" class="meta-btn"><i class="fa-solid fa-check mr-1"></i> Guardar meta</button>
+                </div>
+                <p id="meta-msg" class="mt-2 text-[10px] font-bold uppercase tracking-widest"></p>
+            </div>
+
+            <p id="import-msg" class="mt-4 text-center text-[10px] font-bold uppercase tracking-widest"></p>
         </div>
 
         <!-- RESUMEN -->
@@ -283,9 +295,18 @@
             document.getElementById('stat-faltan').innerText = superado ? '¡Meta!' : fmtCompact(faltan);
             document.getElementById('stat-meta').innerText = fmtCompact(metaDiamantes);
 
+            const inactivos = datos.filter(d => !(Number(d.horas) > 0)).length;
+            const activos = datos.length - inactivos;
+            document.getElementById('stat-activos').innerText = activos;
+            document.getElementById('stat-inactivos').innerText = inactivos;
+
             document.getElementById('progress-ring').style.strokeDashoffset = CIRC - (pct / 100) * CIRC;
             document.getElementById('progress-pct').className = 'progress-pct ' + (superado ? 'text-emerald-400' : 'text-pink-500');
             document.getElementById('stat-faltan').className = 'meta-stat-val ' + (superado ? 'text-yellow-400' : 'text-emerald-400');
+
+            if (datos.length > 0) {
+                document.getElementById('vacio').classList.add('hidden');
+            }
         }
 
         async function guardarMeta() {
@@ -437,7 +458,7 @@
                     datos: datos,
                     metaDiamantes: metaDiamantes,
                     actualizado: Date.now()
-                });
+                }, { merge: true });
                 msg.innerText = `Importados ${datos.length} creadores correctamente (visibles para todos)`;
                 msg.style.color = "#34d399";
             } catch (err) {
@@ -496,7 +517,7 @@
             // ---------- VISTA PERSONAL (usuario normal: solo ve sus propios datos) ----------
             if (!esAdmin) {
                 buscar.classList.add('hidden');
-                document.getElementById('header-sub').innerText = 'Consulta tu desempeño personal';
+                document.getElementById('header-sub').innerText = 'Consulta tu desempeño y el avance de la agencia';
                 document.getElementById('label-users').innerText = 'Tu Posición';
                 document.getElementById('label-diamantes').innerText = 'Tus Diamantes';
                 document.getElementById('label-horas').innerText = 'Tus Horas';
@@ -505,13 +526,15 @@
                 const miIndice = rankingGlobal.findIndex(d => norm(d.usuario) === miUsuario);
                 const miFila = miIndice >= 0 ? rankingGlobal[miIndice] : null;
 
+                renderMetaProgress();
+
                 if (!miFila) {
                     document.getElementById('vacio-titulo').innerText = 'No encontramos tus datos en el reporte';
                     document.getElementById('vacio-sub').innerText = 'Verifica que tu usuario de TikTok coincida con el del reporte';
-                    vacio.classList.remove('hidden');
+                    if (!(metaDiamantes > 0)) vacio.classList.remove('hidden');
+                    else vacio.classList.add('hidden');
                     tablaPanel.classList.add('hidden');
                     resumen.classList.add('hidden');
-                    renderMetaProgress();
                     return;
                 }
 
@@ -524,7 +547,6 @@
                 document.getElementById('total-horas').innerText = fmt(miFila.horas);
 
                 document.getElementById('tabla-body').innerHTML = filaHTML(miFila, miIndice + 1);
-                renderMetaProgress();
                 return;
             }
 
@@ -586,7 +608,8 @@
                     if (Array.isArray(d.datos)) datos = d.datos;
                     if (d.metaDiamantes > 0) {
                         metaDiamantes = d.metaDiamantes;
-                        document.getElementById('meta-input').value = metaDiamantes;
+                        const metaInput = document.getElementById('meta-input');
+                        if (metaInput) metaInput.value = metaDiamantes;
                     }
                 }
             } catch (e) {
