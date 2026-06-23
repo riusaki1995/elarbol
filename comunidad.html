@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Árbol de Creadores | Agencia ELArbol</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root { --tk-pink: #fe2c55; --tk-cyan: #25f4ee; --tk-green: #34d399; }
+        body { background-color: #050505; color: white; font-family: 'Inter', sans-serif; margin: 0; min-height: 100vh; }
+        .tiktok-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background-image: url('fondo.png');
+            background-size: cover; background-position: center;
+            filter: brightness(0.2);
+        }
+        .glass { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 1.5rem; backdrop-filter: blur(20px); }
+        .form-input, .form-textarea, .form-select {
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            width: 100%; padding: 0.85rem 1rem; border-radius: 0.9rem; color: white; outline: none; transition: 0.3s; font-size: 0.85rem;
+        }
+        .form-textarea { min-height: 90px; resize: vertical; }
+        .form-input:focus, .form-textarea:focus, .form-select:focus { border-color: var(--tk-cyan); }
+        .form-select option { background: #111; }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--tk-pink), #f472b6);
+            color: white; font-size: 11px; font-weight: 900; letter-spacing: 0.12em;
+            text-transform: uppercase; padding: 0.9rem 1.5rem; border-radius: 1rem; border: none;
+            cursor: pointer; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; justify-content: center;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(254,44,85,0.3); }
+        .btn-tiktok {
+            background: linear-gradient(135deg, #000, #161616);
+            border: 2px solid var(--tk-pink); color: white;
+        }
+        .btn-tiktok:hover { border-color: var(--tk-cyan); box-shadow: 0 10px 30px rgba(37,244,238,0.2); }
+        .btn-whatsapp { background: #25D366; color: #000; }
+        .btn-ghost {
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            color: #ccc; font-size: 10px; font-weight: 900; letter-spacing: 0.1em;
+            text-transform: uppercase; padding: 0.7rem 1.2rem; border-radius: 0.9rem; cursor: pointer; transition: 0.3s;
+        }
+        .btn-ghost:hover { border-color: var(--tk-cyan); color: white; }
+        .back-btn {
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+            padding: 0.7rem 1.3rem; border-radius: 1rem; backdrop-filter: blur(10px);
+            text-transform: uppercase; font-size: 10px; font-weight: 900; letter-spacing: 2px;
+            color: rgba(255,255,255,0.6); display: inline-flex; align-items: center; gap: 10px; text-decoration: none; transition: 0.3s;
+        }
+        .back-btn:hover { border-color: var(--tk-cyan); color: white; }
+        .post-card { transition: 0.3s; }
+        .post-card:hover { border-color: rgba(37,244,238,0.25); transform: translateY(-2px); }
+        .thumb-wrap {
+            position: relative; border-radius: 1rem; overflow: hidden;
+            aspect-ratio: 9/16; max-height: 320px; background: #111; cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .thumb-wrap img { width: 100%; height: 100%; object-fit: cover; }
+        .thumb-play {
+            position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+            background: rgba(0,0,0,0.35); transition: 0.3s;
+        }
+        .thumb-wrap:hover .thumb-play { background: rgba(0,0,0,0.5); }
+        .play-btn {
+            width: 56px; height: 56px; border-radius: 50%; background: var(--tk-pink);
+            display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+            box-shadow: 0 0 30px rgba(254,44,85,0.5);
+        }
+        .sugerido-box {
+            background: rgba(37,244,238,0.06); border: 1px dashed rgba(37,244,238,0.3);
+            border-radius: 1rem; padding: 1rem; position: relative;
+        }
+        .apoyo-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 0.8rem; color: #bbb; margin-bottom: 0.5rem; }
+        .apoyo-list li i { color: var(--tk-green); margin-top: 3px; }
+        .rank-item {
+            display: flex; align-items: center; gap: 12px; padding: 0.75rem;
+            background: rgba(255,255,255,0.03); border-radius: 1rem; margin-bottom: 0.5rem;
+            border: 1px solid rgba(255,255,255,0.05); transition: 0.2s;
+        }
+        .rank-item:hover { border-color: var(--tk-cyan); }
+        .rank-pos { width: 28px; font-weight: 900; color: var(--tk-cyan); font-size: 0.85rem; }
+        .rank-pos.gold { color: #facc15; }
+        .tab-btn {
+            padding: 0.6rem 1.2rem; border-radius: 999px; font-size: 10px; font-weight: 900;
+            letter-spacing: 0.15em; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.1);
+            background: transparent; color: #888; cursor: pointer; transition: 0.3s;
+        }
+        .tab-btn.active { background: rgba(37,244,238,0.1); border-color: var(--tk-cyan); color: white; }
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+            z-index: 2000; display: none; align-items: center; justify-content: center; padding: 1rem;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal-box {
+            background: #0c0c0c; border: 1px solid rgba(255,255,255,0.1); border-radius: 2rem;
+            width: 100%; max-width: 560px; max-height: 90vh; overflow-y: auto; padding: 2rem;
+        }
+        .fab {
+            position: fixed; bottom: 2rem; right: 2rem; z-index: 100;
+            width: 60px; height: 60px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--tk-pink), var(--tk-cyan));
+            border: none; color: #000; font-size: 1.4rem; cursor: pointer;
+            box-shadow: 0 10px 40px rgba(254,44,85,0.4); transition: 0.3s;
+        }
+        .fab:hover { transform: scale(1.08); }
+        .badge-puntos {
+            background: linear-gradient(135deg, rgba(254,44,85,0.2), rgba(37,244,238,0.2));
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 999px;
+            padding: 0.4rem 1rem; font-size: 10px; font-weight: 900; letter-spacing: 0.1em;
+        }
+        .comment-item { background: rgba(255,255,255,0.03); border-radius: 0.8rem; padding: 0.75rem 1rem; margin-top: 0.5rem; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 999px; }
+    </style>
+</head>
+<body class="p-4 md:p-10 pb-28">
+    <div class="tiktok-bg"></div>
+
+    <div class="max-w-6xl mx-auto">
+        <header class="mb-8">
+            <a href="lobby.html" class="back-btn mb-4"><i class="fa-solid fa-arrow-left"></i> Lobby</a>
+            <div class="flex flex-wrap justify-between items-start gap-4">
+                <div>
+                    <h1 class="text-3xl md:text-5xl font-black italic uppercase tracking-tighter">
+                        Árbol de <span class="text-emerald-400">Creadores</span>
+                    </h1>
+                    <p class="text-[10px] text-gray-500 font-black uppercase tracking-[0.3em] mt-2">Impulsa tu TikTok · Comunidad de apoyo creativo</p>
+                </div>
+                <div id="mi-puntos" class="badge-puntos hidden">
+                    <i class="fa-solid fa-star text-yellow-400 mr-1"></i>
+                    <span id="puntos-val">0</span> pts
+                </div>
+            </div>
+        </header>
+
+        <div class="flex flex-wrap gap-2 mb-8">
+            <button class="tab-btn active" data-tab="feed"><i class="fa-solid fa-house mr-1"></i> Muro</button>
+            <button class="tab-btn" data-tab="ranking"><i class="fa-solid fa-ranking-star mr-1"></i> Ranking</button>
+            <button class="tab-btn" data-tab="perfil"><i class="fa-solid fa-user mr-1"></i> Mi perfil</button>
+        </div>
+
+        <!-- FEED -->
+        <div id="tab-feed" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="lg:col-span-2 space-y-5" id="feed-container">
+                <div id="feed-loading" class="glass p-10 text-center text-gray-500 text-sm uppercase tracking-widest font-bold">
+                    <i class="fa-solid fa-spinner fa-spin mr-2"></i> Cargando publicaciones...
+                </div>
+                <div id="feed-empty" class="glass p-12 text-center hidden">
+                    <i class="fa-solid fa-seedling text-5xl text-emerald-400/30 mb-4"></i>
+                    <p class="text-sm font-bold text-gray-500 uppercase tracking-widest">Aún no hay publicaciones</p>
+                    <p class="text-[10px] text-gray-600 uppercase tracking-widest mt-2">Sé el primero en compartir tu TikTok</p>
+                </div>
+            </div>
+
+            <aside class="space-y-5">
+                <div class="glass p-5">
+                    <h3 class="text-xs font-black uppercase tracking-widest text-cyan-400 mb-4">
+                        <i class="fa-solid fa-hand-holding-heart mr-1"></i> Cómo apoyar
+                    </h3>
+                    <ul class="apoyo-list">
+                        <li><i class="fa-solid fa-circle-check"></i> Ver el video completo en TikTok</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Dar like al video</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Comentar la frase indicada</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Guardar el video</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Compartirlo</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Dar like a 5 comentarios</li>
+                    </ul>
+                    <p class="text-[10px] text-gray-600 mt-4 leading-relaxed">Apoyemos el crecimiento de todos. Cada acción suma para la comunidad 🌳</p>
+                </div>
+                <div class="glass p-5">
+                    <h3 class="text-xs font-black uppercase tracking-widest text-pink-500 mb-4">
+                        <i class="fa-solid fa-trophy mr-1"></i> Top apoyadores
+                    </h3>
+                    <div id="mini-ranking"></div>
+                </div>
+            </aside>
+        </div>
+
+        <!-- RANKING -->
+        <div id="tab-ranking" class="hidden">
+            <div class="glass p-6 md:p-8">
+                <h2 class="text-lg font-black uppercase tracking-widest mb-2">
+                    <i class="fa-solid fa-heart text-pink-500 mr-2"></i>Creadores que más apoyan
+                </h2>
+                <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-6">+1 pt por apoyar · +1 pt por comentar · +1 pt por compartir</p>
+                <div id="ranking-full"></div>
+            </div>
+        </div>
+
+        <!-- PERFIL -->
+        <div id="tab-perfil" class="hidden">
+            <div class="glass p-6 md:p-8 mb-6">
+                <div class="flex flex-wrap items-center gap-5">
+                    <img id="perfil-avatar" src="" class="w-20 h-20 rounded-full border-2 border-cyan-400 object-cover bg-gray-800" alt="">
+                    <div>
+                        <h2 id="perfil-nombre" class="text-xl font-black uppercase">@usuario</h2>
+                        <p id="perfil-categoria" class="text-[10px] text-gray-500 uppercase tracking-widest mt-1">Sin categoría</p>
+                        <div class="flex flex-wrap gap-4 mt-3 text-sm">
+                            <span><b id="perfil-puntos" class="text-cyan-400">0</b> <span class="text-[10px] text-gray-500 uppercase">Puntos</span></span>
+                            <span><b id="perfil-apoyos" class="text-pink-500">0</b> <span class="text-[10px] text-gray-500 uppercase">Apoyos</span></span>
+                            <span><b id="perfil-posts" class="text-emerald-400">0</b> <span class="text-[10px] text-gray-500 uppercase">Publicaciones</span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h3 class="text-sm font-black uppercase tracking-widest text-gray-400 mb-4">Mis TikToks publicados</h3>
+            <div id="mis-posts" class="space-y-4"></div>
+        </div>
+    </div>
+
+    <button id="fab-nuevo" class="fab" title="Nueva publicación"><i class="fa-solid fa-plus"></i></button>
+
+    <!-- MODAL CREAR -->
+    <div id="modal-crear" class="modal-overlay">
+        <div class="modal-box">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-lg font-black uppercase tracking-widest"><i class="fa-brands fa-tiktok text-pink-500 mr-2"></i>Nueva publicación</h2>
+                <button onclick="cerrarModal()" class="text-gray-500 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="form-post" class="space-y-4">
+                <div>
+                    <label class="text-[10px] font-black uppercase tracking-widest text-gray-500 mb-1 block">Link del TikTok *</label>
+                    <input type="url" id="f-url" class="form-input" placeholder="https://www.tiktok.com/@usuario/video/..." required>
+                </div>
+                <div>
+                    <label class="text-[10px] font-black uppercase tracking-widest text-gray-500 mb-1 block">Título del video *</label>
+                    <input type="text" id="f-titulo" class="form-input" placeholder="Tutorial para aprender TikTok Live Studio" required maxlength="120">
+                </div>
+                <div>
+                    <label class="text-[10px] font-black uppercase tracking-widest text-gray-500 mb-1 block">¿De qué trata tu video? *</label>
+                    <textarea id="f-descripcion" class="form-textarea" placeholder="Explica paso a paso de qué trata tu contenido..." required maxlength="500"></textarea>
+                </div>
+                <div>
+                    <label class="text-[10px] font-black uppercase tracking-widest text-gray-500 mb-1 block">¿Por qué quieres apoyo? *</label>
+                    <textarea id="f-motivo" class="form-textarea" placeholder="Cuéntale a la comunidad por qué necesitas su apoyo..." required maxlength="400"></textarea>
+                </div>
+                <div>
+                    <label class="text-[10px] font-black uppercase tracking-widest text-gray-500 mb-1 block">Comentario que quieres que dejen *</label>
+                    <textarea id="f-comentario" class="form-textarea" placeholder="Este tutorial de TikTok Live me sirvió mucho..." required maxlength="300"></textarea>
+                </div>
+                <div>
+                    <label class="text-[10px] font-black uppercase tracking-widest text-gray-500 mb-1 block">Categoría</label>
+                    <select id="f-categoria" class="form-select">
+                        <option value="General">General</option>
+                        <option value="Tecnología">Tecnología</option>
+                        <option value="Gaming">Gaming</option>
+                        <option value="Educación">Educación</option>
+                        <option value="Comedia">Comedia</option>
+                        <option value="Música">Música</option>
+                        <option value="Lifestyle">Lifestyle</option>
+                        <option value="Belleza">Belleza</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary w-full py-4" id="btn-publicar">
+                    <i class="fa-solid fa-paper-plane"></i> Publicar en la comunidad
+                </button>
+                <p id="form-msg" class="text-center text-[10px] font-bold uppercase tracking-widest"></p>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import {
+            getFirestore, doc, getDoc, setDoc, addDoc, collection, query, orderBy,
+            onSnapshot, serverTimestamp, increment, where, getDocs, limit
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAclvp8IB1SS_7rnv5MVAE3kIfR6Rz6ahg",
+            authDomain: "paginaweb-cf486.firebaseapp.com",
+            projectId: "paginaweb-cf486",
+            appId: "1:136417590997:web:6ae1e65956018d8f77ec5c"
+        };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let uid = '', miTiktok = '', miPerfil = {};
+        let posts = [];
+        let misApoyos = new Set();
+        let misCompartidos = new Set();
+
+        const esc = (s) => (s || '').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+        const tiempoRel = (ts) => {
+            if (!ts) return 'Recién';
+            const d = ts.toDate ? ts.toDate() : new Date(ts);
+            const diff = (Date.now() - d) / 1000;
+            if (diff < 60) return 'Hace un momento';
+            if (diff < 3600) return `Hace ${Math.floor(diff/60)} min`;
+            if (diff < 86400) return `Hace ${Math.floor(diff/3600)} h`;
+            return `Hace ${Math.floor(diff/86400)} d`;
+        };
+
+        function parseTikTok(url) {
+            const u = (url || '').trim();
+            let user = '', videoId = '';
+            const m = u.match(/tiktok\.com\/@([^/?]+)\/video\/(\d+)/i);
+            if (m) { user = m[1]; videoId = m[2]; }
+            return { user, videoId, url: u };
+        }
+
+        async function fetchTikTokMeta(url) {
+            const endpoints = [
+                `https://www.tiktok.com/oembed?url=${encodeURIComponent(url)}`,
+                `https://noembed.com/embed?url=${encodeURIComponent(url)}`
+            ];
+            for (const ep of endpoints) {
+                try {
+                    const res = await fetch(ep);
+                    if (res.ok) {
+                        const d = await res.json();
+                        return {
+                            thumbnail: d.thumbnail_url || '',
+                            autor: d.author_name || '',
+                            tituloEmbed: d.title || ''
+                        };
+                    }
+                } catch (_) {}
+            }
+            return null;
+        }
+
+        function avatarUrl(tiktok) {
+            const u = (tiktok || '').replace('@','').toLowerCase();
+            return u ? `https://unavatar.io/tiktok/${u}` : 'https://i.pravatar.cc/150?img=0';
+        }
+
+        window.cerrarModal = () => document.getElementById('modal-crear').classList.remove('open');
+        document.getElementById('fab-nuevo').onclick = () => document.getElementById('modal-crear').classList.add('open');
+
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.onclick = () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                ['feed','ranking','perfil'].forEach(t => {
+                    document.getElementById('tab-' + t).classList.toggle('hidden', btn.dataset.tab !== t);
+                });
+                document.getElementById('fab-nuevo').classList.toggle('hidden', btn.dataset.tab !== 'feed');
+            };
+        });
+
+        async function sumarPuntos(tipo) {
+            const ref = doc(db, 'usuarios', uid);
+            const upd = { puntosComunidad: increment(1) };
+            if (tipo === 'apoyo') upd.apoyosRealizados = increment(1);
+            if (tipo === 'comentario') upd.comentariosComunidad = increment(1);
+            if (tipo === 'compartir') upd.compartidosComunidad = increment(1);
+            await setDoc(ref, upd, { merge: true });
+            actualizarMiPerfilUI();
+        }
+
+        async function actualizarMiPerfilUI() {
+            const snap = await getDoc(doc(db, 'usuarios', uid));
+            if (!snap.exists()) return;
+            miPerfil = snap.data();
+            const pts = miPerfil.puntosComunidad || 0;
+            document.getElementById('puntos-val').innerText = pts;
+            document.getElementById('mi-puntos').classList.remove('hidden');
+            document.getElementById('perfil-puntos').innerText = pts;
+            document.getElementById('perfil-apoyos').innerText = miPerfil.apoyosRealizados || 0;
+            document.getElementById('perfil-posts').innerText = miPerfil.postsComunidad || 0;
+            document.getElementById('perfil-nombre').innerText = miPerfil.tiktok || '@usuario';
+            document.getElementById('perfil-categoria').innerText = miPerfil.categoriaComunidad || 'Creador de contenido';
+            document.getElementById('perfil-avatar').src = avatarUrl(miPerfil.tiktok);
+        }
+
+        window.abrirTikTok = (url) => window.open(url, '_blank', 'noopener');
+
+        window.copiarComentarioPost = (postId) => {
+            const p = posts.find(x => x.id === postId);
+            if (!p) return;
+            navigator.clipboard.writeText(p.comentarioSugerido).then(() => alert('Comentario copiado. ¡Pégalo en TikTok!'));
+        };
+
+        window.compartirWhatsAppById = async (postId) => {
+            const post = posts.find(p => p.id === postId);
+            if (!post) return;
+            const msg = `Hola comunidad 🌳 Subí un nuevo TikTok y me ayudaría mucho su apoyo.\n\n"${post.titulo}"\n\nEntren al link, vean el video y comenten:\n"${post.comentarioSugerido}"\n\n${post.url}\n\nGracias por ayudarme a crecer 🙌`;
+            window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+            const key = `${uid}_${post.id}`;
+            if (!misCompartidos.has(key)) {
+                await setDoc(doc(db, 'comunidad_compartidos', key), { uid, postId: post.id, createdAt: serverTimestamp() });
+                await sumarPuntos('compartir');
+                misCompartidos.add(key);
+            }
+        };
+
+        window.confirmarApoyo = async (postId) => {
+            const key = `${uid}_${postId}`;
+            if (misApoyos.has(key)) return alert('Ya confirmaste tu apoyo en esta publicación');
+            await setDoc(doc(db, 'comunidad_apoyos', key), { uid, postId, createdAt: serverTimestamp() });
+            await setDoc(doc(db, 'comunidad_posts', postId), { apoyosCount: increment(1) }, { merge: true });
+            await sumarPuntos('apoyo');
+            misApoyos.add(key);
+            renderFeed();
+        };
+
+        window.enviarComentario = async (postId) => {
+            const input = document.getElementById('cmt-' + postId);
+            const texto = (input?.value || '').trim();
+            if (!texto) return;
+            await addDoc(collection(db, 'comunidad_comentarios'), {
+                postId, uid, tiktok: miTiktok, texto, createdAt: serverTimestamp()
+            });
+            await setDoc(doc(db, 'comunidad_posts', postId), { comentariosCount: increment(1) }, { merge: true });
+            await sumarPuntos('comentario');
+            input.value = '';
+        };
+
+        function postCardHTML(p, comentarios = []) {
+            const tk = p.tiktokUser || parseTikTok(p.url).user;
+            const yaApoyo = misApoyos.has(`${uid}_${p.id}`);
+            const thumb = p.thumbnail || '';
+            const cmtHtml = comentarios.slice(0, 5).map(c =>
+                `<div class="comment-item"><span class="text-cyan-400 font-bold text-xs">${esc(c.tiktok)}</span><p class="text-sm text-gray-300 mt-1">${esc(c.texto)}</p></div>`
+            ).join('');
+
+            return `
+            <article class="glass post-card p-5 md:p-6" data-id="${p.id}">
+                <div class="flex items-center gap-3 mb-4">
+                    <img src="${avatarUrl(tk)}" class="w-11 h-11 rounded-full border border-white/10 object-cover" onerror="this.src='https://i.pravatar.cc/150?img=0'">
+                    <div>
+                        <p class="font-black text-sm">@${esc(tk)}</p>
+                        <p class="text-[10px] text-gray-500 uppercase tracking-widest">${tiempoRel(p.createdAt)} · ${esc(p.categoria || 'General')}</p>
+                    </div>
+                    <span class="ml-auto text-[10px] font-black uppercase tracking-widest text-pink-500 bg-pink-500/10 px-3 py-1 rounded-full">
+                        <i class="fa-solid fa-heart mr-1"></i>${p.apoyosCount || 0} apoyos
+                    </span>
+                </div>
+
+                <h3 class="text-lg font-black mb-2">${esc(p.titulo)}</h3>
+                <p class="text-sm text-gray-400 mb-3 leading-relaxed">${esc(p.descripcion)}</p>
+
+                <div class="thumb-wrap mb-4 mx-auto max-w-[220px]" onclick="abrirTikTok('${esc(p.url)}')">
+                    ${thumb
+                        ? `<img src="${esc(thumb)}" alt="Miniatura TikTok" onerror="this.parentElement.innerHTML=getThumbFallback()">`
+                        : `<div class="w-full h-full flex flex-col items-center justify-center bg-gradient-to-b from-pink-500/10 to-cyan-400/10"><i class="fa-brands fa-tiktok text-5xl text-pink-500 mb-2"></i><span class="text-[10px] text-gray-500 uppercase tracking-widest">Ver en TikTok</span></div>`}
+                    <div class="thumb-play"><div class="play-btn"><i class="fa-solid fa-play text-white ml-1"></i></div></div>
+                </div>
+
+                <div class="bg-white/5 rounded-xl p-4 mb-3 border border-white/5">
+                    <p class="text-[10px] font-black uppercase tracking-widest text-pink-500 mb-2"><i class="fa-solid fa-heart mr-1"></i> ¿Por qué pide apoyo?</p>
+                    <p class="text-sm text-gray-300">${esc(p.motivo)}</p>
+                </div>
+
+                <div class="sugerido-box mb-4">
+                    <p class="text-[10px] font-black uppercase tracking-widest text-cyan-400 mb-2"><i class="fa-solid fa-comment mr-1"></i> Comentario sugerido</p>
+                    <p class="text-sm text-gray-200 italic">"${esc(p.comentarioSugerido)}"</p>
+                    <button onclick="copiarComentarioPost('${p.id}')" class="btn-ghost mt-3 text-[9px] py-1 px-3">
+                        <i class="fa-solid fa-copy mr-1"></i> Copiar comentario
+                    </button>
+                </div>
+
+                <div class="bg-emerald-400/5 border border-emerald-400/20 rounded-xl p-4 mb-4">
+                    <p class="text-[10px] font-black uppercase tracking-widest text-emerald-400 mb-3"><i class="fa-solid fa-hand-holding-heart mr-1"></i> Apoya a este creador</p>
+                    <ul class="apoyo-list mb-0">
+                        <li><i class="fa-solid fa-circle-check"></i> Ver el video completo</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Dar like · Comentar · Guardar · Compartir</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Dar like a 5 comentarios en TikTok</li>
+                    </ul>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-3 mb-4">
+                    <button onclick="abrirTikTok('${esc(p.url)}')" class="btn-primary btn-tiktok flex-1 py-4 text-sm">
+                        <i class="fa-brands fa-tiktok text-lg"></i> Ir a apoyar en TikTok
+                    </button>
+                    <button onclick="confirmarApoyo('${p.id}')" class="btn-ghost flex-1 py-4 ${yaApoyo ? 'opacity-50 cursor-not-allowed' : ''}" ${yaApoyo ? 'disabled' : ''}>
+                        <i class="fa-solid fa-check mr-1"></i> ${yaApoyo ? 'Ya apoyé' : 'Confirmé mi apoyo'}
+                    </button>
+                </div>
+
+                <button onclick="compartirWhatsAppById('${p.id}')" class="btn-primary btn-whatsapp w-full py-3 mb-4">
+                    <i class="fa-brands fa-whatsapp text-lg"></i> Compartir en WhatsApp
+                </button>
+
+                <div class="border-t border-white/10 pt-4">
+                    <p class="text-[10px] font-black uppercase tracking-widest text-gray-500 mb-3">Comentarios de la comunidad (${p.comentariosCount || 0})</p>
+                    <div id="cmts-${p.id}">${cmtHtml || '<p class="text-xs text-gray-600">Sé el primero en comentar</p>'}</div>
+                    <div class="flex gap-2 mt-3">
+                        <input type="text" id="cmt-${p.id}" class="form-input flex-1" placeholder="Escribe un comentario de apoyo...">
+                        <button onclick="enviarComentario('${p.id}')" class="btn-ghost shrink-0"><i class="fa-solid fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </article>`;
+        }
+
+        window.getThumbFallback = () => `<div class="w-full h-full flex items-center justify-center bg-gradient-to-b from-pink-500/10 to-cyan-400/10"><i class="fa-brands fa-tiktok text-5xl text-pink-500"></i></div>`;
+
+        async function renderFeed() {
+            const container = document.getElementById('feed-container');
+            const loading = document.getElementById('feed-loading');
+            const empty = document.getElementById('feed-empty');
+
+            if (!posts.length) {
+                loading.classList.add('hidden');
+                empty.classList.remove('hidden');
+                return;
+            }
+            empty.classList.add('hidden');
+            loading.classList.add('hidden');
+
+            const cards = await Promise.all(posts.map(async p => {
+                const cSnap = await getDocs(query(
+                    collection(db, 'comunidad_comentarios'),
+                    where('postId', '==', p.id),
+                    limit(20)
+                ));
+                const comentarios = cSnap.docs.map(d => ({ ...d.data(), id: d.id }))
+                    .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0))
+                    .slice(0, 5);
+                return postCardHTML({ ...p, id: p.id }, comentarios);
+            }));
+
+            container.querySelectorAll('.post-card').forEach(el => el.remove());
+            cards.forEach(html => {
+                const div = document.createElement('div');
+                div.innerHTML = html;
+                container.appendChild(div.firstElementChild);
+            });
+
+            renderMisPosts();
+        }
+
+        function renderMisPosts() {
+            const mios = posts.filter(p => p.uid === uid);
+            document.getElementById('mis-posts').innerHTML = mios.length
+                ? mios.map(p => `<div class="glass p-4 flex justify-between items-center gap-4">
+                    <div><p class="font-bold text-sm">${esc(p.titulo)}</p><p class="text-[10px] text-gray-500">${p.apoyosCount||0} apoyos · ${p.comentariosCount||0} comentarios</p></div>
+                    <button onclick="abrirTikTok('${esc(p.url)}')" class="btn-ghost text-[9px]"><i class="fa-brands fa-tiktok"></i> Ver</button>
+                </div>`).join('')
+                : '<p class="text-sm text-gray-600 text-center py-8">Aún no has publicado ningún TikTok</p>';
+        }
+
+        async function renderRanking() {
+            const snap = await getDocs(collection(db, 'usuarios'));
+            const lista = snap.docs
+                .map(d => ({ uid: d.id, ...d.data() }))
+                .filter(u => (u.puntosComunidad || 0) > 0)
+                .sort((a, b) => (b.puntosComunidad || 0) - (a.puntosComunidad || 0))
+                .slice(0, 20);
+
+            const renderItem = (u, i, mini = false) => {
+                const posClass = i === 0 ? 'gold' : '';
+                const medal = i === 0 ? '👑 ' : i === 1 ? '🥈 ' : i === 2 ? '🥉 ' : '';
+                return `<div class="rank-item">
+                    <span class="rank-pos ${posClass}">${medal}#${i+1}</span>
+                    <img src="${avatarUrl(u.tiktok)}" class="w-9 h-9 rounded-full object-cover border border-white/10" onerror="this.src='https://i.pravatar.cc/150?img=0'">
+                    <div class="flex-1 min-w-0">
+                        <p class="font-bold text-xs uppercase truncate">${esc(u.tiktok)}</p>
+                        ${!mini ? `<p class="text-[10px] text-gray-500">${u.apoyosRealizados||0} apoyos realizados</p>` : ''}
+                    </div>
+                    <span class="text-cyan-400 font-black text-sm">${u.puntosComunidad||0} pts</span>
+                </div>`;
+            };
+
+            document.getElementById('mini-ranking').innerHTML = lista.length
+                ? lista.slice(0, 5).map((u,i) => renderItem(u,i,true)).join('')
+                : '<p class="text-xs text-gray-600 text-center py-4">Aún no hay puntos</p>';
+
+            document.getElementById('ranking-full').innerHTML = lista.length
+                ? lista.map((u,i) => renderItem(u,i)).join('')
+                : '<p class="text-sm text-gray-600 text-center py-10">Cuando la comunidad empiece a apoyarse, aparecerá el ranking aquí</p>';
+        }
+
+        document.getElementById('form-post').onsubmit = async (e) => {
+            e.preventDefault();
+            const msg = document.getElementById('form-msg');
+            const btn = document.getElementById('btn-publicar');
+            const url = document.getElementById('f-url').value.trim();
+            const parsed = parseTikTok(url);
+
+            if (!url.includes('tiktok.com')) {
+                msg.innerText = 'Ingresa un enlace válido de TikTok';
+                msg.style.color = '#fe2c55';
+                return;
+            }
+
+            btn.disabled = true;
+            msg.innerText = 'Obteniendo miniatura...';
+            msg.style.color = '#25f4ee';
+
+            const meta = await fetchTikTokMeta(url);
+            const tiktokUser = parsed.user || (meta?.autor || miTiktok).replace('@','');
+
+            try {
+                await addDoc(collection(db, 'comunidad_posts'), {
+                    uid,
+                    tiktok: miTiktok,
+                    tiktokUser,
+                    titulo: document.getElementById('f-titulo').value.trim(),
+                    descripcion: document.getElementById('f-descripcion').value.trim(),
+                    motivo: document.getElementById('f-motivo').value.trim(),
+                    comentarioSugerido: document.getElementById('f-comentario').value.trim(),
+                    categoria: document.getElementById('f-categoria').value,
+                    url,
+                    videoId: parsed.videoId || '',
+                    thumbnail: meta?.thumbnail || '',
+                    apoyosCount: 0,
+                    comentariosCount: 0,
+                    createdAt: serverTimestamp()
+                });
+                await setDoc(doc(db, 'usuarios', uid), {
+                    postsComunidad: increment(1),
+                    categoriaComunidad: document.getElementById('f-categoria').value
+                }, { merge: true });
+
+                msg.innerText = '¡Publicado con éxito!';
+                msg.style.color = '#34d399';
+                document.getElementById('form-post').reset();
+                setTimeout(() => { cerrarModal(); msg.innerText = ''; }, 1200);
+            } catch (err) {
+                msg.innerText = 'Error: ' + err.message;
+                msg.style.color = '#fe2c55';
+            }
+            btn.disabled = false;
+        };
+
+        async function cargarMisApoyos() {
+            const snap = await getDocs(query(collection(db, 'comunidad_apoyos'), where('uid', '==', uid)));
+            misApoyos = new Set(snap.docs.map(d => d.id));
+            const cSnap = await getDocs(query(collection(db, 'comunidad_compartidos'), where('uid', '==', uid)));
+            misCompartidos = new Set(cSnap.docs.map(d => d.id));
+        }
+
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) { window.location.href = 'index.html'; return; }
+            uid = user.uid;
+            const perfil = await getDoc(doc(db, 'usuarios', user.uid));
+            if (perfil.exists()) {
+                miTiktok = perfil.data().tiktok || '';
+                miPerfil = perfil.data();
+            }
+            await cargarMisApoyos();
+            await actualizarMiPerfilUI();
+            await renderRanking();
+
+            onSnapshot(query(collection(db, 'comunidad_posts'), orderBy('createdAt', 'desc')), (snap) => {
+                posts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                renderFeed();
+                renderRanking();
+            });
+        });
+    </script>
+</body>
+</html>
