@@ -46,6 +46,25 @@
 
         .back-btn { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 0.7rem 1.3rem; border-radius: 1rem; backdrop-filter: blur(10px); transition: 0.3s; text-transform: uppercase; font-size: 10px; font-weight: 900; letter-spacing: 2px; color: rgba(255,255,255,0.6); display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
         .back-btn:hover { border-color: var(--tk-cyan); color: white; }
+
+        .meta-btn { background: linear-gradient(135deg, #34d399, #25f4ee); color: #000; font-size: 10px; font-weight: 900; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.8rem 1.4rem; border-radius: 0.9rem; border: none; cursor: pointer; white-space: nowrap; transition: 0.3s; }
+        .meta-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(52,211,153,0.25); }
+
+        .progress-ring-wrap { position: relative; width: 160px; height: 160px; flex-shrink: 0; }
+        .progress-ring-wrap svg { transform: rotate(-90deg); width: 100%; height: 100%; }
+        .progress-ring-bg { fill: none; stroke: rgba(255,255,255,0.06); stroke-width: 10; }
+        .progress-ring-fill { fill: none; stroke: url(#ringGrad); stroke-width: 10; stroke-linecap: round; transition: stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .progress-ring-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .progress-pct { font-size: 2rem; font-weight: 900; line-height: 1; letter-spacing: -0.03em; }
+
+        .progress-bar-track { height: 14px; background: rgba(255,255,255,0.06); border-radius: 999px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); }
+        .progress-bar-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, #fe2c55, #f472b6, #34d399); transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); position: relative; }
+        .progress-bar-fill::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent); animation: shimmer 2s infinite; }
+        @keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+
+        .meta-stat { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 1rem; padding: 0.9rem 1.1rem; }
+        .meta-stat-val { font-size: 1.25rem; font-weight: 900; line-height: 1; }
+        .meta-stat-lbl { font-size: 8px; font-weight: 900; letter-spacing: 0.2em; text-transform: uppercase; color: #666; margin-top: 0.35rem; }
     </style>
 </head>
 <body class="p-6 md:p-12">
@@ -68,7 +87,80 @@
                 <p class="text-[10px] text-gray-500 uppercase tracking-widest mt-2">Formatos: .xlsx, .xls, .csv</p>
                 <input type="file" id="file-input" accept=".xlsx,.xls,.csv" class="hidden">
             </div>
+
+            <div id="meta-config" class="mt-6 pt-6 border-t border-white/10">
+                <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 block">
+                    <i class="fa-solid fa-bullseye text-pink-500 mr-1"></i> Meta de diamantes del mes
+                </label>
+                <div class="flex flex-wrap gap-3">
+                    <input type="text" id="meta-input" class="form-input flex-1 min-w-[180px]" placeholder="Ej: 5000000 o 5M">
+                    <button type="button" id="meta-guardar" class="meta-btn"><i class="fa-solid fa-check mr-1"></i> Guardar meta</button>
+                </div>
+                <p id="meta-msg" class="mt-2 text-[10px] font-bold uppercase tracking-widest"></p>
+            </div>
+
             <p id="import-msg" class="mt-4 text-center text-[10px] font-bold uppercase tracking-widest"></p>
+        </div>
+
+        <!-- PROGRESO META DIAMANTES -->
+        <div id="meta-progress-panel" class="glass-panel p-6 md:p-8 mb-8 hidden">
+            <h2 class="text-sm font-black uppercase tracking-widest text-gray-300 mb-6">
+                <i class="fa-solid fa-gem text-pink-500 mr-2"></i>Progreso de meta del mes
+            </h2>
+            <div class="flex flex-col md:flex-row items-center gap-8">
+                <div class="progress-ring-wrap">
+                    <svg viewBox="0 0 120 120">
+                        <defs>
+                            <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#fe2c55"/>
+                                <stop offset="50%" stop-color="#f472b6"/>
+                                <stop offset="100%" stop-color="#34d399"/>
+                            </linearGradient>
+                        </defs>
+                        <circle class="progress-ring-bg" cx="60" cy="60" r="52"/>
+                        <circle id="progress-ring" class="progress-ring-fill" cx="60" cy="60" r="52"
+                            stroke-dasharray="326.73" stroke-dashoffset="326.73"/>
+                    </svg>
+                    <div class="progress-ring-center">
+                        <span id="progress-pct" class="progress-pct text-pink-500">0%</span>
+                        <span class="text-[8px] font-black uppercase tracking-widest text-gray-500 mt-1">completado</span>
+                    </div>
+                </div>
+                <div class="flex-1 w-full space-y-5">
+                    <div>
+                        <p class="text-[10px] font-black uppercase tracking-widest text-gray-500 mb-1">Avance actual</p>
+                        <p class="text-2xl md:text-3xl font-black tracking-tight">
+                            <span id="progress-actual" class="text-pink-500">0</span>
+                            <span class="text-gray-600 text-xl mx-2">/</span>
+                            <span id="progress-meta" class="text-white">0</span>
+                            <span class="text-[10px] font-black uppercase tracking-widest text-gray-500 ml-2">diamantes</span>
+                        </p>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2">
+                            <span id="progress-label-izq">0 diamantes</span>
+                            <span id="progress-label-der">Meta: 0</span>
+                        </div>
+                        <div class="progress-bar-track">
+                            <div id="progress-bar" class="progress-bar-fill" style="width:0%"></div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-3 gap-3">
+                        <div class="meta-stat">
+                            <p class="meta-stat-val text-pink-500" id="stat-actual">0</p>
+                            <p class="meta-stat-lbl">Acumulado</p>
+                        </div>
+                        <div class="meta-stat">
+                            <p class="meta-stat-val text-emerald-400" id="stat-faltan">0</p>
+                            <p class="meta-stat-lbl">Faltan</p>
+                        </div>
+                        <div class="meta-stat">
+                            <p class="meta-stat-val text-cyan-400" id="stat-meta">0</p>
+                            <p class="meta-stat-lbl">Meta</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- RESUMEN -->
@@ -139,9 +231,89 @@
         let sortDir = -1;
         let esAdmin = false;
         let miUsuario = '';
+        let metaDiamantes = 0;
 
         const fmt = (n) => Number(n || 0).toLocaleString('es-MX', { maximumFractionDigits: 1 });
+        const fmtCompact = (n) => {
+            const v = Number(n || 0);
+            if (v >= 1e6) return (v / 1e6).toFixed(v % 1e6 === 0 ? 0 : 1) + 'M';
+            if (v >= 1e3) return (v / 1e3).toFixed(v % 1e3 === 0 ? 0 : 1) + 'K';
+            return fmt(v);
+        };
         const norm = (s) => (s || '').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+
+        const CIRC = 2 * Math.PI * 52;
+
+        function parseMetaInput(str) {
+            const s = norm(str).replace(/\s/g, '');
+            if (!s) return 0;
+            const m = s.match(/^([\d.,]+)(millones?|m|k|mil)?$/);
+            if (m) {
+                let num = parseFloat(m[1].replace(/,/g, ''));
+                if (isNaN(num)) return 0;
+                const suf = m[2] || '';
+                if (suf.startsWith('m')) num *= 1e6;
+                else if (suf === 'k' || suf === 'mil') num *= 1e3;
+                return Math.round(num);
+            }
+            const num = parseFloat(s.replace(/[^0-9.]/g, ''));
+            return isNaN(num) ? 0 : Math.round(num);
+        }
+
+        function renderMetaProgress() {
+            const panel = document.getElementById('meta-progress-panel');
+            if (!metaDiamantes || metaDiamantes <= 0) {
+                panel.classList.add('hidden');
+                return;
+            }
+
+            panel.classList.remove('hidden');
+            const actual = datos.reduce((a, d) => a + d.diamantes, 0);
+            const pct = Math.min(100, (actual / metaDiamantes) * 100);
+            const faltan = Math.max(0, metaDiamantes - actual);
+            const superado = actual >= metaDiamantes;
+
+            document.getElementById('progress-pct').innerText = pct.toFixed(1) + '%';
+            document.getElementById('progress-actual').innerText = fmtCompact(actual);
+            document.getElementById('progress-meta').innerText = fmtCompact(metaDiamantes);
+            document.getElementById('progress-bar').style.width = pct + '%';
+            document.getElementById('progress-label-izq').innerText = fmt(actual) + ' diamantes';
+            document.getElementById('progress-label-der').innerText = 'Meta: ' + fmt(metaDiamantes);
+            document.getElementById('stat-actual').innerText = fmtCompact(actual);
+            document.getElementById('stat-faltan').innerText = superado ? '¡Meta!' : fmtCompact(faltan);
+            document.getElementById('stat-meta').innerText = fmtCompact(metaDiamantes);
+
+            document.getElementById('progress-ring').style.strokeDashoffset = CIRC - (pct / 100) * CIRC;
+            document.getElementById('progress-pct').className = 'progress-pct ' + (superado ? 'text-emerald-400' : 'text-pink-500');
+            document.getElementById('stat-faltan').className = 'meta-stat-val ' + (superado ? 'text-yellow-400' : 'text-emerald-400');
+        }
+
+        async function guardarMeta() {
+            const input = document.getElementById('meta-input');
+            const msg = document.getElementById('meta-msg');
+            const valor = parseMetaInput(input.value);
+            if (!valor || valor <= 0) {
+                msg.innerText = 'Ingresa una meta válida (ej: 5000000 o 5M)';
+                msg.style.color = '#fe2c55';
+                return;
+            }
+            metaDiamantes = valor;
+            msg.innerText = 'Guardando meta...';
+            msg.style.color = '#25f4ee';
+            try {
+                await setDoc(doc(db, "reportes", "kpi"), {
+                    datos: datos,
+                    metaDiamantes: metaDiamantes,
+                    actualizado: Date.now()
+                }, { merge: true });
+                msg.innerText = 'Meta guardada: ' + fmt(metaDiamantes) + ' diamantes';
+                msg.style.color = '#34d399';
+                renderMetaProgress();
+            } catch (err) {
+                msg.innerText = 'Error al guardar meta';
+                msg.style.color = '#fe2c55';
+            }
+        }
 
         let headersActuales = [];
         let filasActuales = [];
@@ -263,6 +435,7 @@
             try {
                 await setDoc(doc(db, "reportes", "kpi"), {
                     datos: datos,
+                    metaDiamantes: metaDiamantes,
                     actualizado: Date.now()
                 });
                 msg.innerText = `Importados ${datos.length} creadores correctamente (visibles para todos)`;
@@ -313,6 +486,7 @@
                 vacio.classList.remove('hidden');
                 tablaPanel.classList.add('hidden');
                 resumen.classList.add('hidden');
+                renderMetaProgress();
                 return;
             }
 
@@ -337,6 +511,7 @@
                     vacio.classList.remove('hidden');
                     tablaPanel.classList.add('hidden');
                     resumen.classList.add('hidden');
+                    renderMetaProgress();
                     return;
                 }
 
@@ -349,6 +524,7 @@
                 document.getElementById('total-horas').innerText = fmt(miFila.horas);
 
                 document.getElementById('tabla-body').innerHTML = filaHTML(miFila, miIndice + 1);
+                renderMetaProgress();
                 return;
             }
 
@@ -372,6 +548,7 @@
 
             const body = document.getElementById('tabla-body');
             body.innerHTML = lista.map((d, i) => filaHTML(d, i + 1)).join('');
+            renderMetaProgress();
         }
 
         // Eventos de importacion
@@ -398,11 +575,19 @@
             };
         });
 
+        document.getElementById('meta-guardar').onclick = guardarMeta;
+        document.getElementById('meta-input').onkeydown = (e) => { if (e.key === 'Enter') guardarMeta(); };
+
         async function cargarReporte() {
             try {
                 const snap = await getDoc(doc(db, "reportes", "kpi"));
-                if (snap.exists() && Array.isArray(snap.data().datos)) {
-                    datos = snap.data().datos;
+                if (snap.exists()) {
+                    const d = snap.data();
+                    if (Array.isArray(d.datos)) datos = d.datos;
+                    if (d.metaDiamantes > 0) {
+                        metaDiamantes = d.metaDiamantes;
+                        document.getElementById('meta-input').value = metaDiamantes;
+                    }
                 }
             } catch (e) {
                 console.error("No se pudo cargar el reporte:", e);
