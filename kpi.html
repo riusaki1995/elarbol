@@ -51,11 +51,19 @@
         .meta-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(52,211,153,0.25); }
 
         .progress-ring-wrap { position: relative; width: 160px; height: 160px; flex-shrink: 0; }
+        .progress-ring-wrap-sm { width: 88px; height: 88px; }
         .progress-ring-wrap svg { transform: rotate(-90deg); width: 100%; height: 100%; }
         .progress-ring-bg { fill: none; stroke: rgba(255,255,255,0.06); stroke-width: 10; }
+        .progress-ring-wrap-sm .progress-ring-bg,
+        .progress-ring-wrap-sm .progress-ring-fill,
+        .progress-ring-wrap-sm .progress-ring-activo,
+        .progress-ring-wrap-sm .progress-ring-inactivo { stroke-width: 8; }
         .progress-ring-fill { fill: none; stroke: url(#ringGrad); stroke-width: 10; stroke-linecap: round; transition: stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .progress-ring-activo { fill: none; stroke: #34d399; stroke-linecap: round; transition: stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .progress-ring-inactivo { fill: none; stroke: #6b7280; stroke-linecap: round; transition: stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
         .progress-ring-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .progress-pct { font-size: 2rem; font-weight: 900; line-height: 1; letter-spacing: -0.03em; }
+        .progress-pct-sm { font-size: 1rem; font-weight: 900; line-height: 1; letter-spacing: -0.03em; }
 
         .progress-bar-track { height: 14px; background: rgba(255,255,255,0.06); border-radius: 999px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); }
         .progress-bar-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, #fe2c55, #f472b6, #34d399); transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); position: relative; }
@@ -112,14 +120,28 @@
                                 <span id="progress-meta" class="text-white">0</span>
                                 <span class="text-[10px] font-black uppercase tracking-widest text-gray-500 ml-2">diamantes</span>
                             </p>
-                            <div class="flex gap-3 pb-1">
-                                <div class="meta-stat px-3 py-2">
-                                    <p class="meta-stat-val text-emerald-400" id="stat-activos">0</p>
-                                    <p class="meta-stat-lbl">Activos</p>
+                            <div class="flex gap-4 pb-1 items-center">
+                                <div class="progress-ring-wrap progress-ring-wrap-sm">
+                                    <svg viewBox="0 0 100 100">
+                                        <circle class="progress-ring-bg" cx="50" cy="50" r="40"/>
+                                        <circle id="activos-ring" class="progress-ring-activo" cx="50" cy="50" r="40"
+                                            stroke-dasharray="251.33" stroke-dashoffset="251.33"/>
+                                    </svg>
+                                    <div class="progress-ring-center">
+                                        <span id="activos-pct" class="progress-pct-sm text-emerald-400">0%</span>
+                                        <span class="text-[7px] font-black uppercase tracking-widest text-gray-500 mt-0.5">Activos</span>
+                                    </div>
                                 </div>
-                                <div class="meta-stat px-3 py-2">
-                                    <p class="meta-stat-val text-gray-400" id="stat-inactivos">0</p>
-                                    <p class="meta-stat-lbl">Inactivos</p>
+                                <div class="progress-ring-wrap progress-ring-wrap-sm">
+                                    <svg viewBox="0 0 100 100">
+                                        <circle class="progress-ring-bg" cx="50" cy="50" r="40"/>
+                                        <circle id="inactivos-ring" class="progress-ring-inactivo" cx="50" cy="50" r="40"
+                                            stroke-dasharray="251.33" stroke-dashoffset="251.33"/>
+                                    </svg>
+                                    <div class="progress-ring-center">
+                                        <span id="inactivos-pct" class="progress-pct-sm text-gray-400">0%</span>
+                                        <span class="text-[7px] font-black uppercase tracking-widest text-gray-500 mt-0.5">Inactivos</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -255,6 +277,7 @@
         const norm = (s) => (s || '').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
 
         const CIRC = 2 * Math.PI * 52;
+        const CIRC_SM = 2 * Math.PI * 40;
 
         function parseMetaInput(str) {
             const s = norm(str).replace(/\s/g, '');
@@ -297,8 +320,12 @@
 
             const inactivos = datos.filter(d => !(Number(d.horas) > 0)).length;
             const activos = datos.length - inactivos;
-            document.getElementById('stat-activos').innerText = activos;
-            document.getElementById('stat-inactivos').innerText = inactivos;
+            const pctActivos = datos.length ? (activos / datos.length) * 100 : 0;
+            const pctInactivos = datos.length ? (inactivos / datos.length) * 100 : 0;
+            document.getElementById('activos-pct').innerText = pctActivos.toFixed(0) + '%';
+            document.getElementById('inactivos-pct').innerText = pctInactivos.toFixed(0) + '%';
+            document.getElementById('activos-ring').style.strokeDashoffset = CIRC_SM - (pctActivos / 100) * CIRC_SM;
+            document.getElementById('inactivos-ring').style.strokeDashoffset = CIRC_SM - (pctInactivos / 100) * CIRC_SM;
 
             document.getElementById('progress-ring').style.strokeDashoffset = CIRC - (pct / 100) * CIRC;
             document.getElementById('progress-pct').className = 'progress-pct ' + (superado ? 'text-emerald-400' : 'text-pink-500');
