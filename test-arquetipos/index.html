@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test R.A.Í.C.E.S.™ | Agencia El Árbol</title>
+  <meta name="description" content="Test Oficial de Arquetipos TikTok LIVE — Método R.A.Í.C.E.S.™ de Agencia El Árbol">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="./css/styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+</head>
+<body>
+  <div id="app">
+    <!-- WELCOME -->
+    <section id="screen-welcome" class="screen active">
+      <a class="topbar-link" href="../lobby.html"><i class="fa-solid fa-arrow-left"></i> Lobby</a>
+      <p class="brand-kicker">Agencia El Árbol</p>
+      <h1 class="hero-title">Test Oficial de<br><span>Arquetipos LIVE</span></h1>
+      <p class="lead">Método <strong style="color:var(--neon)">R.A.Í.C.E.S.™</strong> — no mide personalidad. Mide tu potencial de monetización, liderazgo, comunicación, comunidad y estilo de LIVE.</p>
+      <div id="method-letters" class="letters"></div>
+      <div class="promise-grid">
+        <div class="promise-item"><i class="fa-solid fa-dna"></i> Tu arquetipo</div>
+        <div class="promise-item"><i class="fa-solid fa-coins"></i> Cómo monetizas mejor</div>
+        <div class="promise-item"><i class="fa-solid fa-video"></i> Qué tipo de LIVE hacer</div>
+        <div class="promise-item"><i class="fa-solid fa-users"></i> Comunidad que construyes</div>
+        <div class="promise-item"><i class="fa-solid fa-gem"></i> Donadores que atraes</div>
+        <div class="promise-item"><i class="fa-solid fa-triangle-exclamation"></i> Errores a evitar</div>
+        <div class="promise-item"><i class="fa-solid fa-compass"></i> Estrategia personalizada</div>
+        <div class="promise-item"><i class="fa-solid fa-seedling"></i> Plan de crecimiento 90 días</div>
+      </div>
+      <button type="button" class="btn btn-primary" id="btn-start">Descubrir mi ADN <i class="fa-solid fa-arrow-right"></i></button>
+      <p class="lead" style="font-size:0.85rem;margin-top:1.5rem">96 preguntas · ~12–15 min · Resultado premium + PDF</p>
+    </section>
+
+    <!-- DATA -->
+    <section id="screen-data" class="screen">
+      <a class="topbar-link" href="../lobby.html"><i class="fa-solid fa-arrow-left"></i> Lobby</a>
+      <p class="brand-kicker">Paso 1</p>
+      <h2 style="font-size:clamp(1.8rem,5vw,2.6rem);text-align:center;margin-bottom:0.5rem">Datos básicos</h2>
+      <p class="lead" style="margin-bottom:1.75rem">Para guardar tu resultado y enviarte tu estrategia.</p>
+      <form id="form-data" class="glass-card">
+        <div class="field">
+          <label for="input-name">Nombre</label>
+          <input id="input-name" name="name" autocomplete="name" required placeholder="Tu nombre">
+        </div>
+        <div class="field">
+          <label for="input-email">Correo</label>
+          <input id="input-email" name="email" type="email" autocomplete="email" required placeholder="tu@email.com">
+        </div>
+        <div class="field">
+          <label for="input-whatsapp">WhatsApp</label>
+          <input id="input-whatsapp" name="whatsapp" type="tel" required placeholder="+52 ...">
+        </div>
+        <div class="field">
+          <label for="input-tiktok">@TikTok (opcional)</label>
+          <input id="input-tiktok" name="tiktok" placeholder="@usuario">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%">Comenzar test</button>
+      </form>
+    </section>
+
+    <!-- QUIZ -->
+    <section id="screen-quiz" class="screen">
+      <div class="progress-wrap">
+        <div class="progress-meta">
+          <span id="progress-label">Pregunta 1</span>
+          <span id="progress-pct">0%</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+      </div>
+      <div class="quiz-shell">
+        <h2 class="question-text" id="question-text"></h2>
+        <div class="answers" id="answers"></div>
+        <div class="quiz-nav">
+          <button type="button" class="btn btn-ghost" id="btn-back"><i class="fa-solid fa-chevron-left"></i> Anterior</button>
+          <span style="color:var(--muted);font-size:0.75rem;align-self:center;letter-spacing:0.1em;text-transform:uppercase">Sin respuestas correctas</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ANALYZE -->
+    <section id="screen-analyze" class="screen" style="justify-content:center;text-align:center">
+      <p class="brand-kicker">Analizando</p>
+      <h2 style="font-size:clamp(1.6rem,4vw,2.2rem)">Calculando tu ADN creativo</h2>
+      <div class="analyze-ring"></div>
+      <ul class="analyze-steps" id="analyze-steps">
+        <li>Mapeando estilo de LIVE…</li>
+        <li>Calculando afinidad de arquetipos…</li>
+        <li>Midiendo habilidades R.A.Í.C.E.S.…</li>
+        <li>Construyendo plan de 90 días…</li>
+        <li>Generando resultado premium…</li>
+      </ul>
+    </section>
+
+    <!-- RESULT -->
+    <section id="screen-result" class="screen">
+      <a class="topbar-link" href="../lobby.html"><i class="fa-solid fa-arrow-left"></i> Lobby</a>
+      <div class="result-hero">
+        <p class="result-name" id="result-user">—</p>
+        <div class="archetype-badge" id="result-badge">
+          <span id="result-badge-dot" style="width:10px;height:10px;border-radius:50%"></span>
+          Arquetipo principal
+        </div>
+        <h2 class="archetype-title" id="result-archetype">—</h2>
+        <p class="tagline" id="result-tagline"></p>
+        <div class="affinity-big" id="result-affinity">0%</div>
+        <p class="lead" style="margin-top:0.35rem">
+          Nivel <strong id="result-level" style="color:var(--gold)">—</strong>
+          · Secundario <strong id="result-secondary" style="color:var(--violet)">—</strong>
+          · Próximo: <span id="result-next">—</span>
+        </p>
+      </div>
+
+      <div class="sections">
+        <article class="section-card">
+          <h3>Descripción</h3>
+          <p id="result-desc"></p>
+        </article>
+
+        <div class="grid-2">
+          <article class="section-card">
+            <h3>Top 3 fortalezas</h3>
+            <ul id="result-strengths"></ul>
+          </article>
+          <article class="section-card">
+            <h3>Top 3 debilidades</h3>
+            <ul id="result-weaknesses"></ul>
+          </article>
+        </div>
+
+        <article class="section-card">
+          <h3>Habilidades</h3>
+          <div id="result-skills"></div>
+        </article>
+
+        <article class="section-card">
+          <h3>Comparación de arquetipos</h3>
+          <div id="result-compare"></div>
+        </article>
+
+        <div class="grid-2">
+          <article class="section-card"><h3>Cómo monetiza</h3><p id="result-monetization"></p></article>
+          <article class="section-card"><h3>Cómo transmitir</h3><p id="result-stream"></p></article>
+          <article class="section-card"><h3>Comunidad</h3><p id="result-community"></p></article>
+          <article class="section-card"><h3>Donadores</h3><p id="result-donors"></p></article>
+        </div>
+
+        <div class="grid-2">
+          <article class="section-card"><h3>Horario ideal</h3><p id="result-schedule"></p></article>
+          <article class="section-card"><h3>Duración ideal</h3><p id="result-duration"></p></article>
+          <article class="section-card"><h3>Frecuencia ideal</h3><p id="result-frequency"></p></article>
+          <article class="section-card"><h3>Tipo de PK</h3><p id="result-pk"></p></article>
+        </div>
+
+        <div class="grid-2">
+          <article class="section-card"><h3>Cómo abrir LIVE</h3><p id="result-open"></p></article>
+          <article class="section-card"><h3>Cómo cerrar LIVE</h3><p id="result-close"></p></article>
+          <article class="section-card"><h3>Cómo crecer</h3><p id="result-grow"></p></article>
+          <article class="section-card"><h3>Qué evitar</h3><p id="result-avoid"></p></article>
+        </div>
+
+        <article class="section-card">
+          <h3>Errores a evitar</h3>
+          <ul id="result-errors"></ul>
+        </article>
+
+        <article class="section-card">
+          <h3>Plan de 90 días</h3>
+          <ul id="result-plan"></ul>
+        </article>
+      </div>
+
+      <div class="btn-row" style="width:min(860px,100%)">
+        <button type="button" class="btn btn-gold" id="btn-pdf"><i class="fa-solid fa-file-pdf"></i> Descargar PDF</button>
+        <button type="button" class="btn btn-violet" id="btn-share"><i class="fa-solid fa-share-nodes"></i> Compartir mi ADN como creador</button>
+        <button type="button" class="btn btn-ghost" id="btn-restart">Repetir test</button>
+      </div>
+
+      <div class="cta-agency">
+        <p class="brand-kicker" style="margin-bottom:0.5rem">Siguiente nivel</p>
+        <h3 style="font-size:1.6rem;margin-bottom:0.75rem">Entra a Agencia El Árbol</h3>
+        <p class="lead" style="margin:0 auto 1.25rem">Convierte este resultado en un sistema real de crecimiento con mentoría, comunidad y estructura.</p>
+        <a class="btn btn-primary" href="../registro.html">Quiero entrar a la agencia</a>
+      </div>
+    </section>
+  </div>
+
+  <div id="toast" class="toast" role="status"></div>
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>
