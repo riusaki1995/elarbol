@@ -13,7 +13,17 @@
 
   <div id="app">
     <section id="screen-welcome" class="screen active">
-      <a class="topbar-link" href="../lobby.html"><i class="fa-solid fa-arrow-left"></i> Volver al Lobby</a>
+      <div class="top-nav">
+        <a class="topbar-link" href="../lobby.html" style="margin-bottom:0"><i class="fa-solid fa-arrow-left"></i> Volver al Lobby</a>
+        <a class="btn btn-pink" href="./admin.html" id="btn-admin-panel" style="padding:0.7rem 1.1rem">
+          <i class="fa-solid fa-chart-pie"></i> Ver respuestas
+        </a>
+      </div>
+      <div id="admin-banner" class="admin-banner" hidden>
+        <i class="fa-solid fa-shield-halved"></i>
+        <span>Estás en cuenta admin. Aquí ves el test; las respuestas están en el panel.</span>
+        <a href="./admin.html">Abrir panel →</a>
+      </div>
       <p class="brand-kicker">Agencia El Árbol</p>
       <h1 class="hero-title">Test Oficial de<br><span>Arquetipos LIVE</span></h1>
       <p class="lead">Método <strong style="color:var(--tk-cyan)">R.A.Í.C.E.S.™</strong> — no mide personalidad. Mide tu potencial de monetización, liderazgo, comunicación, comunidad y estilo de LIVE.</p>

@@ -329,4 +329,25 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!btn) return;
     selectAnswer(btn.dataset.letter);
   });
+
+  // Si la sesión es admin, mostrar aviso
+  detectAdminBanner();
 });
+
+async function detectAdminBanner() {
+  try {
+    const { auth, db, watchAuth } = await import('./storage.js');
+    const { getDoc, doc } = await import('https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js');
+    watchAuth(async (user) => {
+      if (!user) return;
+      try {
+        const snap = await getDoc(doc(db, 'usuarios', user.uid));
+        if (snap.exists() && snap.data().isAdmin === true) {
+          const banner = $('#admin-banner');
+          if (banner) banner.hidden = false;
+        }
+      } catch (_) { /* ignore */ }
+    });
+    void auth;
+  } catch (_) { /* ignore */ }
+}
