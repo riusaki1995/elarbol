@@ -4,87 +4,127 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin R.A.Í.C.E.S.™ | El Árbol</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
   <link rel="stylesheet" href="./css/styles.css">
   <style>
-    .admin-wrap { width: min(1100px, 100%); margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    .admin-wrap { width: min(1100px, 100%); margin: 0 auto; padding: 2rem 1.25rem 4rem; position: relative; z-index: 1; }
     .tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 1.5rem 0; }
     .tab {
       background: var(--glass); border: 1px solid var(--glass-border); color: var(--muted);
-      padding: 0.65rem 1rem; border-radius: 999px; cursor: pointer; font-family: var(--font-display);
-      font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700;
+      padding: 0.65rem 1rem; border-radius: 999px; cursor: pointer;
+      font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 900;
     }
-    .tab.on { color: #041204; background: var(--neon); border-color: var(--neon); }
+    .tab.on { color: #050505; background: var(--tk-cyan); border-color: var(--tk-cyan); }
     .panel { display: none; }
     .panel.on { display: block; }
     table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-    th, td { text-align: left; padding: 0.75rem 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.06); }
-    th { color: var(--muted); font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; }
-    .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.75rem; margin-bottom: 1.5rem; }
+    th, td { text-align: left; padding: 0.85rem 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.06); vertical-align: middle; }
+    th { color: var(--muted); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 900; }
+    tr.user-row { cursor: pointer; transition: background 0.15s; }
+    tr.user-row:hover { background: rgba(37, 244, 238, 0.05); }
+    .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.75rem; margin-bottom: 1.5rem; }
     .stat {
-      background: var(--glass); border: 1px solid var(--glass-border); border-radius: 1rem; padding: 1.1rem;
+      background: var(--glass); border: 1px solid var(--glass-border); border-radius: 1.2rem; padding: 1.1rem;
     }
-    .stat b { display: block; font-family: var(--font-display); font-size: 1.6rem; color: var(--neon); }
-    .stat span { color: var(--muted); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; }
+    .stat b { display: block; font-size: 1.6rem; color: var(--tk-cyan); font-style: italic; }
+    .stat span { color: var(--muted); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 900; }
     textarea, .admin-input {
       width: 100%; background: rgba(0,0,0,0.45); border: 1px solid var(--glass-border);
-      border-radius: 0.75rem; padding: 0.75rem; color: white; font-family: var(--font-body); margin-bottom: 0.6rem;
+      border-radius: 0.9rem; padding: 0.75rem; color: white; font-family: inherit; margin-bottom: 0.6rem;
     }
-    .q-card {
-      background: var(--glass); border: 1px solid var(--glass-border); border-radius: 1rem;
-      padding: 1rem; margin-bottom: 0.75rem;
+    .login-box { width: min(420px, 100%); margin: 12vh auto; position: relative; z-index: 1; }
+    .pill {
+      display: inline-block; padding: 0.25rem 0.6rem; border-radius: 999px;
+      background: rgba(37,244,238,0.12); color: var(--tk-cyan); font-size: 10px; font-weight: 900;
+      letter-spacing: 0.08em; text-transform: uppercase;
     }
-    .login-box { width: min(420px, 100%); margin: 15vh auto; }
+    .modal-bg {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.82); z-index: 200;
+      display: none; align-items: flex-start; justify-content: center; padding: 2rem 1rem; overflow-y: auto;
+    }
+    .modal-bg.open { display: flex; }
+    .modal {
+      width: min(820px, 100%); background: #0a0a0a; border: 1px solid var(--glass-border);
+      border-radius: 1.5rem; padding: 1.5rem; margin-bottom: 2rem;
+    }
+    .answer-line {
+      display: grid; grid-template-columns: 3rem 1fr 8rem; gap: 0.6rem;
+      padding: 0.55rem 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.82rem;
+    }
+    .answer-line .qid { color: var(--muted); font-weight: 900; }
+    .answer-line .arch { color: var(--tk-pink); font-weight: 900; font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; }
+    .meta-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.75rem; margin: 1rem 0;
+    }
+    .meta-box {
+      background: var(--glass); border: 1px solid var(--glass-border); border-radius: 1rem; padding: 0.9rem;
+    }
+    .meta-box small { display: block; color: var(--muted); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 900; margin-bottom: 0.3rem; }
+    .hint {
+      background: rgba(37,244,238,0.06); border: 1px solid rgba(37,244,238,0.2);
+      border-radius: 1rem; padding: 1rem 1.15rem; margin-bottom: 1.25rem; font-size: 0.85rem; color: #d1d5db; line-height: 1.5;
+    }
+    .hint strong { color: var(--tk-cyan); }
   </style>
 </head>
 <body>
+  <div class="tiktok-bg"></div>
+
   <div id="login-view" class="login-box glass-card">
-    <p class="brand-kicker">Admin</p>
-    <h1 style="font-size:1.8rem;margin-bottom:1rem">R.A.Í.C.E.S.™</h1>
-    <div class="field"><label>Email</label><input class="admin-input" id="admin-email" type="email"></div>
-    <div class="field"><label>Password</label><input class="admin-input" id="admin-pass" type="password"></div>
+    <p class="brand-kicker">Panel admin</p>
+    <h1 style="font-size:1.7rem;margin-bottom:0.4rem;font-style:italic;text-transform:uppercase">R.A.Í.C.E.S.™</h1>
+    <p style="color:var(--muted);font-size:0.85rem;margin:0 0 1.25rem;font-weight:600">Aquí ves quién hizo el test, su arquetipo y todas sus respuestas.</p>
+    <div class="field"><label>Email admin</label><input class="admin-input" id="admin-email" type="email" autocomplete="username"></div>
+    <div class="field"><label>Password</label><input class="admin-input" id="admin-pass" type="password" autocomplete="current-password"></div>
     <button class="btn btn-primary" style="width:100%" id="btn-login">Entrar</button>
-    <p style="color:var(--muted);font-size:0.8rem;margin-top:1rem;text-align:center">Usa la cuenta admin de Firebase de la agencia.</p>
+    <p style="color:var(--muted);font-size:0.75rem;margin-top:1rem;text-align:center">Misma cuenta admin de la agencia (Firebase).</p>
   </div>
 
   <div id="admin-view" class="admin-wrap" hidden>
     <div style="display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap">
       <div>
         <p class="brand-kicker">Dashboard</p>
-        <h1 style="font-size:clamp(1.6rem,4vw,2.4rem)">Test Arquetipos</h1>
+        <h1 style="font-size:clamp(1.5rem,4vw,2.2rem);font-style:italic;text-transform:uppercase">Respuestas del test</h1>
       </div>
-      <div style="display:flex;gap:0.5rem">
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
         <a class="btn btn-ghost" href="./index.html">Ver test</a>
+        <a class="btn btn-ghost" href="../lobby.html">Lobby</a>
         <button class="btn btn-ghost" id="btn-logout">Salir</button>
       </div>
     </div>
 
+    <div class="hint">
+      <strong>Cómo funciona:</strong> cada vez que alguien termina el test se guarda su nombre, correo, WhatsApp, tiempo, arquetipo, habilidades y <em>cada respuesta</em>.
+      Entra a <strong>Usuarios</strong>, haz clic en una fila para ver el detalle, o exporta todo a Excel.
+    </div>
+
     <div class="tabs">
-      <button class="tab on" data-tab="stats">Estadísticas</button>
-      <button class="tab" data-tab="users">Usuarios</button>
+      <button class="tab on" data-tab="users">Usuarios / Respuestas</button>
+      <button class="tab" data-tab="stats">Estadísticas</button>
       <button class="tab" data-tab="questions">Preguntas</button>
       <button class="tab" data-tab="archetypes">Arquetipos</button>
     </div>
 
-    <section class="panel on" id="panel-stats">
-      <div class="stat-grid" id="stats-grid"></div>
-      <article class="section-card">
-        <h3>Distribución de arquetipos</h3>
-        <div id="stats-dist"></div>
-      </article>
-    </section>
-
-    <section class="panel" id="panel-users">
+    <section class="panel on" id="panel-users">
       <div class="btn-row" style="justify-content:flex-start;margin:0 0 1rem">
-        <button class="btn btn-gold" id="btn-export"><i class="fa-solid fa-file-excel"></i> Exportar CSV / Excel</button>
+        <button class="btn btn-primary" id="btn-refresh"><i class="fa-solid fa-rotate"></i> Actualizar</button>
+        <button class="btn btn-pink" id="btn-export"><i class="fa-solid fa-file-excel"></i> Exportar Excel (CSV)</button>
+        <button class="btn btn-ghost" id="btn-export-full"><i class="fa-solid fa-list"></i> Exportar con respuestas</button>
       </div>
+      <p id="users-empty" style="color:var(--muted);display:none;font-weight:600">Aún no hay resultados guardados. Cuando alguien termine el test, aparecerán aquí.</p>
       <div style="overflow-x:auto">
         <table>
           <thead>
             <tr>
-              <th>Nombre</th><th>Email</th><th>WhatsApp</th><th>Arquetipo</th><th>Afinidad</th><th>Nivel</th><th>Fecha</th>
+              <th>Nombre</th>
+              <th>Contacto</th>
+              <th>Arquetipo</th>
+              <th>Afinidad</th>
+              <th>Nivel</th>
+              <th>Tiempo</th>
+              <th>Fecha</th>
+              <th></th>
             </tr>
           </thead>
           <tbody id="users-body"></tbody>
@@ -92,11 +132,19 @@
       </div>
     </section>
 
+    <section class="panel" id="panel-stats">
+      <div class="stat-grid" id="stats-grid"></div>
+      <article class="section-card">
+        <h3>Distribución de arquetipos</h3>
+        <div id="stats-dist"></div>
+      </article>
+    </section>
+
     <section class="panel" id="panel-questions">
-      <p style="color:var(--muted);margin-bottom:1rem;font-size:0.9rem">
-        Las preguntas seed viven en <code>data/questions.json</code>. Aquí puedes editar el JSON local y sincronizar a Firestore cuando las reglas lo permitan.
+      <p style="color:var(--muted);margin-bottom:1rem;font-size:0.85rem;font-weight:600">
+        Edita el banco de preguntas (JSON) y sincroniza a Firestore.
       </p>
-      <textarea id="questions-json" rows="18" spellcheck="false"></textarea>
+      <textarea id="questions-json" rows="16" spellcheck="false"></textarea>
       <div class="btn-row" style="justify-content:flex-start">
         <button class="btn btn-primary" id="btn-save-questions">Guardar en Firestore</button>
         <button class="btn btn-ghost" id="btn-reload-questions">Recargar archivo</button>
@@ -104,10 +152,10 @@
     </section>
 
     <section class="panel" id="panel-archetypes">
-      <p style="color:var(--muted);margin-bottom:1rem;font-size:0.9rem">
-        Edita estrategias por arquetipo (JSON). Campo <code>aiRecommendations</code> queda listo para OpenAI.
+      <p style="color:var(--muted);margin-bottom:1rem;font-size:0.85rem;font-weight:600">
+        Edita estrategias por arquetipo (JSON).
       </p>
-      <textarea id="archetypes-json" rows="18" spellcheck="false"></textarea>
+      <textarea id="archetypes-json" rows="16" spellcheck="false"></textarea>
       <div class="btn-row" style="justify-content:flex-start">
         <button class="btn btn-primary" id="btn-save-archetypes">Guardar en Firestore</button>
         <button class="btn btn-ghost" id="btn-reload-archetypes">Recargar archivo</button>
@@ -115,26 +163,55 @@
     </section>
   </div>
 
+  <div class="modal-bg" id="detail-modal">
+    <div class="modal">
+      <div style="display:flex;justify-content:space-between;gap:1rem;align-items:flex-start">
+        <div>
+          <p class="brand-kicker">Detalle del test</p>
+          <h2 id="d-name" style="font-size:1.6rem;font-style:italic;text-transform:uppercase">—</h2>
+        </div>
+        <button class="btn btn-ghost" id="btn-close-modal">Cerrar</button>
+      </div>
+      <div class="meta-grid" id="d-meta"></div>
+      <article class="section-card" style="margin-bottom:1rem">
+        <h3>Scores por arquetipo</h3>
+        <div id="d-scores"></div>
+      </article>
+      <article class="section-card" style="margin-bottom:1rem">
+        <h3>Habilidades</h3>
+        <div id="d-skills"></div>
+      </article>
+      <article class="section-card">
+        <h3>Todas las respuestas <span id="d-ans-count" style="color:var(--muted)"></span></h3>
+        <div id="d-answers" style="max-height:420px;overflow:auto;margin-top:0.5rem"></div>
+      </article>
+    </div>
+  </div>
+
   <div id="toast" class="toast"></div>
 
   <script type="module">
     import {
       watchAuth, adminLogin, adminLogout, fetchResults, resultsToCsv,
-      upsertQuestion, upsertArchetype, db
+      upsertQuestion, upsertArchetype, db, resultsToCsvFull
     } from './js/storage.js';
     import { getDoc, doc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
 
     const loginView = document.getElementById('login-view');
     const adminView = document.getElementById('admin-view');
     let results = [];
-    let questionsData = null;
-    let archetypesData = null;
+    let questionsMap = {};
 
     function toast(msg) {
       const el = document.getElementById('toast');
       el.textContent = msg;
       el.classList.add('show');
-      setTimeout(() => el.classList.remove('show'), 2800);
+      clearTimeout(toast._t);
+      toast._t = setTimeout(() => el.classList.remove('show'), 2800);
+    }
+
+    function esc(s) {
+      return String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
     }
 
     document.querySelectorAll('.tab').forEach((tab) => {
@@ -158,6 +235,12 @@
     });
 
     document.getElementById('btn-logout').addEventListener('click', () => adminLogout());
+    document.getElementById('btn-close-modal').addEventListener('click', () => {
+      document.getElementById('detail-modal').classList.remove('open');
+    });
+    document.getElementById('detail-modal').addEventListener('click', (e) => {
+      if (e.target.id === 'detail-modal') e.currentTarget.classList.remove('open');
+    });
 
     watchAuth(async (user) => {
       if (!user) {
@@ -182,12 +265,16 @@
 
     async function boot() {
       await loadLocalJson();
+      await loadResults();
+    }
+
+    async function loadResults() {
       try {
-        results = await fetchResults(200);
+        results = await fetchResults(300);
       } catch (e) {
         console.warn(e);
         results = [];
-        toast('No se pudieron cargar resultados (revisa reglas Firestore)');
+        toast('No se pudieron cargar resultados. Revisa reglas Firestore.');
       }
       renderStats();
       renderUsers();
@@ -198,17 +285,15 @@
         fetch('./data/questions.json').then((r) => r.json()),
         fetch('./data/archetypes.json').then((r) => r.json())
       ]);
-      questionsData = q;
-      archetypesData = a;
+      questionsMap = {};
+      for (const item of q.questions || []) questionsMap[item.id] = item;
       document.getElementById('questions-json').value = JSON.stringify(q, null, 2);
       document.getElementById('archetypes-json').value = JSON.stringify(a, null, 2);
     }
 
     function renderStats() {
       const dist = {};
-      for (const r of results) {
-        dist[r.primary] = (dist[r.primary] || 0) + 1;
-      }
+      for (const r of results) dist[r.primary] = (dist[r.primary] || 0) + 1;
       const avg = results.length
         ? Math.round(results.reduce((n, r) => n + (r.affinity || 0), 0) / results.length)
         : 0;
@@ -219,37 +304,106 @@
       `;
       document.getElementById('stats-dist').innerHTML = Object.entries(dist)
         .sort((a, b) => b[1] - a[1])
-        .map(([name, n]) => `<div class="compare-row"><span>${name}</span><div class="compare-bar"><span style="width:${(n / Math.max(1, results.length)) * 100}%;background:var(--neon)"></span></div><span>${n}</span></div>`)
+        .map(([name, n]) => `<div class="compare-row"><span>${name}</span><div class="compare-bar"><span style="width:${(n / Math.max(1, results.length)) * 100}%"></span></div><span>${n}</span></div>`)
         .join('') || '<p style="color:var(--muted)">Sin datos aún</p>';
     }
 
     function renderUsers() {
-      document.getElementById('users-body').innerHTML = results.map((r) => `
-        <tr>
-          <td>${esc(r.name)}</td>
-          <td>${esc(r.email)}</td>
-          <td>${esc(r.whatsapp)}</td>
-          <td style="color:var(--neon)">${esc(r.primary)}</td>
+      const empty = document.getElementById('users-empty');
+      empty.style.display = results.length ? 'none' : 'block';
+      document.getElementById('users-body').innerHTML = results.map((r, i) => `
+        <tr class="user-row" data-idx="${i}">
+          <td><strong>${esc(r.name)}</strong>${r.tiktok ? `<div style="color:var(--muted);font-size:0.75rem">${esc(r.tiktok)}</div>` : ''}</td>
+          <td>
+            <div style="font-size:0.8rem">${esc(r.email)}</div>
+            <div style="color:var(--muted);font-size:0.75rem">${esc(r.whatsapp)}</div>
+          </td>
+          <td><span class="pill">${esc(r.primary)}</span></td>
           <td>${r.affinity ?? '—'}%</td>
           <td>${esc(r.level?.label || r.level || '—')}</td>
-          <td>${esc((r.clientCreatedAt || '').slice(0, 19))}</td>
+          <td>${esc(r.durationLabel || '—')}</td>
+          <td style="white-space:nowrap">${esc((r.clientCreatedAt || '').replace('T', ' ').slice(0, 16))}</td>
+          <td><button type="button" class="btn btn-ghost" style="padding:0.45rem 0.8rem" data-idx="${i}">Ver</button></td>
         </tr>
-      `).join('') || '<tr><td colspan="7" style="color:var(--muted)">Sin usuarios</td></tr>';
+      `).join('');
     }
 
-    function esc(s) {
-      return String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    document.getElementById('users-body').addEventListener('click', (e) => {
+      const el = e.target.closest('[data-idx]');
+      if (!el) return;
+      openDetail(Number(el.dataset.idx));
+    });
+
+    function openDetail(idx) {
+      const r = results[idx];
+      if (!r) return;
+      document.getElementById('d-name').textContent = r.name || '—';
+      document.getElementById('d-meta').innerHTML = `
+        <div class="meta-box"><small>Email</small>${esc(r.email)}</div>
+        <div class="meta-box"><small>WhatsApp</small>${esc(r.whatsapp)}</div>
+        <div class="meta-box"><small>TikTok</small>${esc(r.tiktok || '—')}</div>
+        <div class="meta-box"><small>Arquetipo</small>${esc(r.primary)} (${r.affinity}%)</div>
+        <div class="meta-box"><small>Secundario</small>${esc(r.secondary)}</div>
+        <div class="meta-box"><small>Nivel</small>${esc(r.level?.label || r.level || '—')}</div>
+        <div class="meta-box"><small>Tiempo</small>${esc(r.durationLabel || r.durationMs || '—')}</div>
+        <div class="meta-box"><small>Fecha</small>${esc(r.clientCreatedAt || '—')}</div>
+      `;
+
+      const scores = r.scores || {};
+      document.getElementById('d-scores').innerHTML = Object.entries(scores)
+        .sort((a, b) => b[1] - a[1])
+        .map(([k, v]) => `<div class="compare-row"><span>${esc(k)}</span><div class="compare-bar"><span style="width:${Math.min(100, (v / Math.max(1, (r.answers || []).length)) * 100)}%"></span></div><span>${v}</span></div>`)
+        .join('') || '<p style="color:var(--muted)">Sin scores</p>';
+
+      const skills = r.skills || {};
+      document.getElementById('d-skills').innerHTML = Object.entries(skills)
+        .sort((a, b) => b[1] - a[1])
+        .map(([k, v]) => `<div class="skill-row"><span>${esc(k)}</span><div class="skill-bar"><span style="width:${v}%"></span></div><span>${v}%</span></div>`)
+        .join('') || '<p style="color:var(--muted)">Sin skills</p>';
+
+      const answers = r.answers || [];
+      document.getElementById('d-ans-count').textContent = `(${answers.length})`;
+      document.getElementById('d-answers').innerHTML = answers.map((ans) => {
+        const q = questionsMap[ans.questionId];
+        const qText = q?.question || `Pregunta #${ans.questionId}`;
+        const chosen = q?.answers?.find((a) => a.letter === ans.letter);
+        const aText = chosen?.text || `Opción ${ans.letter}`;
+        return `
+          <div class="answer-line">
+            <div class="qid">#${esc(ans.questionId)}</div>
+            <div>
+              <div style="font-weight:700;margin-bottom:0.2rem">${esc(qText)}</div>
+              <div style="color:#d1d5db">${esc(ans.letter)}. ${esc(aText)}</div>
+            </div>
+            <div class="arch">${esc(ans.archetype)}</div>
+          </div>`;
+      }).join('') || '<p style="color:var(--muted)">Sin respuestas guardadas</p>';
+
+      document.getElementById('detail-modal').classList.add('open');
     }
+
+    document.getElementById('btn-refresh').addEventListener('click', async () => {
+      await loadResults();
+      toast('Actualizado');
+    });
 
     document.getElementById('btn-export').addEventListener('click', () => {
-      const csv = resultsToCsv(results);
+      downloadCsv(resultsToCsv(results), `raices-resumen-${Date.now()}.csv`);
+      toast('CSV resumen descargado');
+    });
+
+    document.getElementById('btn-export-full').addEventListener('click', () => {
+      downloadCsv(resultsToCsvFull(results, questionsMap), `raices-respuestas-${Date.now()}.csv`);
+      toast('CSV completo descargado');
+    });
+
+    function downloadCsv(csv, filename) {
       const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
-      a.download = `raices-resultados-${Date.now()}.csv`;
+      a.download = filename;
       a.click();
-      toast('CSV descargado (abre en Excel)');
-    });
+    }
 
     document.getElementById('btn-reload-questions').addEventListener('click', loadLocalJson);
     document.getElementById('btn-reload-archetypes').addEventListener('click', loadLocalJson);
@@ -260,7 +414,6 @@
         for (const q of data.questions) await upsertQuestion(q);
         toast('Preguntas sincronizadas');
       } catch (e) {
-        console.error(e);
         toast('Error al guardar preguntas');
       }
     });
@@ -271,7 +424,6 @@
         for (const a of data.archetypes) await upsertArchetype(a);
         toast('Arquetipos sincronizados');
       } catch (e) {
-        console.error(e);
         toast('Error al guardar arquetipos');
       }
     });

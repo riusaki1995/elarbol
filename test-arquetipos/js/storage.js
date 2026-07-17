@@ -88,7 +88,7 @@ export async function adminLogout() {
 
 export function resultsToCsv(rows) {
   const headers = [
-    'id', 'name', 'email', 'whatsapp', 'primary', 'secondary', 'affinity', 'level', 'durationMs', 'clientCreatedAt'
+    'id', 'name', 'email', 'whatsapp', 'tiktok', 'primary', 'secondary', 'affinity', 'level', 'durationMs', 'durationLabel', 'clientCreatedAt'
   ];
   const lines = [headers.join(',')];
   for (const r of rows) {
@@ -98,14 +98,54 @@ export function resultsToCsv(rows) {
         csv(r.name),
         csv(r.email),
         csv(r.whatsapp),
+        csv(r.tiktok),
         csv(r.primary),
         csv(r.secondary),
         r.affinity,
         csv(r.level?.label || r.level),
         r.durationMs,
+        csv(r.durationLabel),
         csv(r.clientCreatedAt)
       ].join(',')
     );
+  }
+  return lines.join('\n');
+}
+
+/** Una fila por respuesta — para ver exactamente qué eligió cada persona */
+export function resultsToCsvFull(rows, questionsMap = {}) {
+  const headers = [
+    'resultId', 'name', 'email', 'whatsapp', 'primary', 'affinity',
+    'questionId', 'question', 'answerLetter', 'answerText', 'archetype', 'clientCreatedAt'
+  ];
+  const lines = [headers.join(',')];
+  for (const r of rows) {
+    const answers = r.answers || [];
+    if (!answers.length) {
+      lines.push([
+        r.id, csv(r.name), csv(r.email), csv(r.whatsapp), csv(r.primary), r.affinity,
+        '', '', '', '', '', csv(r.clientCreatedAt)
+      ].join(','));
+      continue;
+    }
+    for (const ans of answers) {
+      const q = questionsMap[ans.questionId];
+      const chosen = q?.answers?.find((a) => a.letter === ans.letter);
+      lines.push([
+        r.id,
+        csv(r.name),
+        csv(r.email),
+        csv(r.whatsapp),
+        csv(r.primary),
+        r.affinity,
+        ans.questionId,
+        csv(q?.question || ''),
+        csv(ans.letter),
+        csv(chosen?.text || ''),
+        csv(ans.archetype),
+        csv(r.clientCreatedAt)
+      ].join(','));
+    }
   }
   return lines.join('\n');
 }

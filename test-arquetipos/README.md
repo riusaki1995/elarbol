@@ -21,13 +21,23 @@ Bienvenida → Datos → 96 preguntas → Análisis → Resultado → PDF / Shar
 
 `js/scoring.js` calcula arquetipo principal/secundario, afinidad %, nivel, 13 skills, top fortalezas/debilidades.
 
-## Persistencia
+## Ver respuestas (tú / admin)
 
-Firestore colección `arquetipos_test/data/results` (y questions/archetypes vía admin).
+1. Entra a `test-arquetipos/admin.html` (o desde Formularios → **Ver respuestas del test**).
+2. Inicia sesión con tu cuenta admin de Firebase (`isAdmin: true`).
+3. En **Usuarios / Respuestas** verás a cada persona.
+4. Clic en **Ver** → detalle con contacto, scores, skills y **cada respuesta**.
+5. Exporta resumen o CSV completo (una fila por respuesta) para Excel.
 
-Campo `aiRecommendations: null` reservado para OpenAI.
+### Qué se guarda por persona
 
-## Firestore rules (sugeridas)
+- Nombre, correo, WhatsApp, @TikTok
+- Fecha y tiempo del test
+- Arquetipo principal / secundario, afinidad, nivel
+- Las 96 respuestas (pregunta + letra + arquetipo)
+- Scores y habilidades
+
+### Firestore rules (necesarias para guardar/leer)
 
 ```
 match /arquetipos_test/data/results/{id} {
@@ -35,16 +45,4 @@ match /arquetipos_test/data/results/{id} {
   allow read, update, delete: if request.auth != null
     && get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.isAdmin == true;
 }
-match /arquetipos_test/data/questions/{id} {
-  allow read: if true;
-  allow write: if request.auth != null
-    && get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.isAdmin == true;
-}
-match /arquetipos_test/data/archetypes/{id} {
-  allow read: if true;
-  allow write: if request.auth != null
-    && get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.isAdmin == true;
-}
 ```
-
-Si el guardado falla, el resultado queda en `localStorage` como backup.
