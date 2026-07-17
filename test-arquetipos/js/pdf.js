@@ -13,7 +13,7 @@ export async function downloadResultPdf(state, result) {
 
   doc.setFillColor(5, 5, 5);
   doc.rect(0, 0, pageW, 120, 'F');
-  doc.setTextColor(57, 255, 20);
+  doc.setTextColor(37, 244, 238);
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(11);
   doc.text('AGENCIA EL ARBOL  ·  METODO R.A.I.C.E.S.', margin, 40);
@@ -96,7 +96,7 @@ export async function downloadResultPdf(state, result) {
     doc.setTextColor(...ink);
     doc.text(`${r.name}  ${r.affinity}%`, margin, y);
     const barW = ((pageW - margin * 2 - 140) * r.affinity) / 100;
-    doc.setFillColor(57, 255, 20);
+    doc.setFillColor(37, 244, 238);
     doc.rect(margin + 140, y - 8, Math.max(4, barW), 8, 'F');
     y += 16;
   }

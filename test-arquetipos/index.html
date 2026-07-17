@@ -5,22 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Test R.A.Í.C.E.S.™ | Agencia El Árbol</title>
   <meta name="description" content="Test Oficial de Arquetipos TikTok LIVE — Método R.A.Í.C.E.S.™ de Agencia El Árbol">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
   <link rel="stylesheet" href="./css/styles.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
 </head>
 <body>
+  <div class="tiktok-bg"></div>
+
   <div id="app">
-    <!-- WELCOME -->
     <section id="screen-welcome" class="screen active">
-      <a class="topbar-link" href="../lobby.html"><i class="fa-solid fa-arrow-left"></i> Lobby</a>
+      <a class="topbar-link" href="../lobby.html"><i class="fa-solid fa-arrow-left"></i> Volver al Lobby</a>
       <p class="brand-kicker">Agencia El Árbol</p>
       <h1 class="hero-title">Test Oficial de<br><span>Arquetipos LIVE</span></h1>
-      <p class="lead">Método <strong style="color:var(--neon)">R.A.Í.C.E.S.™</strong> — no mide personalidad. Mide tu potencial de monetización, liderazgo, comunicación, comunidad y estilo de LIVE.</p>
-      <div id="method-letters" class="letters"></div>
+      <p class="lead">Método <strong style="color:var(--tk-cyan)">R.A.Í.C.E.S.™</strong> — no mide personalidad. Mide tu potencial de monetización, liderazgo, comunicación, comunidad y estilo de LIVE.</p>
+      <div class="letters" aria-hidden="true">
+        <div class="letter-chip" title="Ritmo">R</div>
+        <div class="letter-chip" title="Autoridad">A</div>
+        <div class="letter-chip" title="Identidad">Í</div>
+        <div class="letter-chip" title="Comunidad">C</div>
+        <div class="letter-chip" title="Energía">E</div>
+        <div class="letter-chip" title="Sistema">S</div>
+      </div>
       <div class="promise-grid">
         <div class="promise-item"><i class="fa-solid fa-dna"></i> Tu arquetipo</div>
         <div class="promise-item"><i class="fa-solid fa-coins"></i> Cómo monetizas mejor</div>
@@ -32,15 +36,14 @@
         <div class="promise-item"><i class="fa-solid fa-seedling"></i> Plan de crecimiento 90 días</div>
       </div>
       <button type="button" class="btn btn-primary" id="btn-start">Descubrir mi ADN <i class="fa-solid fa-arrow-right"></i></button>
-      <p class="lead" style="font-size:0.85rem;margin-top:1.5rem">96 preguntas · ~12–15 min · Resultado premium + PDF</p>
+      <p class="lead" style="font-size:0.8rem;margin-top:1.25rem">96 preguntas · Resultado + PDF</p>
     </section>
 
-    <!-- DATA -->
     <section id="screen-data" class="screen">
-      <a class="topbar-link" href="../lobby.html"><i class="fa-solid fa-arrow-left"></i> Lobby</a>
+      <a class="topbar-link" href="../lobby.html"><i class="fa-solid fa-arrow-left"></i> Volver al Lobby</a>
       <p class="brand-kicker">Paso 1</p>
-      <h2 style="font-size:clamp(1.8rem,5vw,2.6rem);text-align:center;margin-bottom:0.5rem">Datos básicos</h2>
-      <p class="lead" style="margin-bottom:1.75rem">Para guardar tu resultado y enviarte tu estrategia.</p>
+      <h2 style="font-size:clamp(1.6rem,5vw,2.4rem);text-align:center;margin-bottom:0.4rem;font-style:italic;text-transform:uppercase;letter-spacing:-0.03em">Datos básicos</h2>
+      <p class="lead" style="margin-bottom:1.5rem">Para guardar tu resultado y enviarte tu estrategia.</p>
       <form id="form-data" class="glass-card">
         <div class="field">
           <label for="input-name">Nombre</label>
@@ -62,7 +65,6 @@
       </form>
     </section>
 
-    <!-- QUIZ -->
     <section id="screen-quiz" class="screen">
       <div class="progress-wrap">
         <div class="progress-meta">
@@ -76,28 +78,26 @@
         <div class="answers" id="answers"></div>
         <div class="quiz-nav">
           <button type="button" class="btn btn-ghost" id="btn-back"><i class="fa-solid fa-chevron-left"></i> Anterior</button>
-          <span style="color:var(--muted);font-size:0.75rem;align-self:center;letter-spacing:0.1em;text-transform:uppercase">Sin respuestas correctas</span>
+          <span style="color:var(--muted);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;font-weight:900">Sin respuestas correctas</span>
         </div>
       </div>
     </section>
 
-    <!-- ANALYZE -->
     <section id="screen-analyze" class="screen" style="justify-content:center;text-align:center">
       <p class="brand-kicker">Analizando</p>
-      <h2 style="font-size:clamp(1.6rem,4vw,2.2rem)">Calculando tu ADN creativo</h2>
+      <h2 style="font-size:clamp(1.4rem,4vw,2rem);font-style:italic;text-transform:uppercase">Calculando tu ADN creativo</h2>
       <div class="analyze-ring"></div>
       <ul class="analyze-steps" id="analyze-steps">
         <li>Mapeando estilo de LIVE…</li>
         <li>Calculando afinidad de arquetipos…</li>
         <li>Midiendo habilidades R.A.Í.C.E.S.…</li>
         <li>Construyendo plan de 90 días…</li>
-        <li>Generando resultado premium…</li>
+        <li>Generando resultado…</li>
       </ul>
     </section>
 
-    <!-- RESULT -->
     <section id="screen-result" class="screen">
-      <a class="topbar-link" href="../lobby.html"><i class="fa-solid fa-arrow-left"></i> Lobby</a>
+      <a class="topbar-link" href="../lobby.html"><i class="fa-solid fa-arrow-left"></i> Volver al Lobby</a>
       <div class="result-hero">
         <p class="result-name" id="result-user">—</p>
         <div class="archetype-badge" id="result-badge">
@@ -108,8 +108,8 @@
         <p class="tagline" id="result-tagline"></p>
         <div class="affinity-big" id="result-affinity">0%</div>
         <p class="lead" style="margin-top:0.35rem">
-          Nivel <strong id="result-level" style="color:var(--gold)">—</strong>
-          · Secundario <strong id="result-secondary" style="color:var(--violet)">—</strong>
+          Nivel <strong id="result-level" style="color:var(--tk-pink)">—</strong>
+          · Secundario <strong id="result-secondary" style="color:var(--tk-cyan)">—</strong>
           · Próximo: <span id="result-next">—</span>
         </p>
       </div>
@@ -174,15 +174,15 @@
       </div>
 
       <div class="btn-row" style="width:min(860px,100%)">
-        <button type="button" class="btn btn-gold" id="btn-pdf"><i class="fa-solid fa-file-pdf"></i> Descargar PDF</button>
-        <button type="button" class="btn btn-violet" id="btn-share"><i class="fa-solid fa-share-nodes"></i> Compartir mi ADN como creador</button>
+        <button type="button" class="btn btn-primary" id="btn-pdf"><i class="fa-solid fa-file-pdf"></i> Descargar PDF</button>
+        <button type="button" class="btn btn-pink" id="btn-share"><i class="fa-solid fa-share-nodes"></i> Compartir mi ADN</button>
         <button type="button" class="btn btn-ghost" id="btn-restart">Repetir test</button>
       </div>
 
       <div class="cta-agency">
         <p class="brand-kicker" style="margin-bottom:0.5rem">Siguiente nivel</p>
-        <h3 style="font-size:1.6rem;margin-bottom:0.75rem">Entra a Agencia El Árbol</h3>
-        <p class="lead" style="margin:0 auto 1.25rem">Convierte este resultado en un sistema real de crecimiento con mentoría, comunidad y estructura.</p>
+        <h3 style="font-size:1.45rem;margin-bottom:0.65rem;font-style:italic;text-transform:uppercase">Entra a Agencia El Árbol</h3>
+        <p class="lead" style="margin:0 auto 1.15rem">Convierte este resultado en un sistema real de crecimiento con mentoría y comunidad.</p>
         <a class="btn btn-primary" href="../registro.html">Quiero entrar a la agencia</a>
       </div>
     </section>

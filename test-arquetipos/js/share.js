@@ -9,19 +9,19 @@ export async function shareWrappedCard(state, result) {
 
   const g = ctx.createLinearGradient(0, 0, 1080, 1920);
   g.addColorStop(0, '#050505');
-  g.addColorStop(0.45, '#1a0b2e');
-  g.addColorStop(1, '#052e16');
+  g.addColorStop(0.5, '#111111');
+  g.addColorStop(1, '#050505');
   ctx.fillStyle = g;
   ctx.fillRect(0, 0, 1080, 1920);
 
-  ctx.fillStyle = a.color;
-  ctx.globalAlpha = 0.15;
+  ctx.fillStyle = a.color || '#25f4ee';
+  ctx.globalAlpha = 0.18;
   ctx.beginPath();
   ctx.arc(900, 280, 320, 0, Math.PI * 2);
   ctx.fill();
   ctx.globalAlpha = 1;
 
-  ctx.fillStyle = '#39FF14';
+  ctx.fillStyle = '#25f4ee';
   ctx.font = '700 28px system-ui, sans-serif';
   ctx.fillText('R.A.I.C.E.S.  ·  EL ARBOL', 80, 120);
 
@@ -63,7 +63,7 @@ export async function shareWrappedCard(state, result) {
   ctx.font = 'italic 26px system-ui, sans-serif';
   wrapText(ctx, `"${a.tagline}"`, 80, 1500, 900, 36);
 
-  ctx.fillStyle = '#39FF14';
+  ctx.fillStyle = '#fe2c55';
   ctx.font = '700 22px system-ui, sans-serif';
   ctx.fillText('Agencia El Arbol · Test Oficial TikTok LIVE', 80, 1820);
 

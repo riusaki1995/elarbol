@@ -1,11 +1,10 @@
 import { calculateResult, formatDuration } from './scoring.js';
-import { saveResult } from './storage.js';
-import { downloadResultPdf } from './pdf.js';
-import { shareWrappedCard } from './share.js';
 
 const state = {
   catalog: null,
   questions: [],
+  dataReady: false,
+  dataPromise: null,
   user: { name: '', email: '', whatsapp: '', tiktok: '' },
   answers: [],
   index: 0,
@@ -26,36 +25,41 @@ const screens = {
 function showScreen(name) {
   Object.values(screens).forEach((el) => el.classList.remove('active'));
   screens[name].classList.add('active');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo(0, 0);
 }
 
 function toast(msg) {
   const el = $('#toast');
   el.textContent = msg;
   el.classList.add('show');
-  setTimeout(() => el.classList.remove('show'), 2800);
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => el.classList.remove('show'), 2600);
 }
 
-async function loadData() {
-  const [archRes, qRes] = await Promise.all([
-    fetch('./data/archetypes.json'),
-    fetch('./data/questions.json')
-  ]);
-  state.catalog = await archRes.json();
-  const qData = await qRes.json();
-  state.questions = qData.questions;
+/** Carga diferida: no bloquea la pantalla de bienvenida */
+function ensureData() {
+  if (state.dataReady) return Promise.resolve();
+  if (state.dataPromise) return state.dataPromise;
 
-  const letters = $('#method-letters');
-  letters.innerHTML = state.catalog.method.letters
-    .map((l) => `<div class="letter-chip" title="${l.meaning}">${l.letter}</div>`)
-    .join('');
+  state.dataPromise = Promise.all([
+    fetch('./data/archetypes.json').then((r) => r.json()),
+    fetch('./data/questions.json').then((r) => r.json())
+  ]).then(([catalog, qData]) => {
+    state.catalog = catalog;
+    state.questions = qData.questions;
+    state.dataReady = true;
+  });
+
+  return state.dataPromise;
 }
 
 function startFromWelcome() {
+  // Precarga en segundo plano al pasar a datos
+  ensureData().catch((err) => console.error(err));
   showScreen('data');
 }
 
-function startQuiz(e) {
+async function startQuiz(e) {
   e.preventDefault();
   const name = $('#input-name').value.trim();
   const email = $('#input-email').value.trim();
@@ -65,6 +69,25 @@ function startQuiz(e) {
     toast('Completa nombre, correo y WhatsApp');
     return;
   }
+
+  const btn = e.submitter || $('#form-data button[type="submit"]');
+  const prev = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Cargando…';
+
+  try {
+    await ensureData();
+  } catch (err) {
+    console.error(err);
+    toast('No se pudo cargar el test');
+    btn.disabled = false;
+    btn.textContent = prev;
+    return;
+  }
+
+  btn.disabled = false;
+  btn.textContent = prev;
+
   state.user = { name, email, whatsapp, tiktok };
   state.answers = [];
   state.index = 0;
@@ -82,7 +105,10 @@ function renderQuestion() {
   $('#progress-label').textContent = `Pregunta ${state.index + 1} de ${total}`;
   $('#progress-pct').textContent = `${pct}%`;
   $('#question-text').textContent = q.question;
-  $('#answers').innerHTML = q.answers
+
+  const frag = document.createDocumentFragment();
+  const wrap = document.createElement('div');
+  wrap.innerHTML = q.answers
     .map(
       (a) => `
       <button type="button" class="answer-btn" data-letter="${a.letter}">
@@ -91,10 +117,9 @@ function renderQuestion() {
       </button>`
     )
     .join('');
-
-  $('#answers').querySelectorAll('.answer-btn').forEach((btn) => {
-    btn.addEventListener('click', () => selectAnswer(btn.dataset.letter));
-  });
+  while (wrap.firstChild) frag.appendChild(wrap.firstChild);
+  const answersEl = $('#answers');
+  answersEl.replaceChildren(frag);
 
   $('#btn-back').disabled = state.index === 0;
   $('#btn-back').style.opacity = state.index === 0 ? '0.35' : '1';
@@ -103,6 +128,8 @@ function renderQuestion() {
 function selectAnswer(letter) {
   const q = state.questions[state.index];
   const ans = q.answers.find((a) => a.letter === letter);
+  if (!ans) return;
+
   state.answers[state.index] = {
     questionId: q.id,
     letter: ans.letter,
@@ -128,20 +155,24 @@ async function finishQuiz() {
   showScreen('analyze');
   const steps = [...document.querySelectorAll('#analyze-steps li')];
   steps.forEach((li) => li.classList.remove('on'));
+
+  // Más corto para no sentir “trabado”
   for (let i = 0; i < steps.length; i++) {
-    await wait(700);
+    await wait(320);
     steps[i].classList.add('on');
   }
-  await wait(600);
+  await wait(280);
 
   state.result = calculateResult(state.answers, state.catalog);
-  await persist();
   renderResult();
   showScreen('result');
+  // Guardar en background (no bloquea UI)
+  persist().catch((err) => console.warn(err));
 }
 
 async function persist() {
   if (state.saved) return;
+  const { saveResult } = await import('./storage.js');
   const durationMs = Date.now() - state.startedAt;
   const payload = {
     name: state.user.name,
@@ -163,7 +194,7 @@ async function persist() {
   };
   const res = await saveResult(payload);
   state.saved = true;
-  if (res.local) toast('Resultado guardado en este dispositivo (Firestore pendiente de reglas)');
+  if (res.local) toast('Resultado guardado en este dispositivo');
 }
 
 function renderResult() {
@@ -171,9 +202,9 @@ function renderResult() {
   const a = r.archetype;
   $('#result-user').textContent = state.user.name;
   $('#result-archetype').textContent = a.name;
-  $('#result-archetype').style.color = a.color;
-  $('#result-badge').style.borderColor = a.color;
-  $('#result-badge-dot').style.background = a.color;
+  $('#result-archetype').style.color = a.color || 'var(--tk-cyan)';
+  $('#result-badge').style.borderColor = a.color || 'var(--tk-cyan)';
+  $('#result-badge-dot').style.background = a.color || 'var(--tk-cyan)';
   $('#result-tagline').textContent = a.tagline;
   $('#result-desc').textContent = a.description;
   $('#result-affinity').textContent = `${r.affinity}%`;
@@ -206,7 +237,7 @@ function renderResult() {
   $('#result-grow').textContent = a.grow;
   $('#result-avoid').textContent = a.avoid;
 
-  const skillHtml = Object.entries(r.skills)
+  $('#result-skills').innerHTML = Object.entries(r.skills)
     .sort((x, y) => y[1] - x[1])
     .map(
       ([name, value]) => `
@@ -217,12 +248,11 @@ function renderResult() {
       </div>`
     )
     .join('');
-  $('#result-skills').innerHTML = skillHtml;
 
-  const compareHtml = r.ranked
+  $('#result-compare').innerHTML = r.ranked
     .map((item) => {
       const arch = state.catalog.archetypes.find((x) => x.name === item.name);
-      const color = arch?.color || '#39ff14';
+      const color = arch?.color || '#25f4ee';
       return `
         <div class="compare-row">
           <span>${item.name}</span>
@@ -231,15 +261,30 @@ function renderResult() {
         </div>`;
     })
     .join('');
-  $('#result-compare').innerHTML = compareHtml;
 }
 
 function wait(ms) {
   return new Promise((r) => setTimeout(r, ms));
 }
 
+function loadScript(src) {
+  return new Promise((resolve, reject) => {
+    if (document.querySelector(`script[src="${src}"]`)) {
+      resolve();
+      return;
+    }
+    const s = document.createElement('script');
+    s.src = src;
+    s.onload = resolve;
+    s.onerror = reject;
+    document.head.appendChild(s);
+  });
+}
+
 async function onPdf() {
   try {
+    await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
+    const { downloadResultPdf } = await import('./pdf.js');
     await downloadResultPdf(state, state.result);
     toast('PDF descargado');
   } catch (err) {
@@ -250,6 +295,7 @@ async function onPdf() {
 
 async function onShare() {
   try {
+    const { shareWrappedCard } = await import('./share.js');
     await shareWrappedCard(state, state.result);
     toast('Listo para compartir');
   } catch (err) {
@@ -266,14 +312,9 @@ function restart() {
   showScreen('welcome');
 }
 
-document.addEventListener('DOMContentLoaded', async () => {
-  try {
-    await loadData();
-  } catch (err) {
-    console.error(err);
-    toast('Error cargando el test');
-    return;
-  }
+document.addEventListener('DOMContentLoaded', () => {
+  // UI inmediata — sin esperar JSON ni Firebase
+  showScreen('welcome');
 
   $('#btn-start').addEventListener('click', startFromWelcome);
   $('#form-data').addEventListener('submit', startQuiz);
@@ -282,5 +323,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   $('#btn-share').addEventListener('click', onShare);
   $('#btn-restart').addEventListener('click', restart);
 
-  showScreen('welcome');
+  // Un solo listener (delegación) para respuestas
+  $('#answers').addEventListener('click', (e) => {
+    const btn = e.target.closest('.answer-btn');
+    if (!btn) return;
+    selectAnswer(btn.dataset.letter);
+  });
 });
